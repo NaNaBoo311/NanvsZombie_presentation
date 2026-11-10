@@ -1,14 +1,15 @@
 class_name ConceptScreen
 extends Control
 
-# Section 01 — Concept & Vision. Five exhibits in one UI layer over the inherited
-# title stage: the pitch, the 360° facing demo, the 3D world carousel, the
-# reference ledger and the design pillars. The screen owns only the copy and the
-# exhibits; ConceptVision owns the camera and the carousel.
+# Section 01 — Concept & Vision. Four exhibits in one UI layer over the inherited
+# title stage: the pitch, the 3D world carousel, the reference ledger and the
+# design pillars. The screen owns only the copy and the exhibits; ConceptVision
+# owns the camera and the carousel. The 360° facing demo belongs to Section 02,
+# so its copy and ConceptFacingDemo stay in the repo for that screen.
 #
 # Every panel is built once and toggled visible, so switching exhibits costs no
 # allocation and no per-frame work. Shapes are painted through ConceptCanvas /
-# HudCanvas; the facing diagram redraws only when it changes.
+# HudCanvas; the world carousel redraws only when it changes.
 
 signal stage_focus_requested(active: bool)
 signal world_selected(index: int)
@@ -20,17 +21,15 @@ const TOP := 34.0
 const MAIN_TOP := 104.0
 const MAIN_BOTTOM := -104.0
 const NOTO_REGULAR_PATH := "res://assets/fonts/NotoSans-Regular.ttf"
-const EXHIBITS := ["The pitch", "The circle", "The world", "References", "Pillars"]
+const EXHIBITS := ["The pitch", "The world", "References", "Pillars"]
 
 var current := 0
 
 var _main: Control
 var _panels: Array[Control] = []
 var _tabs: Array[Button] = []
-var _prev: Button
-var _next: HudMenuButton
+var _enter_game: HudMenuButton
 var _stage: HudCanvas
-var _facing: ConceptFacingDemo
 var _world_tabs: Array[Button] = []
 var _world_place: Label
 var _world_hook: Label
@@ -65,7 +64,8 @@ func show_exhibit(index: int) -> void:
 
 
 func focus_primary() -> void:
-	_next.grab_focus.call_deferred()
+	if not _tabs.is_empty():
+		_tabs[current].grab_focus.call_deferred()
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -80,9 +80,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 	elif key == KEY_RIGHT:
 		_show_exhibit(current + 1)
-		get_viewport().set_input_as_handled()
-	elif current == 1 and key >= KEY_1 and key <= KEY_8:
-		_facing.set_facing(key - KEY_1)
 		get_viewport().set_input_as_handled()
 
 
@@ -171,7 +168,6 @@ func _build_main() -> void:
 	_fade_groups.append(_main)
 
 	_panels.append(_build_pitch_panel())
-	_panels.append(_build_circle_panel())
 	_panels.append(_build_world_panel())
 	_panels.append(_build_reference_panel())
 	_panels.append(_build_pillar_panel())
@@ -214,37 +210,19 @@ func _build_bottom() -> void:
 		tabs.add_child(tab)
 		_tabs.append(tab)
 
-	var contents := _quiet_button("Back to contents")
-	contents.name = "ContentsButton"
-	contents.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	contents.offset_left = -444.0
-	contents.offset_top = 3.0
-	contents.offset_right = -280.0
-	contents.offset_bottom = 39.0
-	contents.pressed.connect(func() -> void: contents_pressed.emit())
-	bottom.add_child(contents)
-
-	_prev = _quiet_button("← Prev")
-	_prev.name = "PrevButton"
-	_prev.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_prev.offset_left = -270.0
-	_prev.offset_top = 0.0
-	_prev.offset_right = -178.0
-	_prev.offset_bottom = 40.0
-	_prev.pressed.connect(_show_exhibit.bind(-1))
-	bottom.add_child(_prev)
-
-	_next = HudMenuButton.new()
-	_next.name = "NextButton"
-	_next.text = tr("Next exhibit")
-	_next.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_next.offset_left = -166.0
-	_next.offset_top = 0.0
-	_next.offset_right = 0.0
-	_next.offset_bottom = 42.0
-	_next.mouse_filter = Control.MOUSE_FILTER_STOP
-	_next.pressed.connect(_on_next)
-	bottom.add_child(_next)
+	_enter_game = HudMenuButton.new()
+	_enter_game.name = "EnterGameButton"
+	_enter_game.text = tr("Enter the game")
+	_enter_game.primary = true
+	_enter_game.visible = false
+	_enter_game.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	_enter_game.offset_left = -190.0
+	_enter_game.offset_top = 0.0
+	_enter_game.offset_right = 0.0
+	_enter_game.offset_bottom = 42.0
+	_enter_game.mouse_filter = Control.MOUSE_FILTER_STOP
+	_enter_game.pressed.connect(_on_enter_game)
+	bottom.add_child(_enter_game)
 
 	SafeArea.apply(bottom)
 
@@ -265,7 +243,7 @@ func _new_panel(name: String) -> Control:
 	return panel
 
 
-func _left_column(panel: Control, kicker: String, title: String,
+func _left_column(panel: Control, title: String,
 		body: String) -> VBoxContainer:
 	var left := VBoxContainer.new()
 	left.name = "Copy"
@@ -275,10 +253,6 @@ func _left_column(panel: Control, kicker: String, title: String,
 	left.offset_bottom = -2.0
 	left.add_theme_constant_override("separation", 14)
 	panel.add_child(left)
-
-	var eyebrow := _label(kicker, UiPalette.hud_font(), 11, UiPalette.HUD_GOLD,
-		Vector2.ZERO, 2.0)
-	left.add_child(eyebrow)
 
 	var heading := _label(title, UiPalette.hud_font(), 40, UiPalette.HUD_INK, Vector2.ZERO)
 	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -337,7 +311,7 @@ func _paint_frame(p: HudPainter, size: Vector2) -> void:
 
 func _build_pitch_panel() -> Control:
 	var panel := _new_panel("Pitch")
-	var left := _left_column(panel, "EXHIBIT 01 · THE PITCH", PresentationDeck.CONCEPT_TITLE,
+	var left := _left_column(panel, PresentationDeck.CONCEPT_TITLE,
 		PresentationDeck.CONCEPT_PITCH)
 
 	var quote := _label(PresentationDeck.CONCEPT_QUOTE, _noto(), 22,
@@ -393,44 +367,9 @@ func _paint_pitch(p: HudPainter, size: Vector2) -> void:
 		Vector2(size.x * 0.44, size.y * 0.62)]), 1.0, Color(UiPalette.HUD_GOLD, 0.30))
 
 
-func _build_circle_panel() -> Control:
-	var panel := _new_panel("Circle")
-	var left := _left_column(panel, "EXHIBIT 02 · THE CIRCLE", PresentationDeck.CIRCLE_TITLE,
-		PresentationDeck.CIRCLE_BODY)
-	var stats := HBoxContainer.new()
-	stats.name = "Stats"
-	stats.add_theme_constant_override("separation", 18)
-	for spec: Dictionary in PresentationDeck.CIRCLE_STATS:
-		var column := VBoxContainer.new()
-		column.add_theme_constant_override("separation", 0)
-		var value := _label(str(spec["value"]), UiPalette.hud_font(), 32,
-			UiPalette.HUD_GOLD, Vector2.ZERO)
-		column.add_child(value)
-		var label := _label(str(spec["label"]), UiPalette.hud_font(), 9,
-			UiPalette.HUD_INK_SOFT, Vector2.ZERO, 1.4)
-		column.add_child(label)
-		stats.add_child(column)
-	left.add_child(stats)
-
-	var hint := _label("Click a facing · 1–8 on the keyboard", _noto(), 13,
-		UiPalette.HUD_ACCENT, Vector2.ZERO)
-	left.add_child(hint)
-
-	var visual := panel.get_node("Visual") as Control
-	_facing = ConceptFacingDemo.new()
-	_facing.name = "FacingDemo"
-	_facing.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_facing.offset_left = 12.0
-	_facing.offset_top = 4.0
-	_facing.offset_right = -12.0
-	_facing.offset_bottom = -4.0
-	visual.add_child(_facing)
-	return panel
-
-
 func _build_world_panel() -> Control:
 	var panel := _new_panel("World")
-	var left := _left_column(panel, "EXHIBIT 03 · THE WORLD", PresentationDeck.WORLDS_TITLE,
+	var left := _left_column(panel, PresentationDeck.WORLDS_TITLE,
 		PresentationDeck.WORLDS_BODY)
 
 	var caption := _label("3D CAROUSEL · PICK A WORLD", UiPalette.hud_font(), 10,
@@ -475,7 +414,7 @@ func _build_world_panel() -> Control:
 
 func _build_reference_panel() -> Control:
 	var panel := _new_panel("References")
-	var left := _left_column(panel, "EXHIBIT 04 · REFERENCES", PresentationDeck.REFERENCES_TITLE,
+	var left := _left_column(panel, PresentationDeck.REFERENCES_TITLE,
 		PresentationDeck.REFERENCES_BODY)
 	var note := _label("One comparison ledger.\nA TAKE and an AVOID per title.", _noto(), 13,
 		UiPalette.HUD_INK_SOFT, Vector2.ZERO)
@@ -560,7 +499,7 @@ func _build_reference_panel() -> Control:
 
 func _build_pillar_panel() -> Control:
 	var panel := _new_panel("Pillars")
-	_left_column(panel, "EXHIBIT 05 · PILLARS", PresentationDeck.PILLARS_TITLE,
+	_left_column(panel, PresentationDeck.PILLARS_TITLE,
 		PresentationDeck.PILLARS_BODY)
 
 	var visual := panel.get_node("Visual") as Control
@@ -617,16 +556,10 @@ func _show_exhibit(index: int, animate: bool = true) -> void:
 		UiPalette.lacquer_button(_tabs[i], i == index, false, 14)
 		_tabs[i].add_theme_color_override("font_color",
 			UiPalette.HUD_SEAL_INK if i == index else UiPalette.HUD_INK)
-	_prev.disabled = index == 0
-	var last := index == _panels.size() - 1
-	_next.text = tr("Enter the game") if last else tr("Next exhibit")
-	_next.set_primary(last)
-	_next.custom_minimum_size = Vector2(190.0, 42.0) if last else Vector2(166.0, 42.0)
-	_next.size.x = 190.0 if last else 166.0
-	_next.offset_left = -190.0 if last else -166.0
-	_next.offset_right = 0.0
+	_enter_game.visible = index == _panels.size() - 1
 	HudCanvas.dirty()
-	stage_focus_requested.emit(index == 2)
+	# The world exhibit is the one that sends the camera to the carousel stage.
+	stage_focus_requested.emit(index == 1)
 	if animate:
 		var tween := create_tween()
 		_panels[index].modulate.a = 0.0
@@ -634,12 +567,9 @@ func _show_exhibit(index: int, animate: bool = true) -> void:
 			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 
-func _on_next() -> void:
-	if current >= _panels.size() - 1:
-		Audio.play(Audio.UI_CLICK)
-		enter_game_pressed.emit()
-		return
-	_show_exhibit(current + 1)
+func _on_enter_game() -> void:
+	Audio.play(Audio.UI_CLICK)
+	enter_game_pressed.emit()
 
 
 func _select_world(index: int, announce: bool = true) -> void:
@@ -664,26 +594,6 @@ func _rule() -> ColorRect:
 	rule.color = Color(UiPalette.HUD_GOLD, 0.20)
 	rule.custom_minimum_size = Vector2(0.0, 1.0)
 	return rule
-
-
-func _quiet_button(text: String) -> Button:
-	var button := Button.new()
-	button.text = tr(text)
-	button.flat = true
-	button.focus_mode = Control.FOCUS_ALL
-	button.add_theme_font_override("font", UiPalette.hud_font())
-	button.add_theme_font_size_override("font_size", 14)
-	for state in ["font_color", "font_hover_color", "font_focus_color", "font_hover_pressed_color"]:
-		button.add_theme_color_override(state, UiPalette.HUD_INK_SOFT)
-	button.add_theme_color_override("font_pressed_color", UiPalette.HUD_ACCENT)
-	button.add_theme_stylebox_override("hover",
-		UiPalette.box(Color(UiPalette.HUD_ACCENT, 0.0), Color(UiPalette.HUD_ACCENT, 0.0), 0, 0, 6))
-	button.add_theme_stylebox_override("pressed",
-		UiPalette.box(Color(UiPalette.HUD_ACCENT, 0.0), Color(UiPalette.HUD_ACCENT, 0.0), 0, 0, 6))
-	button.add_theme_stylebox_override("focus",
-		UiPalette.box(Color(UiPalette.HUD_ACCENT, 0.0), Color(UiPalette.HUD_ACCENT, 0.60), 4, 1, 6))
-	button.custom_minimum_size = Vector2(0.0, 38.0)
-	return button
 
 
 func _label(text: String, font: Font, font_size: int, color: Color, at: Vector2,

@@ -8,7 +8,7 @@ extends "res://src/menus/title/TitleMenu.gd"
 # is live the camera travels there, and returns to the title pose for every other
 # exhibit. Both stays are one tween, so the screen is idle once it settles.
 #
-# The screen owns the copy and the five exhibits; this script owns the stage:
+# The screen owns the copy and the four exhibits; this script owns the stage:
 # the camera poses, the carousel, and the hand-offs to the contents page and the
 # playable atlas. GameFlow.CONCEPT_SCENE points here.
 

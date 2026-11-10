@@ -2,8 +2,8 @@ extends RefCounted
 
 # --title-test: boots the presentation cover (the only test flag that does not
 # skip it) and walks the talk's front door: the cover copy and the Account
-# dialog, Start into the contents page, section 01 into Concept & Vision, Back
-# to contents (the page reopens), the section's Enter the game hand-off to the
+# dialog, Start into the contents page, section 01 into Concept & Vision, the
+# header Back arrow (the page reopens), the section's Enter the game hand-off to the
 # playable atlas, and the atlas's icon-only return to the cover.
 #
 # It also guards the inherited 3D stage: the home island, its vignette and the
@@ -61,9 +61,9 @@ func run() -> void:
 	if screen == null:
 		_failures.append("Concept & Vision did not build its screen")
 		return _finish()
-	var back := screen.get_node_or_null("Bottom/ContentsButton") as Button
+	var back := screen.get_node_or_null("Header/BackButton") as Button
 	if back == null:
-		_failures.append("concept screen has no Back to contents")
+		_failures.append("concept screen has no Back button")
 		return _finish()
 	back.pressed.emit()
 	contents = await _wait_scene(GameFlow.CONTENTS_SCENE)
@@ -84,13 +84,13 @@ func run() -> void:
 
 	# The contents page no longer carries the playable build; section 01's final
 	# action is the only hand-off to the atlas.
-	screen.show_exhibit(4)
+	screen.show_exhibit(3)
 	await _tree.process_frame
-	var next := screen.get_node_or_null("Bottom/NextButton") as Button
-	if next == null or next.text != tr("Enter the game"):
+	var enter := screen.get_node_or_null("Bottom/EnterGameButton") as Button
+	if enter == null or not enter.visible or enter.text != tr("Enter the game"):
 		_failures.append("section 01 does not offer Enter the game")
 		return _finish()
-	next.pressed.emit()
+	enter.pressed.emit()
 	var atlas := await _wait_scene(GameFlow.ATLAS_SCENE)
 	if atlas == null:
 		return _finish()

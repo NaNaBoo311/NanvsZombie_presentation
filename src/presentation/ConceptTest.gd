@@ -1,10 +1,10 @@
 extends RefCounted
 
-# --concept-test: boots section 01 and checks the five exhibits: the pitch and its
-# at-a-glance ribbon, the interactive facing demo, the 3D world carousel and its
-# camera stay, the reference ledger, the pillars and the final Enter the game
-# hand-off. Back to contents reopens the page, section 01 returns to a fresh
-# concept screen, and the atlas's home button returns to the cover.
+# --concept-test: boots section 01 and checks the four exhibits: the pitch and its
+# at-a-glance ribbon, the 3D world carousel and its camera stay, the reference
+# ledger, the pillars and the final Enter the game hand-off. The header Back arrow
+# reopens the contents page, section 01 returns to a fresh concept screen, and the
+# atlas's home button returns to the cover.
 #
 # Prints "[ConceptTest] PASS" or each failure, then quits 0 / 1. Loaded only by
 # GameFlow.boot() under the flag.
@@ -30,14 +30,13 @@ func run() -> void:
 		return _finish()
 	_check_chrome(screen)
 	_check_pitch(screen)
-	_check_facing(screen)
 	await _check_world(concept, screen)
 	_check_references(screen)
 	_check_pillars(screen)
 
-	var back := screen.get_node_or_null("Bottom/ContentsButton") as Button
+	var back := screen.get_node_or_null("Header/BackButton") as Button
 	if back == null:
-		_failures.append("concept screen has no Back to contents")
+		_failures.append("concept screen has no Back button")
 		return _finish()
 	back.pressed.emit()
 	var contents := await _wait_scene(GameFlow.CONTENTS_SCENE)
@@ -55,15 +54,17 @@ func run() -> void:
 	if screen == null:
 		_failures.append("reopened section has no screen")
 		return _finish()
-	screen.show_exhibit(4)
+	screen.show_exhibit(3)
 	await _tree.process_frame
-	var next := screen.get_node_or_null("Bottom/NextButton") as Button
-	if next == null:
+	var enter := screen.get_node_or_null("Bottom/EnterGameButton") as Button
+	if enter == null:
 		_failures.append("concept screen has no final action")
 		return _finish()
-	if next.text != tr("Enter the game"):
-		_failures.append("last exhibit's action says \"%s\"" % next.text)
-	next.pressed.emit()
+	if not enter.visible:
+		_failures.append("Enter the game is not visible on the last exhibit")
+	if enter.text != tr("Enter the game"):
+		_failures.append("last exhibit's action says \"%s\"" % enter.text)
+	enter.pressed.emit()
 	var atlas := await _wait_scene(GameFlow.ATLAS_SCENE)
 	if atlas == null:
 		return _finish()
@@ -78,15 +79,27 @@ func run() -> void:
 
 func _check_chrome(screen: ConceptScreen) -> void:
 	for path in ["Header/BackButton", "Header/Kicker", "Header/SectionTitle",
-			"Bottom/Tabs", "Bottom/ContentsButton", "Bottom/PrevButton", "Bottom/NextButton"]:
+			"Bottom/Tabs", "Bottom/EnterGameButton"]:
 		if screen.get_node_or_null(path) == null:
 			_failures.append("concept screen is missing %s" % path)
+	for path in ["Bottom/ContentsButton", "Bottom/PrevButton", "Bottom/NextButton"]:
+		if screen.get_node_or_null(path) != null:
+			_failures.append("concept screen still carries %s" % path)
+	var enter := screen.get_node_or_null("Bottom/EnterGameButton") as Button
+	if enter != null and enter.visible:
+		_failures.append("Enter the game is visible before the last exhibit")
+	for label in screen.find_children("*", "Label", true, false):
+		if (label as Label).text.begins_with("EXHIBIT "):
+			_failures.append("concept screen still shows an exhibit kicker: %s" % label.text)
+			break
 	var tabs := screen.get_node_or_null("Bottom/Tabs")
 	if tabs != null and tabs.get_child_count() != ConceptScreen.EXHIBITS.size():
 		_failures.append("concept tabs list %d of %d exhibits" % [
 			tabs.get_child_count(), ConceptScreen.EXHIBITS.size()])
 	if screen.get_node_or_null("Main").get_child_count() != ConceptScreen.EXHIBITS.size():
-		_failures.append("concept screen does not build all five exhibits")
+		_failures.append("concept screen does not build all four exhibits")
+	if screen.get_node_or_null("Main/Circle") != null:
+		_failures.append("section 01 still contains the gameplay circle exhibit")
 	if screen.find_child("PerfLabel", true, false) != null:
 		_failures.append("concept screen still shows the live performance badge")
 
@@ -104,27 +117,8 @@ func _check_pitch(screen: ConceptScreen) -> void:
 		_failures.append("the pitch quote is missing")
 
 
-func _check_facing(screen: ConceptScreen) -> void:
-	screen.show_exhibit(1)
-	var demo := screen.get_node_or_null("Main/Circle/Visual/FacingDemo") as ConceptFacingDemo
-	if demo == null:
-		_failures.append("the facing demo is missing")
-		return
-	demo.set_facing(6)
-	if demo.facing != 6:
-		_failures.append("the facing demo does not take a facing")
-	demo.step(1)
-	if demo.facing != 7:
-		_failures.append("the facing demo does not step")
-	demo.step(1)
-	if demo.facing != 0:
-		_failures.append("the facing demo does not wrap at 8")
-	if absf(demo.facing_angle()) > 0.001:
-		_failures.append("facing 0 does not point along the base angle")
-
-
 func _check_world(concept: Node, screen: ConceptScreen) -> void:
-	screen.show_exhibit(2)
+	screen.show_exhibit(1)
 	await _tree.create_timer(1.3).timeout
 	var camera := concept.get_node_or_null("Camera3D") as Camera3D
 	if camera == null:
@@ -183,7 +177,7 @@ func _check_visible_world(carousel: ConceptCarousel, index: int) -> void:
 
 
 func _check_references(screen: ConceptScreen) -> void:
-	screen.show_exhibit(3)
+	screen.show_exhibit(2)
 	var panel := screen.get_node_or_null("Main/References") as Control
 	if panel == null or not panel.visible:
 		_failures.append("the reference exhibit did not open")
@@ -196,7 +190,7 @@ func _check_references(screen: ConceptScreen) -> void:
 
 
 func _check_pillars(screen: ConceptScreen) -> void:
-	screen.show_exhibit(4)
+	screen.show_exhibit(3)
 	var panel := screen.get_node_or_null("Main/Pillars") as Control
 	if panel == null or not panel.visible:
 		_failures.append("the pillar exhibit did not open")
@@ -204,8 +198,8 @@ func _check_pillars(screen: ConceptScreen) -> void:
 	var cards := panel.get_node_or_null("Visual/Pillars")
 	if cards == null or cards.get_child_count() != PresentationDeck.PILLARS.size():
 		_failures.append("the pillar exhibit does not build every pillar")
-	var next := screen.get_node_or_null("Bottom/NextButton") as Button
-	if next == null or next.text != tr("Enter the game"):
+	var enter := screen.get_node_or_null("Bottom/EnterGameButton") as Button
+	if enter == null or not enter.visible or enter.text != tr("Enter the game"):
 		_failures.append("the last exhibit does not offer Enter the game")
 
 
