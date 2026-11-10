@@ -22,7 +22,7 @@ extends Node
 # --flow-test runs src/core/FlowTest.gd after boot; --title-test runs
 # src/menus/title/TitleTest.gd and is the only test flag that opens the title.
 
-const TITLE_SCENE := "res://src/menus/title/TitleMenu.tscn"
+const TITLE_SCENE := "res://src/presentation/PresentationTitle.tscn"
 const ATLAS_SCENE := "res://src/menus/atlas/AtlasMenu.tscn"
 const BATTLE_SCENE := "res://src/battle/DioramaWorld.tscn"
 # Test flags that run their own scripted flow in the battle shell, so the round

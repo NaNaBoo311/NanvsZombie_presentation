@@ -1,15 +1,16 @@
 extends RefCounted
 
-# --title-test: boots the title screen (the only test flag that does not skip
-# it), checks the menu the player actually sees, opens and closes the LAN panel,
-# then presses the primary button and waits for the atlas with the fade clear.
-# The title is an all-3D stage: a home island on the leyline and a chain of islands
-# built from the world data. This test asserts the island, its vignette and the
-# effects (leyline, spirits, seed shots) exist, that the chain has a lantern for every
-# world in LevelDB, and guards the stage's
-# budget rules (no SubViewport, one shadow light, no spot or omni lights) before
-# exercising the menu. Prints "[TitleTest] PASS" or each failure, then quits
-# 0 / 1. Loaded only by GameFlow.boot() under the flag.
+# --title-test: boots the presentation cover (the only test flag that does not skip
+# it), checks the cover copy, credits and actions, opens and closes Settings, then
+# presses Play and waits for the atlas with the fade clear.
+#
+# The cover sits on the game's all-3D title stage: a home island on the leyline and
+# a chain of islands built from the world data. This test asserts the island, its
+# vignette and the effects (leyline, spirits, seed shots) exist, that the chain has
+# a lantern for every world in LevelDB, and guards the stage's budget rules (no
+# SubViewport, one shadow light, no spot or omni lights) before exercising the cover.
+# Prints "[TitleTest] PASS" or each failure, then quits 0 / 1. Loaded only by
+# GameFlow.boot() under the flag.
 
 const TIMEOUT_FRAMES := 900
 
@@ -30,26 +31,12 @@ func run() -> void:
 	var camera := title.get_node_or_null("Camera3D") as Camera3D
 	if camera == null or not camera.current:
 		_failures.append("title camera is missing or not current")
-	if title.get_node_or_null("UI/TitleBlock/Wordmark") == null:
-		_failures.append("wordmark is missing")
-	if title.get_node_or_null("UI/TitleBlock/Subtitle") == null:
-		_failures.append("subtitle is missing")
-	var menu := title.get_node_or_null("UI/Menu") as VBoxContainer
-	if menu == null:
-		_failures.append("menu is missing")
+	_check_cover(title)
+	var cover := title.get_node_or_null("UI/Cover") as Control
+	if cover == null:
 		return _finish()
-	var primary := menu.get_node_or_null("PrimaryButton") as Button
-	if primary == null:
-		_failures.append("primary button is missing")
-	elif primary.text != tr("Continue") and primary.text != tr("New Game"):
-		_failures.append("primary button says \"%s\", not Continue or New Game" % primary.text)
-	var lan_button := menu.get_node_or_null("LanButton") as Button
-	if lan_button == null:
-		_failures.append("LAN button is missing")
-	if not GameManager.is_touch_ui() and menu.get_node_or_null("QuitButton") == null:
-		_failures.append("desktop Quit button is missing")
 
-	var settings_button := menu.get_node_or_null("SettingsButton") as Button
+	var settings_button := cover.get_node_or_null("Actions/Links/SettingsButton") as Button
 	if settings_button == null:
 		_failures.append("Settings button is missing")
 	else:
@@ -60,23 +47,72 @@ func run() -> void:
 			_failures.append("Settings did not open the panel")
 		else:
 			settings.close()
-
-	if lan_button != null:
-		lan_button.pressed.emit()
-		await _tree.process_frame
-		var panel := title.get_node_or_null("UI/LanPanel") as Control
-		if panel == null or not panel.visible:
-			_failures.append("LAN Co-op did not open the panel")
-		else:
-			panel.close()
 			await _tree.process_frame
-			if panel.visible:
-				_failures.append("LAN panel did not close")
+			if settings.visible:
+				_failures.append("Settings panel did not close")
 
-	if primary != null:
-		primary.pressed.emit()
+	if not GameManager.is_touch_ui() \
+			and cover.get_node_or_null("Actions/Links/QuitButton") == null:
+		_failures.append("desktop Quit button is missing")
+
+	var play := cover.get_node_or_null("Actions/PlayButton") as Button
+	if play != null:
+		play.pressed.emit()
 		await _wait_scene(GameFlow.ATLAS_SCENE)
 	_finish()
+
+
+func _check_cover(title: Node) -> void:
+	var cover := title.get_node_or_null("UI/Cover")
+	if cover == null:
+		_failures.append("presentation cover is missing")
+		return
+	if not (cover.get_node_or_null("Lockup/Logo/Mark") is TextureRect):
+		_failures.append("university mark is missing")
+	for path in ["Lockup/Eyebrow", "Lockup/University", "Lockup/Faculty",
+			"TitleBlock/Course", "TitleBlock/TitleFirst", "TitleBlock/TitleSecond",
+			"TitleBlock/Subtitle", "TitleBlock/Tagline",
+			"Credits/Header", "Credits/Lecturer", "Credits/Date"]:
+		if cover.get_node_or_null(path) == null:
+			_failures.append("cover is missing %s" % path)
+	var first := cover.get_node_or_null("TitleBlock/TitleFirst") as Label
+	if first != null and first.text != tr(PresentationDeck.TITLE_FIRST):
+		_failures.append("first title line says \"%s\"" % first.text)
+	var second := cover.get_node_or_null("TitleBlock/TitleSecond") as Label
+	if second != null and second.text != tr(PresentationDeck.TITLE_SECOND):
+		_failures.append("second title line says \"%s\"" % second.text)
+	var tagline := cover.get_node_or_null("TitleBlock/Tagline") as Label
+	if tagline != null and tagline.text != tr(PresentationDeck.TAGLINE):
+		_failures.append("tagline says \"%s\"" % tagline.text)
+	var lecturer := cover.get_node_or_null("Credits/Lecturer") as Label
+	if lecturer != null and lecturer.text != tr(PresentationDeck.LECTURER):
+		_failures.append("lecturer says \"%s\"" % lecturer.text)
+
+	var presenters := cover.get_node_or_null("Credits/Presenters") as VBoxContainer
+	if presenters == null:
+		_failures.append("presenter credits are missing")
+	elif presenters.get_child_count() != PresentationDeck.PRESENTERS.size():
+		_failures.append("presenter credits list %d of %d names" % [
+			presenters.get_child_count(), PresentationDeck.PRESENTERS.size()])
+	else:
+		for i in presenters.get_child_count():
+			var row := presenters.get_child(i) as HBoxContainer
+			var spec: Dictionary = PresentationDeck.PRESENTERS[i]
+			if row == null or row.get_child_count() != 2:
+				_failures.append("presenter row %d is malformed" % (i + 1))
+				continue
+			var name_label := row.get_child(0) as Label
+			var id_label := row.get_child(1) as Label
+			if name_label == null or name_label.text != tr(str(spec["name"])):
+				_failures.append("presenter %d has the wrong name" % (i + 1))
+			if id_label == null or id_label.text != str(spec["id"]):
+				_failures.append("presenter %d has the wrong student id" % (i + 1))
+
+	var play := cover.get_node_or_null("Actions/PlayButton") as Button
+	if play == null:
+		_failures.append("Play button is missing")
+	elif play.text != tr("Play the game"):
+		_failures.append("Play button says \"%s\"" % play.text)
 
 
 func _check_stage(title: Node) -> void:
