@@ -1,0 +1,41 @@
+{
+  "id": "tamarind_cannon",
+  "name": "Tamarind Cannon",
+  "subtitle": "Sour Artillery",
+  "category": "plant",
+  "model": "plants/tamarind_cannon.glb",
+  "scene": "res://src/entities/plants/tamarind_cannon/TamarindCannon.tscn",
+  "projectile": "tamarind_pod",
+  "cost": 200,
+  "traits": ["Heavy damage", "Linear"],
+  "mechanism": "Fires a heavy tamarind pod straight down the lane, dealing massive damage to the first zombie hit.",
+  "numbers": {
+    "max_health": 200,
+    "damage": 60,
+    "shoot_interval": 3.5,
+    "vision_range": 16.0
+  },
+  "abilities": [
+    {
+      "name": "Cannon Shot",
+      "trigger": "Enemy in lane",
+      "effect": "Fires a tamarind_pod (60 damage) straight ahead.",
+      "clip": "attack"
+    }
+  ],
+  "clips": ["idle", "attack", "die"],
+  "clipAnnotations": {
+    "idle": "Breathes steadily.",
+    "attack": "Recools violently like a cannon barrel.",
+    "die": "Squashes into the ground."
+  },
+  "seed": {"cooldown": 20, 
+    "unlock": {"jade": 120},
+    "order": 6,
+    "group": "shooter",
+    "icon": "🥜",
+    "preview_scale": 0.7,
+    "ghost_scale": 1.5,
+    "default_loadout": true
+  }
+}

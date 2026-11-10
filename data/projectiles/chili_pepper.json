@@ -1,0 +1,12 @@
+{
+  "id": "chili_pepper",
+  "name": "Chili Pepper",
+  "model": "projectiles/chili_pepper.glb",
+  "scene": "res://src/entities/projectiles/chili_pepper/ChiliPepper.tscn",
+  "numbers": {
+    "speed": 16.0,
+    "spin_speed": 12.0,
+    "max_distance": 110.0,
+    "heal_block_sec": 4.0
+  }
+}

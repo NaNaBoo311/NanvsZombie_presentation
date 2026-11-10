@@ -1,0 +1,1 @@
+{"rect": [-90, -174, 94, 122], "cliff_bottom": -7.0, "note": "Island footprint [x0, z0, x1, z1]; all walkable ground is flat at y 0 (MapDefinition.ISLAND_TOP_Y convention as Landmark 81)."}

@@ -1,0 +1,52 @@
+{
+  "id": "nipa_palm",
+  "name": "Nipa Palm",
+  "subtitle": "Healing Sap",
+  "category": "plant",
+  "model": "plants/nipa_palm.glb",
+  "scene": "res://src/entities/plants/nipa_palm/NipaPalm.tscn",
+  "cost": 125,
+  "traits": [
+    "Aura",
+    "Heals plants"
+  ],
+  "mechanism": "Aura (AuraPlant). Every pulse_interval s, every damaged plant within aura_radius (itself included) regains heal_amount HP (PlantBase.heal, never above full), so plants scorched by a Cao Lau Cook's 60-damage coal spill recover. Keeps healing between waves.",
+  "numbers": {
+    "max_health": 150,
+    "pulse_interval": 3.0,
+    "aura_radius": 3.0,
+    "heal_amount": 30,
+    "attack_duration_sec": 0.8
+  },
+  "abilities": [
+    {
+      "name": "Sap Share",
+      "trigger": "Every 3 s",
+      "effect": "Plants within 3 m regain 30 HP.",
+      "clip": "attack"
+    }
+  ],
+  "clips": [
+    "idle",
+    "attack",
+    "die"
+  ],
+  "clipAnnotations": {
+    "idle": "Fronds sway; the fruit head breathes.",
+    "attack": "Fronds lift and spread as the sap flows.",
+    "die": "Squash and shrink into the mud."
+  },
+  "seed": {"cooldown": 10, 
+    "unlock": {"jade": 90},
+    "order": 19,
+    "group": "support",
+    "icon": "🌴",
+    "preview_scale": 0.55,
+    "ghost_scale": 1.2,
+    "default_loadout": false
+  },
+  "range_indicator": {
+    "shape": "rings",
+    "outer": "aura_radius"
+  }
+}

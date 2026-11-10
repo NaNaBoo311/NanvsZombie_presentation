@@ -1,0 +1,31 @@
+{
+  "id": "armored_coconut",
+  "name": "Armored Coconut",
+  "subtitle": "Battle Coconut",
+  "category": "plant",
+  "model": "plants/armored_coconut_v2.glb",
+  "scene": "res://src/entities/plants/armored_coconut/ArmoredCoconut.tscn",
+  "cost": 50,
+  "traits": [
+    "Blocker",
+    "High HP",
+    "No attack"
+  ],
+  "mechanism": "Pure blocker (Wall-nut role). 400 HP, never attacks, never acquires targets. High durability frontline defense. Dies via PlantBase.die(), freeing the tile.",
+  "numbers": {
+    "max_health": 400
+  },
+  "abilities": [],
+  "clips": [],
+  "clipAnnotations": {
+    "die": "Pop-out shrink when fully eaten (PlantBase.die)."
+  },
+  "seed": {"cooldown": 20, 
+    "order": 4,
+    "group": "defender",
+    "icon": "🥥",
+    "preview_scale": 1.0,
+    "ghost_scale": 2.0,
+    "default_loadout": true
+  }
+}

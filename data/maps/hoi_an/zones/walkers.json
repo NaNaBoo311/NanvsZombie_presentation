@@ -1,0 +1,197 @@
+{
+ "note": "Pedestrians on Hoi An's old-town streets at night (pedestrian-only after 3 pm), walked by src/environment/StreetWalkers.gd. Each segment is a street's centre line from -> to at height y; lanes are sideways offsets (metres, kept clear of the clutter at the street edges in streets.json clutter), per_lane walkers in each, speed [min, max] m/s. variants: weight per walker id (0 tourist with a backpack, 1 visitor in a conical hat, 2 woman in ao dai, 3 shoulder-pole vendor); palette: shirt and dress colours (sRGB hex).",
+ "seed": 1999,
+ "variants": {
+  "0": 0.35,
+  "1": 0.3,
+  "2": 0.25,
+  "3": 0.1
+ },
+ "palette": [
+  "d94f3d",
+  "2e6fa8",
+  "f2c14e",
+  "3c8d5a",
+  "f7f1e3",
+  "8e5bb5",
+  "e07aa0",
+  "f06a2a",
+  "4fb3c8",
+  "c0392b"
+ ],
+ "segments": [
+  {
+   "note": "Nguyen Thai Hoc",
+   "from": [
+    -72,
+    -24
+   ],
+   "to": [
+    94,
+    -24
+   ],
+   "y": 0.03,
+   "lanes": [
+    -0.7,
+    0.0,
+    0.7
+   ],
+   "per_lane": 14,
+   "speed": [
+    0.7,
+    1.2
+   ]
+  },
+  {
+   "note": "Tran Phu",
+   "from": [
+    -72,
+    -57
+   ],
+   "to": [
+    94,
+    -57
+   ],
+   "y": 0.03,
+   "lanes": [
+    -0.7,
+    0.0,
+    0.7
+   ],
+   "per_lane": 13,
+   "speed": [
+    0.7,
+    1.2
+   ]
+  },
+  {
+   "note": "Nguyen Thi Minh Khai, west of the Japanese Bridge",
+   "from": [
+    -102,
+    -57
+   ],
+   "to": [
+    -86,
+    -57
+   ],
+   "y": 0.03,
+   "lanes": [
+    -0.5,
+    0.5
+   ],
+   "per_lane": 2,
+   "speed": [
+    0.6,
+    1.0
+   ]
+  },
+  {
+   "note": "Le Loi",
+   "from": [
+    -24,
+    -90
+   ],
+   "to": [
+    -24,
+    16
+   ],
+   "y": 0.03,
+   "lanes": [
+    -0.7,
+    0.0,
+    0.7
+   ],
+   "per_lane": 9,
+   "speed": [
+    0.7,
+    1.2
+   ]
+  },
+  {
+   "note": "Nguyen Hue",
+   "from": [
+    24,
+    -90
+   ],
+   "to": [
+    24,
+    16
+   ],
+   "y": 0.03,
+   "lanes": [
+    -0.7,
+    0.0,
+    0.7
+   ],
+   "per_lane": 9,
+   "speed": [
+    0.7,
+    1.2
+   ]
+  },
+  {
+   "note": "Bach Dang riverfront",
+   "from": [
+    -102,
+    23.2
+   ],
+   "to": [
+    94,
+    23.2
+   ],
+   "y": 0.055,
+   "lanes": [
+    -1.0,
+    0.0,
+    1.0
+   ],
+   "per_lane": 14,
+   "speed": [
+    0.6,
+    1.1
+   ]
+  },
+  {
+   "note": "An Hoi promenade, between the river posts and the stalls",
+   "from": [
+    -102,
+    54.1
+   ],
+   "to": [
+    94,
+    54.1
+   ],
+   "y": 0.055,
+   "lanes": [
+    -0.35,
+    0.35
+   ],
+   "per_lane": 12,
+   "speed": [
+    0.6,
+    1.0
+   ]
+  },
+  {
+   "note": "An Hoi lane, in front of the restaurants",
+   "from": [
+    -102,
+    61.7
+   ],
+   "to": [
+    94,
+    61.7
+   ],
+   "y": 0.03,
+   "lanes": [
+    -0.5,
+    0.5
+   ],
+   "per_lane": 8,
+   "speed": [
+    0.6,
+    1.0
+   ]
+  }
+ ]
+}

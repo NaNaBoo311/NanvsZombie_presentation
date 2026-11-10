@@ -1,0 +1,82 @@
+{
+  "note": "Where each old-town landmark stands (pos = [x, y, z], yaw in degrees; a model's front faces +Z before yaw). The old_town_landmarks generator bakes them all into one mesh. japanese_bridge spans the creek along X on Tran Phu. an_hoi_bridge runs from -> to across the river (deck_y at both feet plus rise at the crown). fujian_hall and quan_cong_temple stand on the north side of Tran Phu, their gates (+Z) on the street; pos is the gate line, size [width, depth] runs back north. central_market is a rect on the riverfront. night_market is a row of lantern stalls on An Hoi's promenade facing the river, skipping the bridge foot.",
+  "japanese_bridge": {
+    "pos": [
+      -79,
+      0,
+      -57
+    ],
+    "length": 16,
+    "width": 4.2
+  },
+  "creek_bridge": {
+    "pos": [
+      -79,
+      0,
+      22
+    ],
+    "length": 13,
+    "width": 8
+  },
+  "an_hoi_bridge": {
+    "from": [
+      -45,
+      25
+    ],
+    "to": [
+      -45,
+      53
+    ],
+    "width": 4.0,
+    "deck_y": 0.1,
+    "rise": 2.6
+  },
+  "fujian_hall": {
+    "pos": [
+      38,
+      0,
+      -61
+    ],
+    "yaw": 0,
+    "size": [
+      20,
+      13
+    ]
+  },
+  "quan_cong_temple": {
+    "pos": [
+      78,
+      0,
+      -61
+    ],
+    "yaw": 0,
+    "size": [
+      18,
+      12
+    ]
+  },
+  "central_market": {
+    "rect": [
+      50,
+      -6,
+      86,
+      16.5
+    ]
+  },
+  "night_market": {
+    "from": [
+      -80,
+      56.5
+    ],
+    "to": [
+      44,
+      56.5
+    ],
+    "step": 6.5,
+    "skip_x": [
+      -51,
+      -39
+    ],
+    "yaw": 180
+  }
+}

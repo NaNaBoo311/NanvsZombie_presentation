@@ -1,0 +1,35 @@
+{
+  "note": "Trunk-free areas [x0, z0, x1, z1] (read by Landmark81Zones.on_walkway, so ForestMultiMesh and GrassMultiMesh keep clear of them): the west spawn region and its corridor to the arena, an east corridor through the tree screen, and two south lanes through the south screen, so enemies have a way through (the former sports-hub lawn, the north spawn bank and the lagoon-grove lane are planted now to hide spawn telegraphs; the RouteClearance sweep must stay green)",
+  "rects": [
+    [
+      -64,
+      -18,
+      -44,
+      18
+    ],
+    [
+      -46,
+      -4,
+      -34,
+      4
+    ],
+    [
+      35,
+      -14,
+      53,
+      -6
+    ],
+    [
+      -8,
+      28,
+      8,
+      42
+    ],
+    [
+      20,
+      28,
+      28,
+      42
+    ]
+  ]
+}

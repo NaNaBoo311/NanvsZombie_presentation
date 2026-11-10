@@ -1,0 +1,62 @@
+{
+  "id": "peach_blossom_fan",
+  "name": "Peach Blossom Fan",
+  "subtitle": "Nhat Tan Petal Spray",
+  "category": "plant",
+  "model": "plants/peach_blossom_fan.glb",
+  "scene": "res://src/entities/plants/peach_blossom_fan/PeachBlossomFan.tscn",
+  "projectile": "peach_petal",
+  "cost": 125,
+  "traits": [
+    "Ranged turret",
+    "Fan of petals",
+    "Hits staggering enemies"
+  ],
+  "mechanism": "Turret (LotusShooter targeting). Each shot is petal_count peach_petal projectiles spread spread_deg apart around the aim line, so an enemy staggering off the line (Bia Hoi Zombie, +-0.8 m) still meets a petal.",
+  "numbers": {
+    "max_health": 100,
+    "damage": 12,
+    "petal_count": 3,
+    "spread_deg": 8.0,
+    "shoot_interval": 1.5,
+    "vision_range": 12.0,
+    "vision_half_angle_deg": 30.0,
+    "turn_speed_deg": 180.0,
+    "fire_align_deg": 6.0,
+    "scan_interval": 0.1,
+    "attack_apex_sec": 0.24,
+    "attack_duration_sec": 0.5
+  },
+  "abilities": [
+    {
+      "name": "Petal Fan",
+      "trigger": "Enemy inside 12 m forward cone",
+      "effect": "Flings 3 petals (12 damage each) 8 deg apart.",
+      "clip": "attack"
+    }
+  ],
+  "clips": [
+    "idle",
+    "attack",
+    "die"
+  ],
+  "clipAnnotations": {
+    "idle": "The big blossom nods on its branch.",
+    "attack": "Blossom folds back, then snaps open (petals leave at 0.24 s).",
+    "die": "Squash and shrink into the pot."
+  },
+  "seed": {"cooldown": 10, 
+    "unlock": {"jade": 120},
+    "order": 12,
+    "group": "shooter",
+    "icon": "💮",
+    "preview_scale": 0.65,
+    "ghost_scale": 1.5,
+    "default_loadout": false
+  },
+  "range_indicator": {
+    "shape": "cone",
+    "radius": "vision_range",
+    "half_angle_deg": "vision_half_angle_deg"
+  }
+}

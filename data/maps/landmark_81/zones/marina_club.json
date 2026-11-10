@@ -1,0 +1,12 @@
+{
+  "fan_center": [95, 32.5],
+  "fan_r": 12.35,
+  "walk_x": [65, 118],
+  "walk_z": 48.2,
+  "walk_w": 2.4,
+  "fingers_x": [68, 76, 84, 92, 100, 108, 116],
+  "finger_len": 12,
+  "finger_w": 1.2,
+  "yacht_scale": 0.8,
+  "yacht_yaw": 0
+}

@@ -1,0 +1,23 @@
+{
+  "note": "Hoi An shophouse blocks (hoi_an_shophouses_a/b.glb: 20 m of 1-2 storey houses side by side, front facing +Z before yaw, bodies 12 m deep). Each row: from -> to every step metres, yaw in degrees (0 faces the river to the south, 180 faces north). Rows leave room for the square, the cross streets, the Fujian Assembly Hall and Quan Cong temple on Tran Phu (landmarks.json) and the central market. HoiAnZones.lots(\"shophouses_a\" / \"shophouses_b\") alternates the two variants along every row.",
+  "depth": 12,
+  "width": 20,
+  "rows": [
+    {"note": "Bach Dang, north side", "from": [-60, 17.6], "to": [-40, 17.6], "step": 20, "yaw": 0},
+    {"note": "Bach Dang, north side, east of Nguyen Hue", "from": [38, 17.6], "to": [38, 17.6], "step": 20, "yaw": 0},
+    {"note": "Nguyen Thai Hoc, south side", "from": [-60, -20.4], "to": [-40, -20.4], "step": 20, "yaw": 180},
+    {"note": "Nguyen Thai Hoc, south side, east", "from": [38, -20.4], "to": [78, -20.4], "step": 20, "yaw": 180},
+    {"note": "Nguyen Thai Hoc, north side", "from": [-60, -27.6], "to": [-40, -27.6], "step": 20, "yaw": 0},
+    {"note": "Nguyen Thai Hoc, north side, centre", "from": [-10.5, -27.6], "to": [10.5, -27.6], "step": 21, "yaw": 0},
+    {"note": "Nguyen Thai Hoc, north side, east", "from": [38, -27.6], "to": [78, -27.6], "step": 20, "yaw": 0},
+    {"note": "Tran Phu, south side", "from": [-60, -53.4], "to": [-40, -53.4], "step": 20, "yaw": 180},
+    {"note": "Tran Phu, south side, centre", "from": [-10.5, -53.4], "to": [10.5, -53.4], "step": 21, "yaw": 180},
+    {"note": "Tran Phu, south side, east", "from": [38, -53.4], "to": [78, -53.4], "step": 20, "yaw": 180},
+    {"note": "Nguyen Thi Minh Khai, both sides (west of the Japanese Bridge)", "from": [-94, -53.4], "to": [-94, -53.4], "step": 20, "yaw": 180},
+    {"note": "Nguyen Thi Minh Khai, north side", "from": [-94, -60.6], "to": [-94, -60.6], "step": 20, "yaw": 0},
+    {"note": "Tran Phu, north side", "from": [-60, -60.6], "to": [-40, -60.6], "step": 20, "yaw": 0},
+    {"note": "Tran Phu, north side, centre", "from": [-10.5, -60.6], "to": [10.5, -60.6], "step": 21, "yaw": 0},
+    {"note": "Tran Phu, north side, between the Fujian hall and Quan Cong temple", "from": [58, -60.6], "to": [58, -60.6], "step": 20, "yaw": 0},
+    {"note": "An Hoi islet, facing the river", "from": [-80, 63.4], "to": [40, 63.4], "step": 20, "yaw": 180}
+  ]
+}

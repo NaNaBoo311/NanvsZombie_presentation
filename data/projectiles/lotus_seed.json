@@ -1,0 +1,11 @@
+{
+  "id": "lotus_seed",
+  "name": "Lotus Seed",
+  "model": "projectiles/lotus_seed.glb",
+  "scene": "res://src/entities/projectiles/lotus_seed/LotusSeed.tscn",
+  "numbers": {
+    "speed": 16.0,
+    "spin_speed": 15.0,
+    "max_distance": 110.0
+  }
+}

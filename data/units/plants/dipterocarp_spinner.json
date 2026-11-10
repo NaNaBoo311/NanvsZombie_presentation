@@ -1,0 +1,48 @@
+{
+  "id": "dipterocarp_spinner",
+  "name": "Dipterocarp Spinner",
+  "subtitle": "Helicopter Seed Blower",
+  "category": "plant",
+  "model": "plants/dipterocarp_spinner.glb",
+  "scene": "res://src/entities/plants/dipterocarp_spinner/DipterocarpSpinner.tscn",
+  "projectile": "dipterocarp_seed",
+  "cost": 175,
+  "traits": [
+    "Piercing",
+    "Multi-hit"
+  ],
+  "mechanism": "Spins its leaves to blow piercing winged seeds that hit multiple enemies in a lane.",
+  "numbers": {
+    "max_health": 120,
+    "damage": 15,
+    "shoot_interval": 1.5,
+    "vision_range": 16
+  },
+  "abilities": [
+    {
+      "name": "Wind Blow",
+      "trigger": "Enemy in lane",
+      "effect": "Fires a piercing dipterocarp_seed (15 damage) that travels through enemies.",
+      "clip": "attack"
+    }
+  ],
+  "clips": [
+    "idle",
+    "attack",
+    "die"
+  ],
+  "clipAnnotations": {
+    "idle": "Gentle spinning.",
+    "attack": "Spins violently and expands its mouth to blow the seed.",
+    "die": "Spins out of control and shrinks."
+  },
+  "seed": {"cooldown": 15, 
+    "unlock": {"jade": 90},
+    "order": 5,
+    "group": "shooter",
+    "icon": "🚁",
+    "preview_scale": 0.7,
+    "ghost_scale": 1.5,
+    "default_loadout": true
+  }
+}

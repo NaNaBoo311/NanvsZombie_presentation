@@ -1,0 +1,13 @@
+{
+  "id": "kapok_cotton",
+  "name": "Kapok Cotton",
+  "model": "projectiles/kapok_cotton_v2.glb",
+  "scene": "res://src/entities/projectiles/kapok_cotton/KapokCotton.tscn",
+  "numbers": {
+    "speed": 14.0,
+    "spin_speed": 10.0,
+    "max_distance": 60.0,
+    "arc_height": 3.8,
+    "flight_duration": 0.85
+  }
+}

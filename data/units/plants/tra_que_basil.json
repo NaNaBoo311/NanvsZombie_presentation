@@ -1,0 +1,53 @@
+{
+  "id": "tra_que_basil",
+  "name": "Tra Que Basil",
+  "subtitle": "Calming Herb",
+  "category": "plant",
+  "model": "plants/tra_que_basil.glb",
+  "scene": "res://src/entities/plants/tra_que_basil/TraQueBasil.tscn",
+  "cost": 75,
+  "traits": [
+    "Aura",
+    "Stun immunity",
+    "Clears stuns"
+  ],
+  "mechanism": "Aura (AuraPlant). Every pulse_interval s, every plant within aura_radius (itself included) becomes stun-immune for immune_duration s (PlantBase.grant_stun_immunity), which also clears a stun that already landed. immune_duration outlasts pulse_interval, so a Tourist Zombie's flash never sticks to covered plants.",
+  "numbers": {
+    "max_health": 100,
+    "pulse_interval": 0.5,
+    "aura_radius": 3.0,
+    "immune_duration": 0.8,
+    "attack_duration_sec": 0.5
+  },
+  "abilities": [
+    {
+      "name": "Calming Scent",
+      "trigger": "Every 0.5 s while enemies are on the field",
+      "effect": "Plants within 3 m cannot be stunned for 0.8 s; current stuns are cleared.",
+      "clip": "attack"
+    }
+  ],
+  "clips": [
+    "idle",
+    "attack",
+    "die"
+  ],
+  "clipAnnotations": {
+    "idle": "The bush sways; flower spikes breathe.",
+    "attack": "Spikes stretch up when a pulse clears a stun.",
+    "die": "Squash and shrink into the bed."
+  },
+  "seed": {"cooldown": 10, 
+    "unlock": {"jade": 60},
+    "order": 15,
+    "group": "support",
+    "icon": "🌿",
+    "preview_scale": 0.8,
+    "ghost_scale": 1.5,
+    "default_loadout": false
+  },
+  "range_indicator": {
+    "shape": "rings",
+    "outer": "aura_radius"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "note": "Old Quarter tube-house blocks (hanoi_tube_houses.glb: several houses side by side, front facing +Z) behind the sidewalks. Each row: from -> to every step metres, yaw in degrees; rows stop short of Dong Kinh Nghia Thuc square, the Ly Thai To garden and the Post Office (landmarks.json). HoanKiemZones.lots(\"shophouses\") expands them; a sidewalk cafe stands cafe_out metres in front of each block.",
+  "cafe_out": 2.4,
+  "rows": [
+    {"from": [-72, -153.7], "to": [-32, -153.7], "step": 20, "yaw": 0},
+    {"from": [32, -153.7], "to": [72, -153.7], "step": 20, "yaw": 0},
+    {"from": [-60, 103.7], "to": [60, 103.7], "step": 20, "yaw": 180},
+    {"from": [-68.7, -140], "to": [-68.7, 80], "step": 20, "yaw": 90},
+    {"from": [68.7, -140], "to": [68.7, -60], "step": 20, "yaw": -90},
+    {"from": [68.7, 10], "to": [68.7, 30], "step": 20, "yaw": -90},
+    {"from": [68.7, 84], "to": [68.7, 84], "step": 20, "yaw": -90}
+  ]
+}

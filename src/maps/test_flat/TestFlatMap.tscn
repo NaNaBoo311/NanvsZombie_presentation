@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/maps/MapDefinition.gd" id="1_map"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
+size = Vector2(60, 60)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ground"]
+albedo_color = Color(0.36, 0.5, 0.3, 1)
+
+[sub_resource type="BoxShape3D" id="Box_ground"]
+size = Vector3(60, 0.2, 60)
+
+[node name="TestFlatMap" type="Node3D"]
+script = ExtResource("1_map")
+lawn_zones = {
+"main": Rect2(0, -16, 20, 20)
+}
+default_lawn = "main"
+ground_y = 0.0
+pearl_position = Vector3(10, 0, -6)
+spawn_center = Vector2(10, -6)
+spawn_inner = 14.0
+spawn_outer = 22.0
+spawn_fallback_points = Array[Vector2]([Vector2(10, 12), Vector2(-6, -6)])
+camera_bounds = Rect2(-20, -36, 60, 60)
+default_time_of_day = "day"
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -6)
+mesh = SubResource("PlaneMesh_ground")
+surface_material_override/0 = SubResource("Mat_ground")
+
+[node name="GroundBody" type="StaticBody3D" parent="Ground"]
+collision_mask = 6
+
+[node name="Shape" type="CollisionShape3D" parent="Ground/GroundBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("Box_ground")

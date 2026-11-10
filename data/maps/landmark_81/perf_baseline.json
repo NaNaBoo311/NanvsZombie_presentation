@@ -1,0 +1,24 @@
+{
+  "draw_calls": {
+    "day/axonometric": 126,
+    "day/gameplay": 143,
+    "day/skyline-panorama": 133,
+    "day/wide-overview": 169,
+    "night/axonometric": 127,
+    "night/gameplay": 143,
+    "night/skyline-panorama": 132,
+    "night/wide-overview": 171
+  },
+  "heights": "4f5df4b9c116997c063bd416a58b19f72fb8bc98",
+  "layout": "d35d904f11d30e9c102a80b4286fa98863e7c889",
+  "primitives": {
+    "day/axonometric": 90539,
+    "day/gameplay": 92561,
+    "day/skyline-panorama": 91487,
+    "day/wide-overview": 86331,
+    "night/axonometric": 98339,
+    "night/gameplay": 92561,
+    "night/skyline-panorama": 91359,
+    "night/wide-overview": 94447
+  }
+}

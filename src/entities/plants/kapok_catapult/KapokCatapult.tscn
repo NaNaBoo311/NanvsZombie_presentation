@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://kapok_catapult_pvz_3d_001"]
+
+[ext_resource type="Script" path="res://src/entities/plants/kapok_catapult/KapokCatapult.gd" id="1_kapok"]
+[ext_resource type="PackedScene" path="res://assets/models/plants/kapok_catapult_v2.glb" id="2_mesh"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kapok"]
+height = 1.6
+radius = 0.65
+
+[node name="KapokCatapult" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_kapok")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CylinderShape3D_kapok")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="KapokCatapultModel" parent="Visuals" instance=ExtResource("2_mesh")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, 0)
+
+[node name="ShootPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0.2)

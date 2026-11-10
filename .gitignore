@@ -1,0 +1,35 @@
+# Godot 4+ specific ignores
+.godot/
+
+# Node / NPM dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Operating System & Editor Files
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+*~
+
+# Unit inspector backups (timestamped copies written on every Save)
+data/.backups/
+
+commit.txt
+opencode.json
+
+
+# Dev screenshots written by `-- --screenshot` / `--title-shot`
+screenshot_*.png
+tools/.screenshots/
+# Phase-0 review hygiene: telemetry reference shots and Godot import side effects
+# (the .import rule is root-only: future PNG assets elsewhere must keep theirs)
+baseline_*
+/*.png.import
+# Working documents for the park expansion (local only, see AGENTS.md Rule 0)
+VINHOMES_PARK_*.md
+reports/
+# Desktop exports
+build/

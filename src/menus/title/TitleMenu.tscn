@@ -1,0 +1,137 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/menus/title/TitleMenu.gd" id="1_title"]
+[ext_resource type="Shader" path="res://assets/shaders/TitleSky.gdshader" id="2_sky"]
+[ext_resource type="Shader" path="res://assets/shaders/TitleMist.gdshader" id="3_mist"]
+[ext_resource type="Shader" path="res://assets/shaders/TitleHalo.gdshader" id="3_halo"]
+[ext_resource type="PackedScene" path="res://src/environment/InkOutlinePostProcess.tscn" id="4_ink"]
+[ext_resource type="PackedScene" path="res://assets/models/architecture/sacred_dragon_pearl.glb" id="5_pearl"]
+[ext_resource type="PackedScene" path="res://assets/models/maps/title/title_island_home.glb" id="30_shard_home"]
+
+[sub_resource type="ShaderMaterial" id="SkyMat_title"]
+shader = ExtResource("2_sky")
+
+[sub_resource type="Sky" id="Sky_title"]
+sky_material = SubResource("SkyMat_title")
+radiance_size = 0
+
+[sub_resource type="Environment" id="Env_title"]
+background_mode = 2
+sky = SubResource("Sky_title")
+ambient_light_source = 2
+ambient_light_color = Color(0.46, 0.44, 0.72, 1)
+ambient_light_energy = 0.5
+reflected_light_source = 1
+tonemap_mode = 4
+tonemap_exposure = 1.1
+glow_enabled = true
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_levels/3 = 0.4
+glow_levels/4 = 0.0
+glow_intensity = 0.7
+glow_bloom = 0.05
+glow_hdr_threshold = 1.0
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.5, 0.38, 0.56, 1)
+fog_density = 0.6
+fog_sky_affect = 0.0
+fog_depth_curve = 1.4
+fog_depth_begin = 110.0
+fog_depth_end = 460.0
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[sub_resource type="ShaderMaterial" id="MistMat_low"]
+render_priority = 0
+shader = ExtResource("3_mist")
+shader_parameter/opacity = 0.95
+shader_parameter/base_alpha = 0.7
+shader_parameter/scale = 0.02
+
+[sub_resource type="ShaderMaterial" id="MistMat_band"]
+render_priority = 1
+shader = ExtResource("3_mist")
+shader_parameter/opacity = 0.5
+shader_parameter/base_alpha = 0.0
+shader_parameter/scale = 0.045
+shader_parameter/drift = 1.6
+
+[sub_resource type="PlaneMesh" id="MistPlane_low"]
+size = Vector2(1100, 900)
+
+[sub_resource type="PlaneMesh" id="MistPlane_band"]
+size = Vector2(260, 90)
+
+[sub_resource type="ShaderMaterial" id="Halo_mat"]
+shader = ExtResource("3_halo")
+
+[sub_resource type="PlaneMesh" id="Halo_plane"]
+size = Vector2(46, 46)
+
+[node name="TitleMenu" type="Node3D"]
+script = ExtResource("1_title")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_title")
+
+[node name="MoonKey" type="DirectionalLight3D" parent="."]
+light_color = Color(1, 0.78, 0.5, 1)
+light_energy = 2.3
+shadow_enabled = true
+shadow_bias = 0.08
+shadow_normal_bias = 3.0
+shadow_blur = 0.6
+shadow_opacity = 0.95
+directional_shadow_mode = 0
+directional_shadow_max_distance = 200.0
+
+[node name="MoonFill" type="DirectionalLight3D" parent="."]
+light_color = Color(0.62, 0.6, 1, 1)
+light_energy = 0.48
+
+[node name="Mist" type="Node3D" parent="."]
+
+[node name="MistLow" type="MeshInstance3D" parent="Mist"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -26, -120)
+cast_shadow = 0
+mesh = SubResource("MistPlane_low")
+surface_material_override/0 = SubResource("MistMat_low")
+
+[node name="MistBand" type="MeshInstance3D" parent="Mist"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -9, 38)
+cast_shadow = 0
+mesh = SubResource("MistPlane_band")
+surface_material_override/0 = SubResource("MistMat_band")
+
+[node name="Worlds" type="Node3D" parent="."]
+
+[node name="Home" type="Node3D" parent="Worlds"]
+
+[node name="Shard" parent="Worlds/Home" instance=ExtResource("30_shard_home")]
+
+[node name="Pearl" parent="Worlds/Home" instance=ExtResource("5_pearl")]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0)
+
+[node name="PearlHalo" type="MeshInstance3D" parent="Worlds/Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+cast_shadow = 0
+mesh = SubResource("Halo_plane")
+surface_material_override/0 = SubResource("Halo_mat")
+
+[node name="Vignette" type="Node3D" parent="Worlds/Home"]
+
+[node name="Plants" type="Node3D" parent="Worlds/Home/Vignette"]
+
+[node name="Enemies" type="Node3D" parent="Worlds/Home/Vignette"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+fov = 30.0
+near = 1.0
+far = 1200.0
+current = true
+
+[node name="InkOutline" parent="." instance=ExtResource("4_ink")]
+
+[node name="UI" type="CanvasLayer" parent="."]

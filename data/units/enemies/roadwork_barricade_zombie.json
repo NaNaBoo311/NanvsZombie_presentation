@@ -1,0 +1,7 @@
+{
+  "id": "roadwork_barricade_zombie",
+  "name": "Roadwork Barricade Zombie",
+  "category": "enemy",
+  "model": "enemies/roadwork_barricade_zombie.glb",
+  "clips": ["walk", "attack", "die"]
+}

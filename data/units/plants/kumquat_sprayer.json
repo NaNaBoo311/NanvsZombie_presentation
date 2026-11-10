@@ -1,0 +1,41 @@
+{
+  "id": "kumquat_sprayer",
+  "name": "Kumquat Sprayer",
+  "subtitle": "Acidic Juice Spitter",
+  "category": "plant",
+  "model": "plants/kumquat_sprayer.glb",
+  "scene": "res://src/entities/plants/kumquat_sprayer/KumquatSprayer.tscn",
+  "projectile": "kumquat_fruit",
+  "cost": 75,
+  "traits": ["Short range", "Fast attack"],
+  "mechanism": "Sprays short-range kumquat projectiles in a cone/lane in front of it rapidly.",
+  "numbers": {
+    "max_health": 100,
+    "damage": 10,
+    "shoot_interval": 1.0,
+    "vision_range": 6.0
+  },
+  "abilities": [
+    {
+      "name": "Acid Spit",
+      "trigger": "Enemy in short range",
+      "effect": "Fires a kumquat_fruit projectile (10 damage) at nearby targets.",
+      "clip": "attack"
+    }
+  ],
+  "clips": ["idle", "attack", "die"],
+  "clipAnnotations": {
+    "idle": "Leaves rustle gently.",
+    "attack": "Vibrates and spits out a kumquat from the hidden face.",
+    "die": "Pot cracks and plant wilts."
+  },
+  "seed": {"cooldown": 7.5, 
+    "unlock": {"after": "hcmc_01"},
+    "order": 8,
+    "group": "shooter",
+    "icon": "🍊",
+    "preview_scale": 0.7,
+    "ghost_scale": 1.5,
+    "default_loadout": true
+  }
+}

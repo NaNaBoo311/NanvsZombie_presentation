@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://cam_pvz_3d_001"]
+
+[ext_resource type="Script" path="res://src/entities/camera/ThirdPersonCamera.gd" id="1_cam"]
+
+[node name="ThirdPersonCamera" type="Node3D"]
+script = ExtResource("1_cam")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+collision_mask = 0
+spring_length = 16.0
+margin = 0.3
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
+current = true
+fov = 40.0
+near = 0.5
+far = 500.0

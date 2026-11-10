@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/entities/plants/milk_flower/MilkFlower.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/plants/milk_flower.glb" id="2_mesh"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_milk_flower"]
+height = 1.6
+radius = 0.64
+
+[node name="MilkFlower" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CylinderShape3D_milk_flower")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="MilkFlowerModel" parent="Visuals" instance=ExtResource("2_mesh")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)

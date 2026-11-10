@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://player_pvz_3d_001"]
+
+[ext_resource type="Script" path="res://src/entities/player/Player.gd" id="1_play"]
+[ext_resource type="PackedScene" path="res://assets/models/player/player.glb" id="2_mesh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+radius = 0.35
+height = 1.6
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_play")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CapsuleShape3D_player")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="PlayerModel" parent="Visuals" instance=ExtResource("2_mesh")]
+
+[node name="InteractionRay" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+target_position = Vector3(0, 0, 2)
+collision_mask = 33

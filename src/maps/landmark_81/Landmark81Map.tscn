@@ -1,0 +1,255 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/maps/landmark_81/Landmark81Map.gd" id="1_map"]
+[ext_resource type="Script" uid="uid://p7lq1v1s0e0m" path="res://src/environment/GrassMultiMesh.gd" id="4_multigrass"]
+[ext_resource type="PackedScene" uid="uid://cqbrdiob5incq" path="res://assets/models/maps/landmark_81/island_diorama_base.glb" id="5_island"]
+[ext_resource type="Script" uid="uid://213w0smo60uf" path="res://src/environment/ForestMultiMesh.gd" id="6_forest_multimesh"]
+[ext_resource type="PackedScene" uid="uid://bxdmv1pvpjbsb" path="res://assets/models/architecture/saigon_street_lamp.glb" id="10_lantern"]
+[ext_resource type="PackedScene" uid="uid://bu0ykqmk344u2" path="res://assets/models/environment/mossy_ground_stone.glb" id="12_stone"]
+[ext_resource type="PackedScene" path="res://src/environment/MaiVangDriftPetals.tscn" id="18_sakura_petals_drift"]
+[ext_resource type="PackedScene" path="res://src/environment/MagicalWisps.tscn" id="21_wisps"]
+[ext_resource type="PackedScene" uid="uid://kfvsvvp2tvc0" path="res://assets/models/maps/landmark_81/landmark_81_tower.glb" id="37_landmark81"]
+[ext_resource type="PackedScene" uid="uid://dpkukj8a05dw5" path="res://assets/models/architecture/modern_highrise_block.glb" id="38_vinhomes"]
+[ext_resource type="PackedScene" uid="uid://dgd6m3nd7pqej" path="res://assets/models/architecture/marina_yacht_pier.glb" id="39_marina"]
+[ext_resource type="PackedScene" uid="uid://c3vudrvgd5spt" path="res://assets/models/maps/landmark_81/vinhomes_dandelion_canopy.glb" id="40_dandelion"]
+[ext_resource type="PackedScene" uid="uid://c43jw5j855bp2" path="res://assets/models/maps/landmark_81/vinhomes_villa.glb" id="41_villa"]
+[ext_resource type="PackedScene" uid="uid://cnj70g87qjj4i" path="res://assets/models/architecture/luxury_motor_yacht.glb" id="43_yacht"]
+[ext_resource type="PackedScene" uid="uid://bfpa7ur6oll7g" path="res://assets/models/architecture/modern_residential_tower.glb" id="44_res_tower"]
+[ext_resource type="PackedScene" uid="uid://dq68lh1f745fv" path="res://assets/models/architecture/futuristic_financial_tower.glb" id="45_finance_tower"]
+[ext_resource type="PackedScene" uid="uid://bw0gcdbhy1xgk" path="res://assets/models/architecture/modern_skybridge.glb" id="46_skybridge"]
+[ext_resource type="Script" uid="uid://b2s7tmveyxjqt" path="res://src/environment/PropMultiMesh.gd" id="47_propmm"]
+[ext_resource type="Script" path="res://src/environment/StreetCars.gd" id="52_streetcars"]
+[ext_resource type="PackedScene" uid="uid://rdx1mtk6s4t5" path="res://assets/models/architecture/parked_motorbike_row.glb" id="49_bikecity"]
+[ext_resource type="PackedScene" uid="uid://cnythfofknyty" path="res://assets/models/architecture/saigon_street_props.glb" id="50_cafectiy"]
+[ext_resource type="PackedScene" uid="uid://vhv7m1em36ij" path="res://assets/models/maps/landmark_81/outskirts_band.glb" id="51_outskirts"]
+
+[node name="Landmark81Map" type="Node3D"]
+script = ExtResource("1_map")
+lawn_zones = {
+"main": Rect2(-14, -14, 28, 28)
+}
+default_lawn = "main"
+ground_y = 0.0
+pearl_position = Vector3(0, 0, 0)
+spawn_center = Vector2(0, 0)
+camera_bounds = Rect2(-95, -78, 190, 138)
+default_time_of_day = "night"
+sky_balloons = false
+terrain_path = "res://data/maps/landmark_81/terrain.json"
+zones_path = "res://src/maps/landmark_81/Landmark81Zones.gd"
+nav_path = "res://data/maps/landmark_81/nav.json"
+briefing_camera = {
+"pos": Vector3(18, 30, 62),
+"arm": 116.0,
+"pitch": -28.0,
+"yaw": 0.0
+}
+
+[node name="FloatingIslandBase" parent="." unique_id=617286133 instance=ExtResource("5_island")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="GrassMultiMesh" type="MultiMeshInstance3D" parent="." unique_id=1287643357]
+cast_shadow = 0
+script = ExtResource("4_multigrass")
+
+[node name="Lanterns" type="Node3D" parent="." unique_id=1537512026]
+
+[node name="StreetLamps" type="Node3D" parent="Lanterns"]
+script = ExtResource("47_propmm")
+scene_path = "res://assets/models/architecture/saigon_street_lamp.glb"
+source_root = NodePath("..")
+zone_lots = "lamps"
+
+[node name="Lantern1" parent="Lanterns" unique_id=1979952099 instance=ExtResource("10_lantern")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, -16)
+
+[node name="LanternLight1" type="OmniLight3D" parent="Lanterns" unique_id=1043639797]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.0, 1, -16.0)
+light_color = Color(1, 0.7, 0.3, 1)
+light_energy = 3.6
+omni_range = 12.0
+omni_attenuation = 1.25
+
+[node name="Lantern2" parent="Lanterns" unique_id=1234601761 instance=ExtResource("10_lantern")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 0, -16)
+
+[node name="LanternLight2" type="OmniLight3D" parent="Lanterns" unique_id=883768253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.0, 1, -16.0)
+light_color = Color(1, 0.7, 0.3, 1)
+light_energy = 3.6
+omni_range = 12.0
+omni_attenuation = 1.25
+
+[node name="Lantern3" parent="Lanterns" unique_id=1507453839 instance=ExtResource("10_lantern")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 2.2)
+
+[node name="LanternLight3" type="OmniLight3D" parent="Lanterns" unique_id=1988951102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.0, 1, 2.2)
+light_color = Color(1, 0.7, 0.3, 1)
+light_energy = 3.6
+omni_range = 12.0
+omni_attenuation = 1.25
+
+[node name="Lantern4" parent="Lanterns" unique_id=11173258 instance=ExtResource("10_lantern")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 0, 2.2)
+
+[node name="LanternLight4" type="OmniLight3D" parent="Lanterns" unique_id=1614226250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.0, 1, 2.2)
+light_color = Color(1, 0.7, 0.3, 1)
+light_energy = 3.6
+omni_range = 12.0
+omni_attenuation = 1.25
+
+[node name="Lantern5" parent="Lanterns" unique_id=1806049316 instance=ExtResource("10_lantern")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 16)
+
+[node name="LanternLight5" type="OmniLight3D" parent="Lanterns" unique_id=818486472]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.0, 1, 16.0)
+light_color = Color(1, 0.7, 0.3, 1)
+light_energy = 3.6
+omni_range = 12.0
+omni_attenuation = 1.25
+
+[node name="Lantern6" parent="Lanterns" unique_id=1735017930 instance=ExtResource("10_lantern")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 0, 16)
+
+[node name="LanternLight6" type="OmniLight3D" parent="Lanterns" unique_id=1965863561]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.0, 1, 16.0)
+light_color = Color(1, 0.7, 0.3, 1)
+light_energy = 3.6
+omni_range = 12.0
+omni_attenuation = 1.25
+
+[node name="Lantern8" parent="Lanterns" unique_id=816623082 instance=ExtResource("10_lantern")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 42.8)
+
+[node name="LanternLight8" type="OmniLight3D" parent="Lanterns" unique_id=720969392]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0, 1, 42.8)
+light_color = Color(1, 0.7, 0.3, 1)
+light_energy = 3.6
+omni_range = 12.0
+omni_attenuation = 1.25
+
+[node name="SkylineTowers" type="Node3D" parent="." unique_id=310000030]
+
+[node name="ResTowers" type="Node3D" parent="SkylineTowers"]
+script = ExtResource("47_propmm")
+scene_path = "res://assets/models/architecture/modern_residential_tower.glb"
+source_root = NodePath("..")
+zone_lots = "skyline_res"
+
+[node name="FinanceTowers" type="Node3D" parent="SkylineTowers"]
+script = ExtResource("47_propmm")
+scene_path = "res://assets/models/architecture/futuristic_financial_tower.glb"
+source_root = NodePath("..")
+zone_lots = "skyline_finance"
+
+[node name="BlockTowers" type="Node3D" parent="SkylineTowers"]
+script = ExtResource("47_propmm")
+scene_path = "res://assets/models/architecture/modern_highrise_block.glb"
+source_root = NodePath("..")
+zone_lots = "skyline_block"
+
+[node name="Landmark81Tower" parent="SkylineTowers" unique_id=310000001 instance=ExtResource("37_landmark81")]
+transform = Transform3D(1.45, 0, 0, 0, 2.25, 0, 0, 0, 1.45, 18.0, 0.15, -94.5)
+
+[node name="DandelionPavilions" type="Node3D" parent="." unique_id=310000006]
+
+[node name="DandelionBatch" type="Node3D" parent="DandelionPavilions"]
+script = ExtResource("47_propmm")
+scene_path = "res://assets/models/maps/landmark_81/vinhomes_dandelion_canopy.glb"
+source_root = NodePath("..")
+
+[node name="DandelionWest" parent="DandelionPavilions" unique_id=310000007 instance=ExtResource("40_dandelion")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.08, 48.5)
+
+[node name="Light" type="OmniLight3D" parent="DandelionPavilions/DandelionWest" unique_id=310000008]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+light_color = Color(1, 0.85, 0.45, 1)
+light_energy = 2.4
+omni_range = 9.0
+
+[node name="DandelionEast" parent="DandelionPavilions" unique_id=310000009 instance=ExtResource("40_dandelion")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 0.08, 48.5)
+
+[node name="Light" type="OmniLight3D" parent="DandelionPavilions/DandelionEast" unique_id=310000010]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+light_color = Color(1, 0.85, 0.45, 1)
+light_energy = 2.4
+omni_range = 9.0
+
+[node name="VinhomesVillas" type="Node3D" parent="." unique_id=310000011]
+
+[node name="VillaBatch" type="Node3D" parent="VinhomesVillas"]
+script = ExtResource("47_propmm")
+scene_path = "res://assets/models/maps/landmark_81/vinhomes_villa.glb"
+source_root = NodePath("..")
+zone_lots = "villas"
+
+
+[node name="LuxuryYachts" type="Node3D" parent="." unique_id=310000020]
+
+[node name="Yacht1" parent="LuxuryYachts" unique_id=310000021 instance=ExtResource("43_yacht")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -21, 0.02, 48.5)
+
+[node name="Yacht2" parent="LuxuryYachts" unique_id=310000022 instance=ExtResource("43_yacht")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 14, 0.02, 49.5)
+
+[node name="MarinaYachtPier" parent="." unique_id=310000004 instance=ExtResource("39_marina")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.0, 0.02, 54.2)
+
+[node name="MossyStone1" parent="." unique_id=1657587752 instance=ExtResource("12_stone")]
+transform = Transform3D(1.2, 0, 0, 0, 1, 0, 0, 0, 1.2, -22.0, 0.06, 26.0)
+
+[node name="MossyStone2" parent="." unique_id=1507259381 instance=ExtResource("12_stone")]
+transform = Transform3D(1.1, 0, 0.3, 0, 1, 0, -0.3, 0, 1.1, 35.5, 0.08, -2.2)
+
+[node name="MossyStone3" parent="." unique_id=2015839342 instance=ExtResource("12_stone")]
+transform = Transform3D(1.1, 0, -0.3, 0, 1, 0, 0.3, 0, 1.1, -35.5, 0.08, -2.2)
+
+[node name="MaiVangDriftPetals" parent="." unique_id=870496602 instance=ExtResource("18_sakura_petals_drift")]
+
+[node name="ForestMultiMesh" type="Node3D" parent="." unique_id=229322627]
+script = ExtResource("6_forest_multimesh")
+config_path = "res://data/maps/landmark_81/forest.json"
+
+[node name="MagicalWisps" parent="." unique_id=614096136 instance=ExtResource("21_wisps")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="JapaneseGarden" type="Node3D" parent="."]
+
+[node name="StoneLanterns" type="Node3D" parent="JapaneseGarden"]
+script = ExtResource("47_propmm")
+scene_path = "res://assets/models/architecture/lantern_stone_pagoda.glb"
+positions = Array[Vector3]([Vector3(-82, 0, -4), Vector3(-62, 0, -4), Vector3(-78, 0, 5), Vector3(-66, 0, 5), Vector3(-76, 0, -9), Vector3(-68, 0, -9)])
+yaws_degrees = Array[float]([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+
+[node name="PagodaShrine" type="Node3D" parent="JapaneseGarden"]
+script = ExtResource("47_propmm")
+scene_path = "res://assets/models/architecture/japanese_pagoda_shrine.glb"
+positions = Array[Vector3]([Vector3(-72, 0, -18)])
+yaws_degrees = Array[float]([0.0])
+
+[node name="MarinaClubFleet" type="Node3D" parent="."]
+script = ExtResource("47_propmm")
+scene_path = "res://assets/models/architecture/luxury_motor_yacht.glb"
+zone_lots = "marina_yachts"
+
+[node name="StreetLife" type="Node3D" parent="."]
+
+[node name="CityCars" type="MultiMeshInstance3D" parent="StreetLife"]
+script = ExtResource("52_streetcars")
+scene_path = "res://assets/models/architecture/street_car.glb"
+zone_lots = "city_cars"
+
+[node name="CityMotorbikes" type="Node3D" parent="StreetLife"]
+script = ExtResource("47_propmm")
+scene_path = "res://assets/models/architecture/parked_motorbike_row.glb"
+zone_lots = "city_motorbikes"
+
+[node name="CityCafes" type="Node3D" parent="StreetLife"]
+script = ExtResource("47_propmm")
+scene_path = "res://assets/models/architecture/saigon_street_props.glb"
+zone_lots = "city_cafes"
+
+[node name="OutskirtsBand" parent="." instance=ExtResource("51_outskirts")]

@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/entities/projectiles/chili_pepper/ChiliPepper.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/projectiles/chili_pepper.glb" id="2_mesh"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_chili_pepper"]
+radius = 0.22
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_trail"]
+transparency = 1
+shading_mode = 0
+billboard_mode = 3
+billboard_keep_scale = true
+albedo_color = Color(1, 0.45, 0.15, 0.85)
+
+[sub_resource type="QuadMesh" id="QuadMesh_trail"]
+material = SubResource("StandardMaterial3D_trail")
+size = Vector2(0.08, 0.08)
+
+[node name="ChiliPepper" type="Area3D"]
+collision_layer = 16
+collision_mask = 8
+script = ExtResource("1_script")
+projectile_id = "chili_pepper"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_chili_pepper")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="ChiliPepperModel" parent="Visuals" instance=ExtResource("2_mesh")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
+
+[node name="TrailParticles" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.12)
+amount = 10
+lifetime = 0.35
+mesh = SubResource("QuadMesh_trail")
+direction = Vector3(0, 0, -1)
+spread = 22.0
+gravity = Vector3(0, 0.3, 0)
+initial_velocity_min = 0.6
+initial_velocity_max = 1.6
+color = Color(1, 0.45, 0.15, 0.85)

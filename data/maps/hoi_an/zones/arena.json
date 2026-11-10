@@ -1,0 +1,8 @@
+{
+  "note": "The riverfront lantern garden: the 28 x 28 m lawn grid (HoiAnMap lawn_zones) on turf_rect, in the paved square plaza_rect between Le Loi (west), Nguyen Thai Hoc (north), Nguyen Hue (east) and the Bach Dang riverfront (south). The Mother Lantern shrine (HoiAnMap.defend_model) stands at the centre. lawn and carpet are the ellipse GrassMultiMesh treats as lawn; tree_clear keeps trees off the square.",
+  "turf_rect": [-15.5, -15.5, 15.5, 15.5],
+  "plaza_rect": [-21, -21, 21, 18],
+  "lawn": [15.5, 15.5],
+  "carpet": [15.5, 15.5],
+  "tree_clear": [20, 20]
+}

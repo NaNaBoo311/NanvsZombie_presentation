@@ -1,0 +1,53 @@
+{
+  "id": "banyan_snare",
+  "name": "Banyan Snare",
+  "subtitle": "Old Temple Banyan",
+  "category": "plant",
+  "model": "plants/banyan_snare.glb",
+  "scene": "res://src/entities/plants/banyan_snare/BanyanSnare.tscn",
+  "cost": 100,
+  "traits": [
+    "Wall",
+    "Survives a Cyclo crash",
+    "Roots attackers"
+  ],
+  "mechanism": "Wall. 300 HP outlasts the Cyclo Zombie's 200 crash. Whenever it is hurt and its roots are ready, every enemy within root_radius is rooted in place (HungryGhost.apply_slow(0, root_duration)), then the roots rest root_cooldown s. Event-driven: no per-frame work.",
+  "numbers": {
+    "max_health": 300,
+    "root_radius": 2.2,
+    "root_duration": 2.5,
+    "root_cooldown": 4.0,
+    "attack_duration_sec": 0.6
+  },
+  "abilities": [
+    {
+      "name": "Root Snare",
+      "trigger": "Takes damage while its roots are ready",
+      "effect": "Roots every enemy within 2.2 m for 2.5 s; ready again 4 s later.",
+      "clip": "attack"
+    }
+  ],
+  "clips": [
+    "idle",
+    "attack",
+    "die"
+  ],
+  "clipAnnotations": {
+    "idle": "Slow breathing; aerial roots sway.",
+    "attack": "Aerial roots fling outward and drop back.",
+    "die": "Squash and shrink into the lawn."
+  },
+  "seed": {"cooldown": 20, 
+    "unlock": {"jade": 90},
+    "order": 11,
+    "group": "defender",
+    "icon": "🌳",
+    "preview_scale": 0.6,
+    "ghost_scale": 1.3,
+    "default_loadout": false
+  },
+  "range_indicator": {
+    "shape": "rings",
+    "outer": "root_radius"
+  }
+}

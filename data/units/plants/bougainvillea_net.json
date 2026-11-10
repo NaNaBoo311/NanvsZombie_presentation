@@ -1,0 +1,39 @@
+{
+  "id": "bougainvillea_net",
+  "name": "Bougainvillea Net",
+  "subtitle": "Spiky Vine Trap",
+  "category": "plant",
+  "model": "plants/bougainvillea_net_v2.glb",
+  "scene": "res://src/entities/plants/bougainvillea_net/BougainvilleaNet.tscn",
+  "cost": 100,
+  "traits": ["Ground trap", "Area denial"],
+  "mechanism": "A sprawling bed of thorny vines that damages zombies stepping on it. Cannot be eaten normally.",
+  "numbers": {
+    "max_health": 300,
+    "damage": 10,
+    "tick_interval": 1.0
+  },
+  "abilities": [
+    {
+      "name": "Thorn Pierce",
+      "trigger": "Enemy steps on tile",
+      "effect": "Deals 10 damage per second to enemies standing on its tile.",
+      "clip": "idle"
+    }
+  ],
+  "clips": ["idle", "attack", "die"],
+  "clipAnnotations": {
+    "idle": "Vines undulate slightly, flowers sway.",
+    "attack": "Vines rustle and spikes twitch upwards when damaging enemies.",
+    "die": "Vines recede into the ground."
+  },
+  "seed": {"cooldown": 15, 
+    "unlock": {"jade": 40},
+    "order": 7,
+    "group": "defender",
+    "icon": "🌸",
+    "preview_scale": 1.0,
+    "ghost_scale": 1.0,
+    "default_loadout": true
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "id": "sau_shooter",
+  "name": "Sau Shooter",
+  "subtitle": "Sour Shield Breaker",
+  "category": "plant",
+  "model": "plants/sau_shooter.glb",
+  "scene": "res://src/entities/plants/sau_shooter/SauShooter.tscn",
+  "projectile": "sau_fruit",
+  "cost": 125,
+  "traits": [
+    "Ranged turret",
+    "Shield breaker"
+  ],
+  "mechanism": "Turret (LotusShooter targeting). Spits sour sau fruit; a fruit that hits an enemy still holding a shield (StreetVendorZombie baskets, shield_points() > 0) deals shield_mult x damage (data/projectiles/sau_fruit.json), so two fruits break the 120 HP baskets.",
+  "numbers": {
+    "max_health": 100,
+    "damage": 20,
+    "shoot_interval": 1.6,
+    "vision_range": 14.0,
+    "vision_half_angle_deg": 22.5,
+    "turn_speed_deg": 180.0,
+    "fire_align_deg": 5.0,
+    "scan_interval": 0.1,
+    "attack_apex_sec": 0.24,
+    "attack_duration_sec": 0.5
+  },
+  "abilities": [
+    {
+      "name": "Sour Spit",
+      "trigger": "Enemy inside 14 m forward cone, aimed within 5 deg",
+      "effect": "Fires a sau_fruit (20 damage, x3 against a shield).",
+      "clip": "attack"
+    }
+  ],
+  "clips": [
+    "idle",
+    "attack",
+    "die"
+  ],
+  "clipAnnotations": {
+    "idle": "Fruit head bobs on its leaf collar.",
+    "attack": "Inhale squash, lunge (fruit leaves at 0.24 s), settle.",
+    "die": "Squash and shrink into the lawn."
+  },
+  "seed": {"cooldown": 10, 
+    "unlock": {"jade": 60},
+    "order": 10,
+    "group": "shooter",
+    "icon": "🍏",
+    "preview_scale": 0.7,
+    "ghost_scale": 1.5,
+    "default_loadout": false
+  },
+  "range_indicator": {
+    "shape": "cone",
+    "radius": "vision_range",
+    "half_angle_deg": "vision_half_angle_deg"
+  }
+}

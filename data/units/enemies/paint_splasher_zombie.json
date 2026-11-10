@@ -1,0 +1,7 @@
+{
+  "id": "paint_splasher_zombie",
+  "name": "KCBT Paint Splasher Zombie",
+  "category": "enemy",
+  "model": "enemies/paint_splasher_zombie.glb",
+  "clips": ["walk", "attack", "throw_paint", "die"]
+}

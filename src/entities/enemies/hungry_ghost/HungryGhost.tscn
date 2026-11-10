@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://hungry_ghost_pvz_3d_001"]
+
+[ext_resource type="Script" path="res://src/entities/enemies/hungry_ghost/HungryGhost.gd" id="1_ghost"]
+[ext_resource type="PackedScene" uid="uid://cwf7nihid40ix" path="res://assets/models/enemies/hungry_ghost_v2.glb" id="2_mesh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ghost"]
+radius = 0.6
+height = 2.7
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ghost_health"]
+viewport_path = NodePath("HealthBarViewport")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ghost_bg"]
+bg_color = Color(0.08, 0.08, 0.08, 0.75)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ghost_fill"]
+bg_color = Color(0.92, 0.28, 0.24, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="HungryGhost" type="CharacterBody3D"]
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("1_ghost")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+shape = SubResource("CapsuleShape3D_ghost")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="HungryGhostModel" parent="Visuals" instance=ExtResource("2_mesh")]
+transform = Transform3D(0, 0, -2.4, 0, 2.4, 0, 2.4, 0, 0, 0, 0, 0)
+
+[node name="HealthBarSprite" type="Sprite3D" parent="."]
+visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)
+billboard = 1
+no_depth_test = true
+pixel_size = 0.01
+texture = SubResource("ViewportTexture_ghost_health")
+
+[node name="HealthBarViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(120, 16)
+render_target_update_mode = 0
+
+[node name="HealthBar" type="ProgressBar" parent="HealthBarViewport"]
+custom_minimum_size = Vector2(120, 16)
+offset_right = 120.0
+offset_bottom = 16.0
+theme_override_styles/background = SubResource("StyleBoxFlat_ghost_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ghost_fill")
+max_value = 60.0
+value = 60.0
+show_percentage = false

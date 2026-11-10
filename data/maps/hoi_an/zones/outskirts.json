@@ -1,0 +1,334 @@
+{
+  "note": "Distant silhouette ring around the Hoi An island (built by tools/asset_generator/generators/maps/hoi_an/outskirts_band.mjs into outskirts_band.glb). Every feature stands at its real compass bearing from the old town; distances are squeezed so the whole of Hoi An's surroundings fits in about 140 m past the island edge. North: the newer town of low tiled houses lit by their shopfronts and lanterns (no city window grids), then rice paddies with palms, the Marble Mountains and a faint Da Nang skyline far beyond. West: the Thu Bon river upstream and the Truong Son range. South: An Hoi's villages and Cam Kim island under coconut palms. East: Cam Nam bridge, the Cam Thanh water-coconut forest, the Cua Dai estuary opening to the sea and the Cham Islands on the horizon. The river band (river.json banks) continues to both edges at the island's water height.",
+  "seed": 1999,
+  "extent": {
+    "x": [
+      -236,
+      236
+    ],
+    "z": [
+      -236,
+      236
+    ],
+    "note": "Outer edge of the ground apron and the sea [min, max]."
+  },
+  "apron": {
+    "fade_y": -9.0,
+    "reach": 130.0,
+    "power": 1.3,
+    "note": "Ground sinks to fade_y at reach metres from the island edge: y = fade_y * (d / reach)^power."
+  },
+  "row_strength": {
+    "near": 0.85,
+    "far": 0.4,
+    "far_offset": 120,
+    "note": "Silhouette solidity, near rows to far (offset far_offset)."
+  },
+  "sea_x": 196,
+  "town": {
+    "note": "Newer Hoi An and the villages: rows of lots parallel to each island edge; offsets are front lines in metres past the edge. front = lot widths, floors = storey choices, gable_prob = tiled gable roofs (Hoi An is mostly tiled), palm_prob = a palm in place of a house.",
+    "rows": {
+      "north": {
+        "offsets": [
+          10,
+          26
+        ],
+        "depth": [
+          9,
+          12
+        ],
+        "span": [
+          -200,
+          186
+        ]
+      },
+      "south": {
+        "offsets": [
+          10,
+          28
+        ],
+        "depth": [
+          8,
+          11
+        ],
+        "span": [
+          -200,
+          120
+        ]
+      },
+      "west": {
+        "offsets": [
+          10,
+          26
+        ],
+        "depth": [
+          9,
+          12
+        ]
+      },
+      "east": {
+        "offsets": [
+          10,
+          26
+        ],
+        "depth": [
+          9,
+          12
+        ]
+      }
+    },
+    "front": [
+      4,
+      7
+    ],
+    "ground_h": 3.4,
+    "floor_h": 2.9,
+    "floors": [
+      1,
+      1,
+      1,
+      2,
+      2
+    ],
+    "gable_prob": 0.7,
+    "palm_prob": 0.14,
+    "alley_every": [
+      18,
+      34
+    ]
+  },
+  "paddies": {
+    "note": "Flooded rice paddies (silhouette kind 8, mirroring the sky) in cells between low dikes, from min_offset to max_offset metres past the island edge, with scattered coconut palms.",
+    "palms": 150,
+    "min_offset": 62,
+    "cell": [
+      15,
+      10
+    ],
+    "dike": 1.4,
+    "range": [
+      40,
+      124
+    ]
+  },
+  "coconut_forest": {
+    "note": "Cam Thanh water-coconut forest (Bay Mau): dense low palms east of the island, south of the river and out to the estuary.",
+    "rect": [
+      104,
+      58,
+      192,
+      230
+    ],
+    "count": 170
+  },
+  "mountains": {
+    "note": "Truong Son range: peaks [x, z, height] from south-west round to north-west, joined into one ridge.",
+    "ridge": [
+      [
+        -236,
+        196,
+        22
+      ],
+      [
+        -232,
+        150,
+        34
+      ],
+      [
+        -236,
+        104,
+        28
+      ],
+      [
+        -234,
+        58,
+        46
+      ],
+      [
+        -236,
+        6,
+        38
+      ],
+      [
+        -232,
+        -40,
+        54
+      ],
+      [
+        -236,
+        -88,
+        42
+      ],
+      [
+        -226,
+        -132,
+        58
+      ],
+      [
+        -206,
+        -170,
+        44
+      ],
+      [
+        -176,
+        -206,
+        50
+      ],
+      [
+        -136,
+        -232,
+        36
+      ],
+      [
+        -96,
+        -236,
+        30
+      ]
+    ],
+    "depth": 18
+  },
+  "marble_mountains": {
+    "note": "Ngu Hanh Son: five steep karst peaks, north-north-east toward Da Nang.",
+    "peaks": [
+      [
+        64,
+        -226,
+        16,
+        6
+      ],
+      [
+        78,
+        -230,
+        24,
+        8
+      ],
+      [
+        92,
+        -224,
+        14,
+        5
+      ],
+      [
+        104,
+        -232,
+        20,
+        7
+      ],
+      [
+        118,
+        -228,
+        12,
+        5
+      ]
+    ]
+  },
+  "da_nang": {
+    "note": "Da Nang, far north: a dark distant skyline with a couple of red beacons, no lit windows.",
+    "x": [
+      -60,
+      30
+    ],
+    "z": [
+      -236,
+      -230
+    ],
+    "count": 6,
+    "height": [
+      8,
+      16
+    ]
+  },
+  "cham_islands": {
+    "note": "Cu Lao Cham humps on the sea to the east.",
+    "humps": [
+      [
+        222,
+        -70,
+        14,
+        22
+      ],
+      [
+        228,
+        -30,
+        10,
+        16
+      ],
+      [
+        224,
+        8,
+        8,
+        12
+      ]
+    ]
+  },
+  "cam_nam_bridge": {
+    "note": "Cam Nam bridge over the river east of the market.",
+    "x": 132,
+    "deck_y": 1.8
+  },
+  "lanterns": {
+    "note": "Silk-lantern dots (silhouette kind 6) in the outskirts. streets: the old-town streets running on past the island edge, [x0, z0, x1, z1] centre lines, a string of three lanterns across every street_step metres, out to street_reach metres past the edge; banks: lantern posts along both riverbanks past the island, at z, every step; boats: lantern-lit sampans on the river past the island; floating: candle lanterns on the water; house_prob: an old-town house with a lantern at its door.",
+    "streets": [
+      [
+        -24,
+        -92,
+        -24,
+        -176
+      ],
+      [
+        24,
+        -92,
+        24,
+        -176
+      ],
+      [
+        -104,
+        -57,
+        -196,
+        -57
+      ],
+      [
+        96,
+        -24,
+        188,
+        -24
+      ],
+      [
+        -60,
+        100,
+        -60,
+        168
+      ],
+      [
+        20,
+        100,
+        20,
+        160
+      ]
+    ],
+    "street_step": 4.2,
+    "street_h": 4.2,
+    "banks": [
+      {
+        "z": 23.5,
+        "step": 4.0
+      },
+      {
+        "z": 54.5,
+        "step": 4.5
+      }
+    ],
+    "boats": 16,
+    "floating": 260,
+    "house_prob": 0.65,
+    "street_reach": 70
+  },
+  "pagoda": {
+    "note": "Chuc Thanh pagoda north of the old town: a tiered tower with lanterns on its eaves.",
+    "pos": [
+      -40,
+      -150
+    ],
+    "tiers": 5
+  }
+}

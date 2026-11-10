@@ -1,0 +1,13 @@
+{
+  "id": "hcmc",
+  "province": "hcmc",
+  "name": "Saigon: City of the Dragon Vein",
+  "map": "landmark_81",
+  "unlock": "start",
+  "levels": ["hcmc_01", "hcmc_02"],
+  "path": [[1.172, 7.674], [1.552, 7.794], [1.232, 8.094], [1.352, 8.374], [1.292, 8.574], [1.432, 8.714], [1.592, 8.854], [1.842, 8.874], [2.112, 8.734], [2.412, 8.814], [2.552, 8.714]],
+  "order": 0,
+  "icon": "🏙️",
+  "model": null,
+  "music": "hcmc_battle_theme"
+}

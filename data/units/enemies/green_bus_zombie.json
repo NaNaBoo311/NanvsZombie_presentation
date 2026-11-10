@@ -1,0 +1,7 @@
+{
+  "id": "green_bus_zombie",
+  "name": "Green Bus Zombie",
+  "category": "enemy",
+  "model": "enemies/green_bus_zombie.glb",
+  "clips": ["walk", "attack", "charge", "die"]
+}

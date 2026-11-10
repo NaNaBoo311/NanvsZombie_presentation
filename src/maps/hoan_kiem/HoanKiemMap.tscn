@@ -1,0 +1,93 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/maps/hoan_kiem/HoanKiemMap.gd" id="1_map"]
+[ext_resource type="PackedScene" path="res://assets/models/maps/hoan_kiem/island_base.glb" id="2_island"]
+[ext_resource type="PackedScene" path="res://assets/models/maps/hoan_kiem/turtle_tower.glb" id="3_turtle"]
+[ext_resource type="PackedScene" path="res://assets/models/maps/hoan_kiem/ngoc_son_temple.glb" id="4_temple"]
+[ext_resource type="PackedScene" path="res://assets/models/maps/hoan_kiem/huc_bridge.glb" id="5_bridge"]
+[ext_resource type="Script" path="res://src/environment/ForestMultiMesh.gd" id="7_forest"]
+[ext_resource type="Script" path="res://src/environment/GrassMultiMesh.gd" id="8_grass"]
+[ext_resource type="Script" path="res://src/environment/PropMultiMesh.gd" id="9_propmm"]
+[ext_resource type="PackedScene" path="res://assets/models/maps/hoan_kiem/lakeside_landmarks.glb" id="10_lakeside"]
+[ext_resource type="Script" path="res://src/environment/StreetTraffic.gd" id="11_traffic"]
+[ext_resource type="PackedScene" path="res://assets/models/maps/hoan_kiem/outskirts_band.glb" id="12_outskirts"]
+
+[node name="HoanKiemMap" type="Node3D"]
+script = ExtResource("1_map")
+lawn_zones = {
+"main": Rect2(-14, -14, 28, 28)
+}
+default_lawn = "main"
+ground_y = 0.0
+pearl_position = Vector3(0, 0, 0)
+defend_model = ExtResource("3_turtle")
+spawn_center = Vector2(0, 0)
+spawn_inner = 25.0
+spawn_outer = 30.0
+spawn_fallback_points = Array[Vector2]([Vector2(-28, 0), Vector2(28, 0), Vector2(0, -28), Vector2(0, 28)])
+camera_bounds = Rect2(-80, -165, 160, 275)
+default_time_of_day = "hazy_morning"
+sky_balloons = false
+zones_path = "res://src/maps/hoan_kiem/HoanKiemZones.gd"
+briefing_camera = {
+"pos": Vector3(4, 18, 34),
+"arm": 120.0,
+"pitch": -34.0,
+"yaw": 0.0
+}
+
+[node name="IslandBase" parent="." instance=ExtResource("2_island")]
+
+[node name="NgocSonTemple" parent="." instance=ExtResource("4_temple")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0.25, -96.5)
+
+[node name="HucBridge" parent="." instance=ExtResource("5_bridge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.35, 0, -96)
+
+[node name="LakesideLandmarks" parent="." instance=ExtResource("10_lakeside")]
+
+[node name="OutskirtsBand" parent="." instance=ExtResource("12_outskirts")]
+
+[node name="GrassMultiMesh" type="MultiMeshInstance3D" parent="."]
+cast_shadow = 0
+script = ExtResource("8_grass")
+wild_grass_count = 700
+outer_grass_count = 2600
+wild_half_extent = 60.0
+outer_x_range = Vector2(-88, 92)
+outer_z_range = Vector2(-172, 120)
+
+[node name="ForestMultiMesh" type="Node3D" parent="."]
+script = ExtResource("7_forest")
+config_path = "res://data/maps/hoan_kiem/forest.json"
+
+[node name="StreetProps" type="Node3D" parent="."]
+
+[node name="TubeHousesA" type="Node3D" parent="StreetProps"]
+script = ExtResource("9_propmm")
+scene_path = "res://assets/models/architecture/hanoi_tube_houses_a.glb"
+zone_lots = "shophouses_a"
+
+[node name="TubeHousesB" type="Node3D" parent="StreetProps"]
+script = ExtResource("9_propmm")
+scene_path = "res://assets/models/architecture/hanoi_tube_houses_b.glb"
+zone_lots = "shophouses_b"
+
+[node name="SidewalkCafes" type="Node3D" parent="StreetProps"]
+script = ExtResource("9_propmm")
+scene_path = "res://assets/models/architecture/saigon_street_props.glb"
+zone_lots = "cafes"
+
+[node name="LakesideLamps" type="Node3D" parent="StreetProps"]
+script = ExtResource("9_propmm")
+scene_path = "res://assets/models/architecture/saigon_street_lamp.glb"
+zone_lots = "lamps"
+
+[node name="LakesidePeople" type="Node3D" parent="StreetProps"]
+script = ExtResource("9_propmm")
+scene_path = "res://assets/models/architecture/hanoi_street_people.glb"
+zone_lots = "people"
+
+[node name="Traffic" type="MultiMeshInstance3D" parent="StreetProps"]
+cast_shadow = 0
+script = ExtResource("11_traffic")

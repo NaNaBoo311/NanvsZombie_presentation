@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/entities/projectiles/sau_fruit/SauFruit.gd" id="1_script"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sau_fruit"]
+radius = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_body"]
+albedo_color = Color(0.53, 0.68, 0.24, 1)
+roughness = 0.45
+
+[sub_resource type="SphereMesh" id="Mesh_body"]
+material = SubResource("StandardMaterial3D_body")
+radius = 0.12
+height = 0.21
+radial_segments = 10
+rings = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cap"]
+albedo_color = Color(0.29, 0.2, 0.13, 1)
+
+[sub_resource type="CylinderMesh" id="Mesh_cap"]
+material = SubResource("StandardMaterial3D_cap")
+top_radius = 0.0
+bottom_radius = 0.06
+height = 0.04
+radial_segments = 5
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_trail"]
+transparency = 1
+shading_mode = 0
+billboard_mode = 3
+billboard_keep_scale = true
+albedo_color = Color(0.75, 0.9, 0.45, 0.85)
+
+[sub_resource type="QuadMesh" id="QuadMesh_trail"]
+material = SubResource("StandardMaterial3D_trail")
+size = Vector2(0.07, 0.07)
+
+[node name="SauFruit" type="Area3D"]
+collision_layer = 16
+collision_mask = 8
+script = ExtResource("1_script")
+projectile_id = "sau_fruit"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_sau_fruit")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Visuals"]
+cast_shadow = 0
+mesh = SubResource("Mesh_body")
+
+[node name="Calyx" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.11)
+cast_shadow = 0
+mesh = SubResource("Mesh_cap")
+
+[node name="TrailParticles" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
+amount = 8
+lifetime = 0.3
+mesh = SubResource("QuadMesh_trail")
+direction = Vector3(0, 0, -1)
+spread = 20.0
+gravity = Vector3(0, -0.2, 0)
+initial_velocity_min = 0.6
+initial_velocity_max = 1.6
+color = Color(0.75, 0.9, 0.45, 0.85)

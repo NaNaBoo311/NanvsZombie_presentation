@@ -1,0 +1,44 @@
+{
+  "id": "hcmc_01",
+  "name": "Night 1: Saigon Riverside",
+  "difficulty": "easy",
+  "setup_sec": 10,
+  "story": {
+    "intro": [
+      "Night one in Saigon. The eclipse hangs over Landmark 81, and the river glows the wrong colour.",
+      "The Dragon Pearl rests on its lotus dais in the park. If the hungry ghosts reach it, its light goes out.",
+      "The oldest teaching comes first: plant Sacred Rice. Every stalk grows Rice Gems, and the gems pay for every other seed.",
+      "Then put Lotus Shooters in front of it. Ghosts eat the nearest plant, so give them one that bites back."
+    ],
+    "huge_wave": [
+      "Here comes the hungry crowd. Hold the line!"
+    ],
+    "outro": [
+      "Dawn over the river. The ghosts were not cruel, only starving. Tomorrow night they will come back hungrier."
+    ]
+  },
+  "waves": [
+    {
+      "is_huge": false,
+      "spawns": [
+        {
+          "enemy_id": "hungry_ghost",
+          "count": 4,
+          "interval_sec": 12.0,
+          "delay_sec": 5.0
+        }
+      ]
+    },
+    {
+      "is_huge": true,
+      "spawns": [
+        {
+          "enemy_id": "hungry_ghost",
+          "count": 5,
+          "interval_sec": 3.0,
+          "delay_sec": 1.0
+        }
+      ]
+    }
+  ]
+}

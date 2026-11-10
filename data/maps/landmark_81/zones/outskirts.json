@@ -1,0 +1,91 @@
+{
+  "island_bounds": {
+    "x": [-120.0, 120.0],
+    "z": [-110.0, 85.0],
+    "center": [0.0, -12.5]
+  },
+  "base_fade": {
+    "y0": -10.0,
+    "y1": 4.0
+  },
+  "row_strengths": {
+    "bank": 1.0,
+    "row_1": 0.8,
+    "row_2": 0.6,
+    "row_3": 0.45
+  },
+  "ground": {
+    "note": "Island-level shelf all round the island, flat out to shelf_len m from its rim (covers every tower row and the streets' flat run), then easing down to base_fade.y0 over ease_len m. Towers stand on it at shelf_y.",
+    "shelf_y": 0.0,
+    "shelf_len": 110.0,
+    "ease_len": 60.0,
+    "cell": 10.0
+  },
+  "streets": {
+    "note": "North city boulevard and lagoon street (zones/north_city.json) continue to the end of the ground; lamp_step m between lamps (kind 6, yellow) on each pavement",
+    "lamp_step": 14.0,
+    "lamp_h": 4.2
+  },
+  "corner_blend_deg": 25.0,
+  "river": {
+    "x_span": [-350.0, 350.0],
+    "z_span": [33.0, 85.0],
+    "water_y": 0.02,
+    "bed_top_y": -1.2
+  },
+  "north": {
+    "row_offsets": [35.0, 65.0, 100.0],
+    "heights": {
+      "row_1": [8.0, 20.0],
+      "row_2": [8.0, 24.0],
+      "row_3": [12.0, 32.0]
+    },
+    "spire_max_h": 48.0,
+    "max_spires": 3,
+    "landmark_exclusion_x": [-20.0, 20.0]
+  },
+  "south": {
+    "quay": {
+      "start_z": 85.0,
+      "end_z": 97.0,
+      "top_y": 0.3,
+      "wall_bottom_y": -1.2
+    },
+    "slope": {
+      "end_z": 170.0,
+      "end_y": -10.0
+    },
+    "rows_z": [97.0, 125.0, 155.0],
+    "house_w": [4.0, 5.5],
+    "house_d": [12.0, 18.0],
+    "heights": {
+      "row_1_2": [5.0, 11.0],
+      "row_3_midrise": [14.0, 22.0]
+    },
+    "rooftop_tank_prob": 0.3,
+    "tin_shed_prob": 0.2,
+    "midrise_interval": 6
+  },
+  "west": {
+    "row_offsets": [30.0, 60.0, 95.0],
+    "tree_heights": [6.0, 12.0],
+    "roof_heights": [5.0, 9.0],
+    "back_block_heights": [12.0, 18.0]
+  },
+  "east": {
+    "row_offsets": [30.0, 60.0, 95.0],
+    "lowrise_heights": [5.0, 10.0],
+    "back_block_heights": [14.0, 24.0]
+  },
+  "windows": {
+    "floor_h_tower": 3.0,
+    "floor_h_house": 2.8,
+    "bay_w": 2.4,
+    "density": {
+      "towers": 0.30,
+      "houses": 0.40,
+      "lowrise": 0.25
+    }
+  },
+  "seed": 8181
+}

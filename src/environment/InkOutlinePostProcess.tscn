@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/environment/InkOutlinePostProcess.gd" id="1_script"]
+[ext_resource type="Material" path="res://assets/shaders/InkOutline.tres" id="2_mat"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_fullscreen"]
+size = Vector2(2, 2)
+
+[node name="InkOutlinePostProcess" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="QuadMeshInstance" type="MeshInstance3D" parent="."]
+extra_cull_margin = 16384.0
+ignore_occlusion_culling = true
+mesh = SubResource("QuadMesh_fullscreen")
+material_override = ExtResource("2_mat")

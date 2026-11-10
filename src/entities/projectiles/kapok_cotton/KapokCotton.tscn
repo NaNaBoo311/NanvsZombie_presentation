@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=3 uid="uid://kapok_cotton_pvz_3d_001"]
+
+[ext_resource type="Script" path="res://src/entities/projectiles/LobbedProjectile.gd" id="1_lobbed_proj"]
+[ext_resource type="PackedScene" path="res://assets/models/projectiles/kapok_cotton_v2.glb" id="2_cotton_mesh"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cotton"]
+radius = 0.28
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fluff_mote"]
+transparency = 1
+blend_mode = 0
+shading_mode = 0
+billboard_mode = 3
+billboard_keep_scale = true
+albedo_color = Color(1, 1, 1, 0.8)
+
+[sub_resource type="QuadMesh" id="QuadMesh_fluff_mote"]
+material = SubResource("StandardMaterial3D_fluff_mote")
+size = Vector2(0.12, 0.12)
+
+[sub_resource type="Curve" id="Curve_fluff_scale"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.6, 0.7), -0.5, -0.5, 0, 0, Vector2(1, 0), -2.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="KapokCotton" type="Area3D"]
+collision_layer = 16
+collision_mask = 8
+script = ExtResource("1_lobbed_proj")
+projectile_id = "kapok_cotton"
+arc_height = 3.8
+flight_duration = 0.85
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_cotton")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="CottonBollModel" parent="Visuals" instance=ExtResource("2_cotton_mesh")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+
+[node name="TrailParticles" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
+amount = 14
+lifetime = 0.4
+mesh = SubResource("QuadMesh_fluff_mote")
+direction = Vector3(0, 0, -1)
+spread = 25.0
+gravity = Vector3(0, 0.2, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.2
+scale_amount_curve = SubResource("Curve_fluff_scale")
+color = Color(1, 1, 1, 0.8)
+
+[node name="ImpactParticles" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 16
+lifetime = 0.35
+one_shot = true
+explosiveness = 0.95
+mesh = SubResource("QuadMesh_fluff_mote")
+direction = Vector3(0, 1, 0)
+spread = 180.0
+gravity = Vector3(0, -0.5, 0)
+initial_velocity_min = 1.2
+initial_velocity_max = 2.4
+scale_amount_curve = SubResource("Curve_fluff_scale")
+color = Color(1, 1, 1, 0.9)

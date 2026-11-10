@@ -1,0 +1,51 @@
+{
+  "id": "thorn_bamboo",
+  "name": "Thorn Bamboo",
+  "subtitle": "Village Hedge",
+  "category": "plant",
+  "model": "plants/thorn_bamboo.glb",
+  "scene": "res://src/entities/plants/thorn_bamboo/ThornBamboo.tscn",
+  "cost": 100,
+  "traits": [
+    "Wall",
+    "Reflects damage"
+  ],
+  "mechanism": "Wall. Every time it is hurt, every grounded enemy within thorn_radius takes thorn_damage, so each Kim Bong Carpenter sweep (10 damage per 0.8 s) costs the carpenter 12. Event-driven: no per-frame work.",
+  "numbers": {
+    "max_health": 250,
+    "thorn_damage": 12,
+    "thorn_radius": 2.0,
+    "attack_duration_sec": 0.4
+  },
+  "abilities": [
+    {
+      "name": "Thorn Back",
+      "trigger": "Takes damage",
+      "effect": "Deals 12 damage to every enemy within 2 m.",
+      "clip": "attack"
+    }
+  ],
+  "clips": [
+    "idle",
+    "attack",
+    "die"
+  ],
+  "clipAnnotations": {
+    "idle": "The clump sways.",
+    "attack": "The thorn tangle bristles outward.",
+    "die": "Squash and shrink into the lawn."
+  },
+  "seed": {"cooldown": 15, 
+    "unlock": {"jade": 40},
+    "order": 18,
+    "group": "defender",
+    "icon": "🎋",
+    "preview_scale": 0.6,
+    "ghost_scale": 1.3,
+    "default_loadout": false
+  },
+  "range_indicator": {
+    "shape": "rings",
+    "outer": "thorn_radius"
+  }
+}

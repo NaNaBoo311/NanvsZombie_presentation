@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="LightingPreset" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/environment/LightingPreset.gd" id="1_preset"]
+
+[resource]
+script = ExtResource("1_preset")
+daylight = 0.0
+sky_top = Color(0.012, 0.015, 0.05, 1.0)
+sky_horizon = Color(0.12, 0.09, 0.18, 1.0)
+sky_curve = 0.14
+ground_bottom = Color(0.04, 0.04, 0.1, 1.0)
+ground_horizon = Color(0.16, 0.12, 0.22, 1.0)
+ground_curve = 0.14
+ambient = Color(0.2, 0.27, 0.6, 1.0)
+ambient_energy = 0.14
+exposure = 1.0
+glow_intensity = 0.85
+glow_bloom = 0.1
+glow_threshold = 1.05
+fog_light_color = Color(0.06, 0.045, 0.09, 1.0)
+fog_density = 0.026
+fog_sky_affect = 0.0
+grade_saturation = 1.18
+grade_contrast = 1.12
+key_color = Color(0.48, 0.6, 1.0, 1.0)
+key_energy = 0.32
+key_rotation = Vector3(-38.0, 52.0, 0.0)
+shadow_opacity = 0.35
+fill_color = Color(0.38, 0.48, 0.95, 1.0)
+fill_energy = 0.1
+pearl_energy = 5.0
+haze_color = Color(0.06, 0.045, 0.09, 1.0)
+ink_color = Color(0.03, 0.02, 0.04, 0.95)

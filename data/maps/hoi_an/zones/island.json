@@ -1,0 +1,1 @@
+{"rect": [-104, -92, 96, 100], "cliff_bottom": -7.0, "note": "Island footprint [x0, z0, x1, z1]; walkable ground is flat at y 0 (MapDefinition.ISLAND_TOP_Y convention). The Thu Bon river cuts across it east-west (river.json)."}

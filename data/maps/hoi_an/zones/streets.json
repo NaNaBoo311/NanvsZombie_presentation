@@ -1,0 +1,264 @@
+{
+  "note": "Old-town streets as paved rects [x0, z0, x1, z1] at street height: Bach Dang riverfront (brick promenade), Nguyen Thai Hoc and Tran Phu east-west (Tran Phu crosses the creek on the Japanese Covered Bridge and goes on west as Nguyen Thi Minh Khai), Le Loi and Nguyen Hue north-south beside the square. strings: silk-lantern strings across every street but the riverfront, every spacing metres, hung at height; the canopy streets (Nguyen Thai Hoc and Tran Phu, the lantern streets) also get criss-crossing diagonal strings, so their lanterns form a ceiling; arches: lantern arches over the street mouths (old_town_landmarks.mjs).",
+  "riverfront": [
+    [
+      -104,
+      18,
+      -84,
+      26
+    ],
+    [
+      -74,
+      18,
+      96,
+      26
+    ]
+  ],
+  "streets": [
+    {
+      "name": "nguyen_thai_hoc",
+      "rect": [
+        -74,
+        -27,
+        96,
+        -21
+      ],
+      "axis": "x"
+    },
+    {
+      "name": "tran_phu",
+      "rect": [
+        -74,
+        -60,
+        96,
+        -54
+      ],
+      "axis": "x"
+    },
+    {
+      "name": "nguyen_thi_minh_khai",
+      "rect": [
+        -104,
+        -60,
+        -84,
+        -54
+      ],
+      "axis": "x"
+    },
+    {
+      "name": "le_loi",
+      "rect": [
+        -27,
+        -92,
+        -21,
+        18
+      ],
+      "axis": "z"
+    },
+    {
+      "name": "nguyen_hue",
+      "rect": [
+        21,
+        -92,
+        27,
+        18
+      ],
+      "axis": "z"
+    }
+  ],
+  "an_hoi_promenade": [
+    -104,
+    52,
+    96,
+    60
+  ],
+  "an_hoi_lane": [
+    -104,
+    60,
+    96,
+    63.4
+  ],
+  "strings": {
+    "spacing": 4.2,
+    "height": 4.4,
+    "sag": 0.55,
+    "per_string": 5,
+    "canopy": [
+      "nguyen_thai_hoc",
+      "tran_phu",
+      "nguyen_thi_minh_khai"
+    ],
+    "canopy_height": 5.0
+  },
+  "lantern_lights": {
+    "note": "The lantern light that lights Hoi An's night (unshadowed omni lights, built by HoiAnMap from these rules through HoiAnZones.lantern_lights(), hidden by day). The playfield is the brightest place on the map: the Mother Lantern and the square's poles light the lawn, the approach streets (approach.names: Le Loi, Nguyen Hue) and the riverfront in front of the square (riverfront.near_x) are brighter than the back streets (back.names), so the eye goes to the lawn. Each group: range metres, energy, colour (sRGB hex). streets: one pool every step metres along each street's centre line at height, approach / back overriding range and energy for the streets they name; riverfront: every `every`-th Bach Dang lantern post, every post within near_x of the square's centre line; stalls: every `every`-th An Hoi night-market stall; plaza: the square's four lantern poles; mother_lantern: the shrine's giant lantern over the lawn; extra: [x, y, z] for the temple gates, the bridges and the market.",
+    "streets": {
+      "step": 12.0,
+      "height": 4.0,
+      "range": 9.0,
+      "energy": 2.2,
+      "color": "ffa04a",
+      "approach": {
+        "names": [
+          "le_loi",
+          "nguyen_hue"
+        ],
+        "range": 11.0,
+        "energy": 3.0
+      },
+      "back": {
+        "names": [
+          "tran_phu",
+          "nguyen_thi_minh_khai"
+        ],
+        "range": 8.0,
+        "energy": 1.6
+      }
+    },
+    "riverfront": {
+      "every": 2,
+      "range": 9.0,
+      "energy": 2.4,
+      "color": "ff9a48",
+      "near_x": 45.0,
+      "near_range": 11.0,
+      "near_energy": 3.0
+    },
+    "stalls": {
+      "every": 2,
+      "range": 8.0,
+      "energy": 2.6,
+      "color": "ff8a50"
+    },
+    "plaza": {
+      "height": 3.9,
+      "range": 16.0,
+      "energy": 3.2,
+      "color": "ffaa58"
+    },
+    "mother_lantern": {
+      "pos": [
+        0,
+        6.2,
+        -0.45
+      ],
+      "range": 26.0,
+      "energy": 4.2,
+      "color": "ff8a4a"
+    },
+    "extra": {
+      "range": 10.0,
+      "energy": 2.6,
+      "color": "ff9a50",
+      "pos": [
+        [
+          -79,
+          3.0,
+          -57
+        ],
+        [
+          38,
+          3.6,
+          -59.5
+        ],
+        [
+          78,
+          3.6,
+          -59.5
+        ],
+        [
+          68,
+          3.0,
+          17.5
+        ],
+        [
+          -45,
+          3.6,
+          27
+        ],
+        [
+          -45,
+          3.6,
+          51
+        ]
+      ]
+    }
+  },
+  "arches": {
+    "note": "Lantern arches over street mouths: street = a streets[] name (the arch spans its rect across x), z = where it stands, height of the beam.",
+    "height": 5.4,
+    "at": [
+      {
+        "street": "le_loi",
+        "z": 17.4
+      },
+      {
+        "street": "nguyen_hue",
+        "z": 17.4
+      },
+      {
+        "street": "le_loi",
+        "z": -61.0
+      },
+      {
+        "street": "nguyen_hue",
+        "z": -61.0
+      }
+    ]
+  },
+  "clutter": {
+    "note": "The pavement life at the street edges, batched by PropMultiMesh from HoiAnZones.lots(): food_stall (banh mi trolley, stools, diners, fruit seller), shop_spill (clothes rack, hats, jars, mannequin, bicycle, shopkeeper, browsers), crowd (people standing about). Along both edges of every street in `streets`, every step metres, inset metres in from the edge and facing the street's centre, the kinds taking turns; none within cross_margin of another street (junctions) or near the temple gates, the market and the Japanese Bridge. riverfront: food stalls in front of the Bach Dang houses (none in front of the square). plaza: crowds on the square's paving round the lawn [x, z, yaw].",
+    "streets": [
+      "nguyen_thai_hoc",
+      "tran_phu",
+      "le_loi",
+      "nguyen_hue",
+      "nguyen_thi_minh_khai"
+    ],
+    "kinds": [
+      "food_stall",
+      "shop_spill",
+      "crowd"
+    ],
+    "step": 11.0,
+    "inset": 1.1,
+    "cross_margin": 4.0,
+    "landmark_margin": 3.0,
+    "riverfront": {
+      "z": 19.0,
+      "x": [
+        [
+          -100,
+          -30
+        ],
+        [
+          30,
+          92
+        ]
+      ],
+      "step": 12.0
+    },
+    "plaza": [
+      [
+        -18.2,
+        -4.5,
+        90
+      ],
+      [
+        18.2,
+        4.5,
+        -90
+      ],
+      [
+        -7.5,
+        -18.3,
+        0
+      ],
+      [
+        7.5,
+        -18.3,
+        0
+      ]
+    ]
+  }
+}

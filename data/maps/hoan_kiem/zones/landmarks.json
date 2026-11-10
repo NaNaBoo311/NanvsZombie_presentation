@@ -1,0 +1,14 @@
+{
+  "note": "Where each scenery landmark stands (pos = [x, y, z], yaw in degrees; the model's front faces +Z before yaw). HoanKiemMap.gd places the separate models (ngoc_son_temple, huc_bridge); the lakeside_landmarks generator bakes the rest, Pen Tower included. The bridge runs from -> to along its deck (deck_y at both feet plus rise at the crown, a parabola). Dinh Tien Hoang (east): the path from the Nghi Mon gate past Pen Tower on Doc Ton hill and through the Ink Slab gate to The Huc bridge, then the Ly Thai To statue garden and the Post Office across the street. Dong Kinh Nghia Thuc square is north of the lake.",
+  "ngoc_son_temple": {"pos": [12.5, 0.25, -96.5], "yaw": 0},
+  "huc_bridge": {"from": [22.2, -96], "to": [38.5, -96], "width": 3.0, "deck_y": 0.25, "rise": 1.3},
+  "temple_path": {"from": [38.5, -96], "to": [58, -96], "width": 3.0},
+  "doc_ton_hill": {"pos": [48, 0, -101.5], "r": 3.2, "h": 1.5},
+  "pen_tower": {"pos": [48, 1.5, -101.5], "yaw": -90},
+  "ink_slab_gate": {"pos": [43, 0, -96], "yaw": 90},
+  "nghi_mon_gate": {"pos": [55, 0, -96], "yaw": 90},
+  "ly_thai_to_garden": {"rect": [67.5, -44, 90, -6]},
+  "ly_thai_to_statue": {"pos": [79, 0, -25], "yaw": -90},
+  "post_office": {"pos": [79, 0, 56], "yaw": -90, "rect": [69, 40, 89, 72]},
+  "dong_kinh_square": {"rect": [-22, -170, 22, -152.5]}
+}

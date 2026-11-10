@@ -1,0 +1,5 @@
+{
+  "note": "The central south bank is pushed `shift` m into the Saigon River for x in `x`: parkland for the south spawn region, then the promenade, coping, revetment, marina fan deck, finger piers and their props, all moved by the same `shift`. Outside `x` the bank stays at z 33 (east marina club, west bend). Read by floating_diorama_island.mjs, park_topography.mjs, Landmark81Zones.gd and Landmark81Water.gd; scene nodes in Landmark81Map.tscn and the z values in forest.json / promenade_lamps.json are authored already shifted.",
+  "x": [-95.0, 64.0],
+  "shift": 12.0
+}

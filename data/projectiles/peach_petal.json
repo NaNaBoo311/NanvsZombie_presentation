@@ -1,0 +1,10 @@
+{
+  "id": "peach_petal",
+  "name": "Peach Petal",
+  "scene": "res://src/entities/projectiles/peach_petal/PeachPetal.tscn",
+  "numbers": {
+    "speed": 14.0,
+    "spin_speed": 18.0,
+    "max_distance": 60.0
+  }
+}

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://seed_bank_pvz_3d_001"]
+
+[ext_resource type="Script" path="res://src/ui/SeedBank.gd" id="1_seedbank"]
+
+[node name="SeedBank" type="PanelContainer"]
+offset_right = 576.0
+offset_bottom = 72.0
+script = ExtResource("1_seedbank")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HBox" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6

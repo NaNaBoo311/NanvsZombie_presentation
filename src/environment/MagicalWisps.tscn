@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://wisps_pvz_3d_001"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wisp"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(0.1, 0.95, 1, 0.9)
+
+[sub_resource type="SphereMesh" id="SphereMesh_wisp"]
+material = SubResource("StandardMaterial3D_wisp")
+radius = 0.06
+height = 0.12
+radial_segments = 6
+rings = 4
+
+[sub_resource type="Curve" id="Curve_scale"]
+_data = [Vector2(0, 0.2), 0.0, 2.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="MagicalWisps" type="CPUParticles3D"]
+use_fixed_seed = true
+seed = 81
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+cast_shadow = 0
+amount = 40
+lifetime = 4.0
+preprocess = 2.0
+mesh = SubResource("SphereMesh_wisp")
+emission_shape = 3
+emission_box_extents = Vector3(10, 1.2, 10)
+direction = Vector3(0.2, 0.8, 0.1)
+spread = 60.0
+gravity = Vector3(0, 0.08, 0)
+initial_velocity_min = 0.2
+initial_velocity_max = 0.6
+scale_amount_curve = SubResource("Curve_scale")
+color = Color(0.2, 0.95, 1, 1)

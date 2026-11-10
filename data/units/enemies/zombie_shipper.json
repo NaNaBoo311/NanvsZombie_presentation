@@ -1,0 +1,7 @@
+{
+  "id": "zombie_shipper",
+  "name": "Zombie Shipper",
+  "category": "enemy",
+  "model": "enemies/zombie_shipper.glb",
+  "clips": ["walk", "attack", "throw_package", "die"]
+}

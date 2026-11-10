@@ -1,0 +1,107 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/maps/hoi_an/HoiAnMap.gd" id="1_map"]
+[ext_resource type="PackedScene" path="res://assets/models/maps/hoi_an/island_base.glb" id="2_island"]
+[ext_resource type="PackedScene" path="res://assets/models/maps/hoi_an/mother_lantern_shrine.glb" id="3_shrine"]
+[ext_resource type="PackedScene" path="res://assets/models/maps/hoi_an/old_town_landmarks.glb" id="4_landmarks"]
+[ext_resource type="Script" path="res://src/environment/ForestMultiMesh.gd" id="7_forest"]
+[ext_resource type="Script" path="res://src/environment/GrassMultiMesh.gd" id="8_grass"]
+[ext_resource type="Script" path="res://src/environment/PropMultiMesh.gd" id="9_propmm"]
+[ext_resource type="PackedScene" path="res://assets/models/maps/hoi_an/outskirts_band.glb" id="12_outskirts"]
+[ext_resource type="Script" path="res://src/environment/LanternDrift.gd" id="13_drift"]
+[ext_resource type="Script" path="res://src/environment/StreetWalkers.gd" id="14_walkers"]
+
+[node name="HoiAnMap" type="Node3D"]
+script = ExtResource("1_map")
+lawn_zones = {
+"main": Rect2(-14, -14, 28, 28)
+}
+default_lawn = "main"
+ground_y = 0.0
+pearl_position = Vector3(0, 0, 0)
+defend_model = ExtResource("3_shrine")
+spawn_center = Vector2(0, 0)
+spawn_inner = 25.0
+spawn_outer = 30.0
+spawn_fallback_points = Array[Vector2]([Vector2(-24, -24), Vector2(24, -24), Vector2(-24, 10), Vector2(24, 10)])
+camera_bounds = Rect2(-100, -88, 192, 184)
+default_time_of_day = "lantern_night"
+sky_balloons = false
+zones_path = "res://src/maps/hoi_an/HoiAnZones.gd"
+briefing_camera = {
+"pos": Vector3(0, 14, 30),
+"arm": 95.0,
+"pitch": -32.0,
+"yaw": 0.0
+}
+
+[node name="IslandBase" parent="." instance=ExtResource("2_island")]
+
+[node name="OldTownLandmarks" parent="." instance=ExtResource("4_landmarks")]
+
+[node name="OutskirtsBand" parent="." instance=ExtResource("12_outskirts")]
+
+[node name="GrassMultiMesh" type="MultiMeshInstance3D" parent="."]
+cast_shadow = 0
+script = ExtResource("8_grass")
+yard_grass_count = 380
+wild_grass_count = 300
+outer_grass_count = 1600
+yard_half_extent = 15.5
+wild_half_extent = 60.0
+outer_x_range = Vector2(-104, 96)
+outer_z_range = Vector2(-92, 100)
+
+[node name="ForestMultiMesh" type="Node3D" parent="."]
+script = ExtResource("7_forest")
+config_path = "res://data/maps/hoi_an/forest.json"
+
+[node name="StreetProps" type="Node3D" parent="."]
+
+[node name="ShophousesA" type="Node3D" parent="StreetProps"]
+script = ExtResource("9_propmm")
+scene_path = "res://assets/models/architecture/hoi_an_shophouses_a.glb"
+zone_lots = "shophouses_a"
+
+[node name="ShophousesB" type="Node3D" parent="StreetProps"]
+script = ExtResource("9_propmm")
+scene_path = "res://assets/models/architecture/hoi_an_shophouses_b.glb"
+zone_lots = "shophouses_b"
+
+[node name="FoodStalls" type="Node3D" parent="StreetProps"]
+script = ExtResource("9_propmm")
+scene_path = "res://assets/models/architecture/hoi_an_food_stall.glb"
+zone_lots = "food_stall"
+
+[node name="ShopSpill" type="Node3D" parent="StreetProps"]
+script = ExtResource("9_propmm")
+scene_path = "res://assets/models/architecture/hoi_an_shop_spill.glb"
+zone_lots = "shop_spill"
+
+[node name="Crowds" type="Node3D" parent="StreetProps"]
+script = ExtResource("9_propmm")
+scene_path = "res://assets/models/architecture/hoi_an_crowd.glb"
+zone_lots = "crowd"
+
+[node name="Walkers" type="MultiMeshInstance3D" parent="StreetProps"]
+cast_shadow = 0
+script = ExtResource("14_walkers")
+scene_path = "res://assets/models/architecture/hoi_an_walkers.glb"
+
+[node name="DriftBoats" type="MultiMeshInstance3D" parent="."]
+cast_shadow = 0
+script = ExtResource("13_drift")
+scene_path = "res://assets/models/maps/hoi_an/drift_boat.glb"
+kind = "boats"
+
+[node name="DriftRiverLanterns" type="MultiMeshInstance3D" parent="."]
+cast_shadow = 0
+script = ExtResource("13_drift")
+scene_path = "res://assets/models/maps/hoi_an/drift_river_lanterns.glb"
+kind = "river_lanterns"
+
+[node name="DriftSkyLanterns" type="MultiMeshInstance3D" parent="."]
+cast_shadow = 0
+script = ExtResource("13_drift")
+scene_path = "res://assets/models/maps/hoi_an/drift_sky_lanterns.glb"
+kind = "sky_lanterns"

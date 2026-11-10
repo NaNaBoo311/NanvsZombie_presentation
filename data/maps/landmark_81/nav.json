@@ -1,0 +1,47 @@
+{
+  "cell": 1.0,
+  "bounds": [
+    -120,
+    -110,
+    120,
+    46
+  ],
+  "regions": {
+    "north": [
+      -66,
+      -38,
+      128,
+      16
+    ],
+    "east": [
+      52,
+      -34,
+      10,
+      46
+    ],
+    "west": [
+      -64,
+      -18,
+      20,
+      36
+    ],
+    "south": [
+      -40,
+      33,
+      80,
+      8
+    ]
+  },
+  "hash_inputs": [
+    "res://data/maps/landmark_81/zones/clearings.json",
+    "res://data/maps/landmark_81/zones/south_bank.json",
+    "res://data/maps/landmark_81/zones/lagoon.json",
+    "res://data/maps/landmark_81/zones/arena.json",
+    "res://data/maps/landmark_81/zones/villa_grid.json",
+    "res://data/maps/landmark_81/forest.json",
+    "res://data/maps/landmark_81/city_lots.json",
+    "res://data/maps/landmark_81/terrain.json",
+    "res://src/maps/landmark_81/Landmark81Map.tscn",
+    "res://assets/models/maps/landmark_81/island_diorama_base.glb"
+  ]
+}

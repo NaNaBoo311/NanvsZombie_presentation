@@ -1,0 +1,54 @@
+{
+  "id": "silk_cotton_flare",
+  "name": "Silk Cotton Flare",
+  "subtitle": "Flame-Red Hoa Gao",
+  "category": "plant",
+  "model": "plants/silk_cotton_flare.glb",
+  "scene": "res://src/entities/plants/silk_cotton_flare/SilkCottonFlare.tscn",
+  "cost": 100,
+  "traits": [
+    "Aura",
+    "Grounds gliders",
+    "Burns"
+  ],
+  "mechanism": "Aura (AuraPlant). Every pulse_interval s: a gliding Paper Effigy within aura_radius is forced to land (PaperEffigy.knock_down) and takes ignite_damage; every grounded enemy within aura_radius takes burn_damage.",
+  "numbers": {
+    "max_health": 120,
+    "pulse_interval": 0.5,
+    "aura_radius": 6.0,
+    "ignite_damage": 20,
+    "burn_damage": 3,
+    "attack_duration_sec": 0.5
+  },
+  "abilities": [
+    {
+      "name": "Ember Shower",
+      "trigger": "Every 0.5 s while enemies are near",
+      "effect": "Grounds gliders within 6 m (20 damage as the paper catches fire); 3 damage to other enemies in range.",
+      "clip": "attack"
+    }
+  ],
+  "clips": [
+    "idle",
+    "attack",
+    "die"
+  ],
+  "clipAnnotations": {
+    "idle": "Flowers pulse; the bare tree sways.",
+    "attack": "A shiver, then every flower flares open.",
+    "die": "Squash and shrink into the lawn."
+  },
+  "seed": {"cooldown": 15, 
+    "unlock": {"jade": 90},
+    "order": 14,
+    "group": "support",
+    "icon": "🌺",
+    "preview_scale": 0.6,
+    "ghost_scale": 1.5,
+    "default_loadout": false
+  },
+  "range_indicator": {
+    "shape": "rings",
+    "outer": "aura_radius"
+  }
+}

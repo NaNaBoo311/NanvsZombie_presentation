@@ -1,0 +1,10 @@
+{
+  "note": "The turtle island in the middle of the lake: Turtle Tower (HoanKiemMap.defend_model) stands at its centre on the 28 x 28 m lawn grid. island is a smooth union of lobes [cx, cz, rx, rz] shaped like a turtle seen from above (shell, head to the north, tail, four flippers), edged with boulders, not paved. lawn and carpet are the ellipse GrassMultiMesh treats as island ground; tree_clear keeps scattered trees off the lawn grid.",
+  "island": {
+    "lobes": [[0, 0, 22.5, 24.5], [0, -27, 5.5, 6], [0, 26.5, 3, 3.5], [-19, -15, 6, 4.5], [19, -15, 6, 4.5], [-18.5, 16, 5, 4], [18.5, 16, 5, 4]],
+    "blend": 2.5
+  },
+  "lawn": [22.5, 24.5],
+  "carpet": [22.5, 24.5],
+  "tree_clear": [15, 15]
+}

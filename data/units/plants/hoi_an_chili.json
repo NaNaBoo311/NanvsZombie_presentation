@@ -1,0 +1,59 @@
+{
+  "id": "hoi_an_chili",
+  "name": "Hoi An Chili",
+  "subtitle": "Burning Spitter",
+  "category": "plant",
+  "model": "plants/hoi_an_chili.glb",
+  "scene": "res://src/entities/plants/hoi_an_chili/HoiAnChili.tscn",
+  "projectile": "chili_pepper",
+  "cost": 125,
+  "traits": [
+    "Ranged turret",
+    "Blocks healing"
+  ],
+  "mechanism": "Turret (LotusShooter targeting). Spits burning chilies; a hit also blocks the target's healing for heal_block_sec (data/projectiles/chili_pepper.json, HungryGhost.block_heal), so a Tailor Zombie's stitches on it do nothing.",
+  "numbers": {
+    "max_health": 100,
+    "damage": 18,
+    "shoot_interval": 1.4,
+    "vision_range": 14.0,
+    "vision_half_angle_deg": 22.5,
+    "turn_speed_deg": 180.0,
+    "fire_align_deg": 5.0,
+    "scan_interval": 0.1,
+    "attack_apex_sec": 0.24,
+    "attack_duration_sec": 0.5
+  },
+  "abilities": [
+    {
+      "name": "Chili Burn",
+      "trigger": "Enemy inside 14 m forward cone, aimed within 5 deg",
+      "effect": "Fires a chili_pepper (18 damage); the target cannot be healed for 4 s.",
+      "clip": "attack"
+    }
+  ],
+  "clips": [
+    "idle",
+    "attack",
+    "die"
+  ],
+  "clipAnnotations": {
+    "idle": "The chili head bobs over the bush.",
+    "attack": "Rears back and thrusts (chili leaves at 0.24 s).",
+    "die": "Squash and shrink into the pot."
+  },
+  "seed": {"cooldown": 15, 
+    "unlock": {"jade": 60},
+    "order": 16,
+    "group": "shooter",
+    "icon": "🌶️",
+    "preview_scale": 0.8,
+    "ghost_scale": 1.7,
+    "default_loadout": false
+  },
+  "range_indicator": {
+    "shape": "cone",
+    "radius": "vision_range",
+    "half_angle_deg": "vision_half_angle_deg"
+  }
+}

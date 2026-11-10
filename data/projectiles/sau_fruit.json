@@ -1,0 +1,11 @@
+{
+  "id": "sau_fruit",
+  "name": "Sau Fruit",
+  "scene": "res://src/entities/projectiles/sau_fruit/SauFruit.tscn",
+  "numbers": {
+    "speed": 15.0,
+    "spin_speed": 10.0,
+    "max_distance": 110.0,
+    "shield_mult": 3.0
+  }
+}

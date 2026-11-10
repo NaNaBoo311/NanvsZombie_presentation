@@ -1,0 +1,58 @@
+{
+  "note": "Distant city silhouette ring around the Hoan Kiem island (built by tools/asset_generator/generators/maps/hoan_kiem/outskirts_band.mjs into outskirts_band.glb). Every landmark stands at its real compass bearing from Turtle Tower; distances are squeezed (about 0.3x near the lake, less for the far row) so the whole city fits in about 120 m past the island edge. Old Quarter (tube houses, no towers) north and north-west, French Quarter (colonial blocks under big street trees) south and east, the Red River dyke and the river beyond it to the east. Heights: houses life-size like the map's own tube houses; towers shrunk to about 0.35x.",
+  "seed": 1010,
+  "extent": {"x": [-215, 262], "z": [-300, 248], "note": "Outer edge of the ground apron [min, max]."},
+  "apron": {"fade_y": -10.0, "reach": 125.0, "power": 1.3, "note": "Ground sinks to fade_y at `reach` metres from the island edge: y = fade_y * (d / reach)^power, so the far rows melt into the haze."},
+  "row_strength": {"near": 0.85, "far": 0.42, "far_offset": 104, "note": "Silhouette solidity, near rows to the far row (offset far_offset)."},
+  "rows": {
+    "north": {"offsets": [12, 32, 54, 78, 104], "depth": [11, 15], "span": [-215, 176]},
+    "south": {"offsets": [12, 32, 54, 78, 104], "depth": [11, 15], "span": [-215, 176]},
+    "west": {"offsets": [12, 32, 54, 78, 104], "depth": [11, 15]},
+    "east": {"offsets": [12, 32, 54], "depth": [11, 15], "x_max": 172},
+    "note": "Rows of lots parallel to each island edge, `offsets` metres out; north/south rows run the full `span` (they own the corners), west/east rows stay between them. A lot's style comes from the district at its centre."
+  },
+  "old_quarter": {
+    "rects": [[-215, -300, 176, -174], [-215, -174, -90, 60], [94, -174, 176, -110]],
+    "front": [[3.5, 5.5], [3.5, 6.0], [5.0, 9.0], [7.0, 12.0], [8.0, 14.0]],
+    "floors": [1, 2, 2, 3, 3, 3, 4, 4, 4, 5],
+    "ground_h": 3.6,
+    "floor_h": 3.0,
+    "gable_prob": 0.5,
+    "rooftop_prob": 0.3,
+    "alley_every": [35, 60],
+    "note": "Hanoi Old Quarter (the 36 streets): narrow tube houses (nha ong), 1-5 floors, tiled gables along the street, rooftop rooms and tanks. `front` widths widen per row so the far rows merge several houses per lot."
+  },
+  "french_quarter": {
+    "front": [[9, 16], [10, 18], [12, 20], [12, 22], [14, 24]],
+    "height": [8, 16],
+    "hip_prob": 0.45,
+    "tree_lot_prob": 0.3,
+    "street_tree_step": [9, 13],
+    "street_tree_prob": 0.6,
+    "tree_r": [3.5, 5.5],
+    "tree_h": [9, 15],
+    "midrise_prob": {"south": 0.12, "east": 0.08, "west": 0.04},
+    "midrise_h": [18, 26],
+    "note": "French Quarter: 3-5 storey colonial blocks and villas under the big street trees (xa cu, sau); a few later mid-rises in the back rows. Every lot outside old_quarter.rects."
+  },
+  "streets": [
+    {"name": "Hang Dao", "points": [[0, -174], [-10, -205], [-28, -236], [-46, -256]], "width": 9, "note": "Old Quarter spine running north from Dong Kinh Nghia Thuc square (Hang Dao, Hang Ngang, Hang Duong) to Dong Xuan market."},
+    {"name": "Ba Trieu", "points": [[-30, 122], [-30, 212]], "width": 8, "note": "South from the lake's south-west corner to Vincom Ba Trieu."},
+    {"name": "Hang Bai", "points": [[4, 122], [4, 248]], "width": 8, "note": "South from the lake's south end (Hang Bai, then Hue street)."},
+    {"name": "Trang Tien", "points": [[94, 97], [146, 110]], "width": 9, "note": "From the lake's south-east corner east to the Opera House."},
+    {"name": "Nha Tho", "points": [[-90, -39], [-100, -39]], "width": 8, "note": "Short street from Le Thai To to the cathedral square."}
+  ],
+  "landmarks": {
+    "st_joseph_cathedral": {"pos": [-114, -39], "nave": [28, 13, 11], "tower": [4.6, 20, 3.5], "clear": [-132, -50, -90, -28], "note": "Neo-Gothic twin bell towers (31.5 m real), about 200 m west of the lake; the facade faces east down Nha Tho street toward the lake."},
+    "bidv_tower": {"pos": [128, -50], "base": [16, 16, 26], "top": [12, 12, 12], "clear": [118, -60, 138, -40], "note": "BIDV Tower, 35 Hang Voi: 106 m, 25 floors, the one tall building east of the lake, near Tran Quang Khai."},
+    "metropole": {"pos": [122, 62], "size": [12, 12, 38], "clear": [114, 41, 130, 83], "note": "Sofitel Legend Metropole on Ngo Quyen: long white four-storey colonial hotel with a hipped roof, running north-south."},
+    "opera_house": {"pos": [160, 110], "size": [24, 12, 32], "clear": [143, 92, 176, 128], "note": "Hanoi Opera House at the east end of Trang Tien; its portico faces west up the street toward the lake."},
+    "trang_tien_plaza": {"pos": [27, 137], "size": [30, 14, 18], "clear": [10, 126, 44, 148], "note": "Trang Tien Plaza, French-style department store between Trang Tien, Hang Bai and Hai Ba Trung, just south-east of the lake."},
+    "hanoi_towers": {"pos": [-140, 140], "clear": [-158, 120, -122, 162], "note": "Hanoi Towers, 49 Hai Ba Trung: the twin 27-floor Somerset Grand slabs plus the 14-floor office block, south-west of the lake."},
+    "vincom_ba_trieu": {"pos": [-30, 228], "clear": [-54, 214, -6, 242], "note": "Vincom Center Ba Trieu: three 21-floor towers on a podium, about 1.5-2 km south (squeezed into the far row) at the end of Ba Trieu."},
+    "dong_xuan_market": {"pos": [-55, -268], "size": [46, 11, 22], "clear": [-80, -282, -30, -254], "note": "Dong Xuan market (1889), about 1 km north at the top of the Old Quarter; three tall gables on its south front."},
+    "long_bien_bridge": {"z": -296, "x": [110, 262], "deck_y": 4.0, "river_spans": 3, "note": "Long Bien bridge (1903): brick viaduct over the Old Quarter's north edge, then the steel truss spans over the Red River, north-north-east of the lake."}
+  },
+  "dyke": {"x": [176, 190], "crest": 3.5, "tree_step": [7, 10], "note": "Red River dyke (Tran Quang Khai / Tran Khanh Du) with its tree line, about 1 km east in real life."},
+  "river": {"x": [190, 262], "note": "The Red River beyond the dyke: a flat strip just under the apron, so it reads as pale water."}
+}

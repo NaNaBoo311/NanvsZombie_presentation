@@ -1,0 +1,98 @@
+[gd_scene load_steps=8 format=3 uid="uid://hud_pvz_3d_001"]
+
+[ext_resource type="Script" path="res://src/ui/HUD.gd" id="1_hud"]
+[ext_resource type="Script" path="res://src/ui/HudCanvas.gd" id="2_canvas"]
+[ext_resource type="PackedScene" path="res://src/ui/SeedBank.tscn" id="2_seedbank"]
+[ext_resource type="PackedScene" path="res://src/ui/SeedSelector.tscn" id="3_selector"]
+[ext_resource type="PackedScene" path="res://src/ui/LoadoutBriefing.tscn" id="9_briefing"]
+[ext_resource type="PackedScene" path="res://src/ui/EnemySelector.tscn" id="4_enemyselector"]
+[ext_resource type="PackedScene" path="res://src/ui/LevelProgressBar.tscn" id="5_progress"]
+[ext_resource type="PackedScene" path="res://src/ui/BattlePanel.tscn" id="8_battle_panel"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud")
+
+[node name="HudCanvas" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_canvas")
+
+[node name="TopBar" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 96.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBar"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="GemPanel" type="Control" parent="TopBar/HBoxContainer"]
+custom_minimum_size = Vector2(118, 54)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="SeedBank" parent="TopBar/HBoxContainer" instance=ExtResource("2_seedbank")]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="SeedSelector" parent="." instance=ExtResource("3_selector")]
+z_index = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoadoutBriefing" parent="." instance=ExtResource("9_briefing")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EnemySelector" parent="." instance=ExtResource("4_enemyselector")]
+z_index = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LevelProgressBar" parent="." instance=ExtResource("5_progress")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_top = 20.0
+offset_bottom = 64.0
+grow_horizontal = 0
+grow_vertical = 1
+
+[node name="BattlePanel" parent="." instance=ExtResource("8_battle_panel")]
+z_index = 10
+layout_mode = 1

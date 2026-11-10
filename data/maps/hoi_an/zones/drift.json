@@ -1,0 +1,216 @@
+{
+  "note": "Everything that moves on Hoi An's river and in its sky, driven on the GPU by assets/shaders/LanternDrift.gdshader (src/environment/LanternDrift.gd; no CPU per frame). boats: lantern-lit sampans in lanes along the river, each lane one direction (dir +1 downstream to the east) and one speed so boats never pass through each other; the lanes run between An Hoi bridge's piers (landmarks.json an_hoi_bridge, piers at a quarter, half and three quarters of its length) and under its arch. river_lanterns: candle lanterns drifting downstream; `release` of them are let go just below An Hoi bridge and drift release_span metres, the rest drift the whole river; shapes: weight per shape id (10 classic paper lotus, 11 open water lily, 12 closed bud, 13 lotus on a lily pad); colours: palette indices. sky_lanterns: paper lanterns released from the release_areas ({rect [x0, z0, x1, z1], y, weight}: the river, the promenades, the rooftops all over town; none over the square, which the gameplay camera looks at, nor the riverfront and river in front of it, where a rising lantern would cross the camera's view of the lawn) that climb `rise` metres in `period` seconds while the wind carries them east and south, then fade and are released again; shapes 20 hood, 21 globe, 22 cylinder, 23 teardrop; size [min, max]. river_span: [x0, x1] of the river the boats and lanterns travel (past both island edges); fade metres at each end they shrink in and out of. palette: the lantern colours (sRGB hex): 0-7 the silk colours of architecture/lantern_kit.mjs LANTERN_COLORS, 8-11 warm paper whites and ambers for sky lanterns.",
+  "river_span": [
+    -150,
+    140
+  ],
+  "fade": 12.0,
+  "boats": {
+    "lanes": [
+      {
+        "z": 34.0,
+        "dir": 1,
+        "speed": 1.2,
+        "count": 5
+      },
+      {
+        "z": 37.0,
+        "dir": -1,
+        "speed": 1.5,
+        "count": 4
+      },
+      {
+        "z": 41.0,
+        "dir": 1,
+        "speed": 1.4,
+        "count": 5
+      },
+      {
+        "z": 44.0,
+        "dir": -1,
+        "speed": 1.1,
+        "count": 4
+      }
+    ],
+    "seed": 1601
+  },
+  "river_lanterns": {
+    "count": 620,
+    "release": 0.6,
+    "release_span": 95.0,
+    "z": [
+      28.5,
+      50.0
+    ],
+    "speed": [
+      0.25,
+      0.55
+    ],
+    "seed": 1999,
+    "shapes": {
+      "10": 0.45,
+      "11": 0.2,
+      "12": 0.15,
+      "13": 0.2
+    },
+    "colours": [
+      0,
+      1,
+      2,
+      3,
+      7,
+      8,
+      9,
+      10,
+      11,
+      4
+    ]
+  },
+  "sky_lanterns": {
+    "count": 130,
+    "rise": 78.0,
+    "period": 150.0,
+    "wind": [
+      0.22,
+      0.1
+    ],
+    "seed": 1975,
+    "shapes": {
+      "20": 0.35,
+      "21": 0.25,
+      "22": 0.2,
+      "23": 0.2
+    },
+    "colours": [
+      8,
+      9,
+      9,
+      10,
+      11,
+      1,
+      2,
+      0,
+      3,
+      7
+    ],
+    "size": [
+      0.85,
+      1.3
+    ],
+    "release_areas": [
+      {
+        "note": "the river west of the square, from the boats",
+        "rect": [
+          -100,
+          27,
+          -30,
+          51
+        ],
+        "y": 0.6,
+        "weight": 3
+      },
+      {
+        "note": "the river east of the square, from the boats",
+        "rect": [
+          30,
+          27,
+          92,
+          51
+        ],
+        "y": 0.6,
+        "weight": 3
+      },
+      {
+        "note": "Bach Dang west of the square",
+        "rect": [
+          -100,
+          19,
+          -30,
+          25.5
+        ],
+        "y": 1.6,
+        "weight": 1
+      },
+      {
+        "note": "Bach Dang east of the square",
+        "rect": [
+          30,
+          19,
+          92,
+          25.5
+        ],
+        "y": 1.6,
+        "weight": 1
+      },
+      {
+        "note": "An Hoi promenade",
+        "rect": [
+          -100,
+          52.5,
+          92,
+          59
+        ],
+        "y": 1.6,
+        "weight": 1.5
+      },
+      {
+        "note": "rooftops north of the square",
+        "rect": [
+          -100,
+          -88,
+          92,
+          -26
+        ],
+        "y": 7.5,
+        "weight": 3
+      },
+      {
+        "note": "rooftops west of the square",
+        "rect": [
+          -100,
+          -26,
+          -30,
+          16
+        ],
+        "y": 7.5,
+        "weight": 1.5
+      },
+      {
+        "note": "rooftops east of the square",
+        "rect": [
+          30,
+          -26,
+          92,
+          16
+        ],
+        "y": 7.5,
+        "weight": 1.5
+      },
+      {
+        "note": "An Hoi rooftops and gardens",
+        "rect": [
+          -100,
+          61,
+          92,
+          98
+        ],
+        "y": 6.5,
+        "weight": 2
+      }
+    ]
+  },
+  "palette": [
+    "e8322a",
+    "f2a019",
+    "f7d23e",
+    "e0287a",
+    "8e3bc4",
+    "2f6fd8",
+    "2fae5a",
+    "f06a2a",
+    "ffd9a0",
+    "fff0d8",
+    "ffb36a",
+    "ff8a5a"
+  ]
+}

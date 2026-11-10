@@ -1,0 +1,79 @@
+{
+  "id": "hcmc_02",
+  "name": "Night 2: Iron Pot & Demon Cat",
+  "difficulty": "normal",
+  "setup_sec": 10,
+  "story": {
+    "intro": [
+      "Night two. The ghosts have found armour: one wears its old cast-iron pot as a helmet.",
+      "Black cats are slipping past the lanterns too. They run fast but bite weakly. Keep them away from the Pearl.",
+      "The pot soaks up many seeds before it falls. Plant more Rice early so I can afford a second row of shooters."
+    ],
+    "huge_wave": [
+      "The pot ghost leads them. Aim for the helmet!",
+      "Another wave. Keep the Rice growing and the gems coming."
+    ],
+    "outro": [
+      "Saigon's Pearl shines through the eclipse. The leyline runs north from here, to the lanterns of Hoi An and the lake in Hanoi."
+    ]
+  },
+  "time_of_day": "night",
+  "waves": [
+    {
+      "is_huge": false,
+      "spawns": [
+        {
+          "enemy_id": "hungry_ghost",
+          "count": 4,
+          "interval_sec": 8.0,
+          "delay_sec": 2.0
+        }
+      ]
+    },
+    {
+      "is_huge": true,
+      "spawns": [
+        {
+          "enemy_id": "hungry_ghost",
+          "count": 4,
+          "interval_sec": 2.0,
+          "delay_sec": 1.0
+        },
+        {
+          "enemy_id": "cast_iron_pot_ghost",
+          "count": 1,
+          "interval_sec": 1.0,
+          "delay_sec": 5.0
+        }
+      ]
+    },
+    {
+      "is_huge": false,
+      "spawns": [
+        {
+          "enemy_id": "corpse_demon_cat",
+          "count": 2,
+          "interval_sec": 4.0,
+          "delay_sec": 2.0
+        }
+      ]
+    },
+    {
+      "is_huge": true,
+      "spawns": [
+        {
+          "enemy_id": "hungry_ghost",
+          "count": 5,
+          "interval_sec": 2.0,
+          "delay_sec": 1.0
+        },
+        {
+          "enemy_id": "corpse_demon_cat",
+          "count": 1,
+          "interval_sec": 1.0,
+          "delay_sec": 6.0
+        }
+      ]
+    }
+  ]
+}

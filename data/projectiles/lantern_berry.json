@@ -1,0 +1,14 @@
+{
+  "id": "lantern_berry",
+  "name": "Lantern Berry",
+  "model": "projectiles/lantern_berry.glb",
+  "scene": "res://src/entities/projectiles/lantern_berry/LanternBerry.tscn",
+  "numbers": {
+    "speed": 14.0,
+    "spin_speed": 6.0,
+    "max_distance": 60.0,
+    "arc_height": 3.5,
+    "flight_duration": 0.9,
+    "splash_radius": 1.8
+  }
+}

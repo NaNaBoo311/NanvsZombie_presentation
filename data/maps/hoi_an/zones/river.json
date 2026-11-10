@@ -1,0 +1,33 @@
+{
+  "note": "The Thu Bon river runs west to east across the island between the old town (north bank) and An Hoi islet (south bank), on to the sea past the island's east edge. The water sits at water_y below the flat ground, so the banks read as stone embankments. The creek under the Japanese Covered Bridge runs from creek.z[0] down into the river. lantern_posts stand along the Bach Dang riverfront at z, every step metres in x (none on the creek or the An Hoi bridge foot). an_hoi_posts stand along An Hoi's river edge in front of the night market.",
+  "north_bank_z": 26,
+  "south_bank_z": 52,
+  "water_y": -0.55,
+  "bed_y": -1.1,
+  "creek": {
+    "x": [
+      -84,
+      -74
+    ],
+    "z": [
+      -90,
+      26
+    ]
+  },
+  "lantern_posts": {
+    "z": 25.0,
+    "x": [
+      -100,
+      92
+    ],
+    "step": 9.5
+  },
+  "an_hoi_posts": {
+    "z": 53.0,
+    "x": [
+      -100,
+      92
+    ],
+    "step": 6.5
+  }
+}

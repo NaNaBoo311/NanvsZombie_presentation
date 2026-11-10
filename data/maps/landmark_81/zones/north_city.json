@@ -1,0 +1,19 @@
+{
+  "plateau": { "rect": [-72, -110, 110, -74.13], "y": 0.0, "note": "City slab: level with the park (y 0), no wall or stairs." },
+  "northwest_pad": { "rect": [-118, -106, -72, -66], "y": 0.0,
+    "rows": [ { "z": -95.0, "keep": 1.0, "sy": [0.85, 1.05] }, { "z": -101.0, "keep": 1.0, "sy": [1.0, 1.25] } ],
+    "tower_x_range": [-108.0, -68.0] },
+  "lagoon_street": { "x": [-120, 120], "road": [-74.33, -66.33], "south_sidewalk": [-66.33, -63.83], "parking_w": 2.0,
+    "note": "Runs right against the boulevard: its park_sidewalk (z -76.8..-74.33) is this street's north sidewalk. z bands are [north, south]. x -120..120: island rim to rim (the outskirts band continues both streets); the tree clearing (clearings.json) keeps trees off it." },
+  "bridges": { "xs": [-40, 0, 40], "deck_y": 4.2, "deck_w": 3.0, "stair_w": 2.4, "rise": 0.2, "run": 0.28,
+    "north_z": -88.0, "south_z": -62.8, "pier_z": -75.565, "north_col_z": -86.2, "south_col_z": -64.8,
+    "note": "Footbridges over both streets (north_city.mjs buildBridges): deck_y is the walking surface; stairs go east onto the verge from south_z and east along the tower pavement from the deck's east side; the pier stands on the shared sidewalk (z -76.8..-74.33). Lamps, tree pits, bikes and cafes keep clear of them." },
+  "traffic": { "x": [-230, 230], "per_lane": 8, "palette": ["#f2f2f2", "#c0c4c8", "#c0272d", "#2456a8", "#1c1c1e", "#e8c030"], "note": "Driving cars (StreetCars.gd): per_lane cars in each of the 4 lanes (eastbound on the south half of each road, westbound on the north half), looping over x with the road's flat run in the outskirts band (outskirts.json ground.shelf_len)." },
+  "boulevard": { "park_sidewalk": [-74.33, -76.8], "road": [-76.8, -84.8], "tower_sidewalk": [-84.8, -88.3], "parking_w": 2.0, "curb_h": 0.12 },
+  "cross_streets": { "xs": [], "road_w": 6.0, "sidewalk_w": 1.5 },
+  "tower_rows": [ { "z": -93.8, "keep": 1.0, "sy": [0.85, 1.05] }, { "z": -104.0, "keep": 1.0, "sy": [1.0, 1.25] } ],
+  "reserved": [ { "note": "Landmark 81 tower (Landmark81Map.tscn)", "rect": [12.9, -100.1, 23.1, -88.9] } ],
+  "tower_step": 7.0,
+  "tower_yaw_deg": 6.0,
+  "furniture": { "slot_m": 7.0, "skip_m": 3.0, "bike_keep": 0.45, "cafe_keep": 0.6 }
+}

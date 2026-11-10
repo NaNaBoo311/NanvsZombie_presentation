@@ -1,0 +1,582 @@
+{
+  "generated_note": "Tree layout for src/environment/ForestMultiMesh.gd (Landmark 81). Order matters: every list is drawn from seeded streams in file order.",
+  "zone_scatter_rect": "west_groves",
+  "fill_rects": [
+    {
+      "rect": [-52, -30, -40, 17],
+      "species": {"PhuongVi": 8, "DauRai": 16, "SprucePine": 12, "DenseBush": 22, "Bamboo": 8}
+    },
+    {
+      "note": "East screen: canopy between the lawn and the east spawn region (nav.json), so the mounds are not seen from the lawn",
+      "rect": [40, -38, 52, 16],
+      "species": {"GoldenShower": 12, "TravelersPalm": 12, "Frangipani": 10, "DenseBush": 22, "Bougainvillea": 12}
+    },
+    {
+      "note": "North-west corner: conifers and understory beside the NW ridge, clear of the road and lake (overlaps the widened north spawn region's west tip, which is the point)",
+      "rect": [-90, -62, -64, -42],
+      "species": {"SprucePine": 14, "DauRai": 5, "DenseBush": 16}
+    },
+    {
+      "note": "North-east corner: villa-avenue canopy continued north, clear of the north spawn region (nav.json x <= 62)",
+      "rect": [64, -62, 90, -42],
+      "species": {"TravelersPalm": 4, "GoldenShower": 4, "DenseBush": 10, "Bougainvillea": 6}
+    },
+    {
+      "note": "South screen: low canopy between the lawn and the south spawn region (nav.json) on the reclaimed bank (zones/south_bank.json)",
+      "rect": [-44, 30, 44, 33],
+      "species": {"Frangipani": 10, "DenseBush": 26, "Bougainvillea": 14}
+    },
+    {
+      "note": "Lagoon grove west clump on the old basin (lagoon moved 8 m north 2026-10-07); the north spawn region (nav.json)",
+      "rect": [-30, -38, -6, -30],
+      "species": {"PhuongVi": 4, "GoldenShower": 3, "Frangipani": 4, "DenseBush": 8, "Bougainvillea": 5}
+    },
+    {
+      "note": "Lagoon grove east clump on the old basin; the central lane (clearings.json) stays trunk-free to the lawn",
+      "rect": [6, -38, 30, -30],
+      "species": {"PhuongVi": 4, "GoldenShower": 3, "Frangipani": 4, "DenseBush": 8, "Bougainvillea": 5}
+    },
+    {
+      "note": "Lagoon-street west verge fill (open lawn since the south sidewalk was removed 2026-10-07): 4 m clear of the road, of the lagoon water/curbs and of the northwest pad; overlaps the trunk-free clearing, which the walkway guard keeps open",
+      "rect": [-110, -62, -34, -54],
+      "species": {"PhuongVi": 8, "GoldenShower": 6, "Frangipani": 6, "DenseBush": 14, "Bougainvillea": 6}
+    },
+    {
+      "note": "Lagoon-street central verge fill (same open lawn): between the road and the lagoon north curb, clear of the footbridge decks/stairs and the water",
+      "rect": [-30, -62, 30, -54],
+      "species": {"PhuongVi": 6, "GoldenShower": 5, "Frangipani": 5, "DenseBush": 12, "Bougainvillea": 5}
+    },
+    {
+      "note": "Former sports-hub clearing fill (planted now; was trunk-free for spawns — RouteClearance sweep must stay green): 5 m clear of the road, clear of the lagoon water/curbs and the west conifer row",
+      "rect": [-110, -61, -50, -38],
+      "species": {"PhuongVi": 10, "GoldenShower": 8, "Frangipani": 8, "DenseBush": 20, "Bougainvillea": 10}
+    },
+    {
+      "note": "North spawn grove west flank (below the fountains; keeps the central lane open)",
+      "rect": [-46, -36, -32, -22],
+      "species": {"PhuongVi": 4, "GoldenShower": 3, "Frangipani": 3, "DenseBush": 6, "Bougainvillea": 3}
+    },
+    {
+      "note": "North spawn grove east flank (below the fountains; keeps the central lane open)",
+      "rect": [32, -36, 46, -22],
+      "species": {"PhuongVi": 4, "GoldenShower": 3, "Frangipani": 3, "DenseBush": 6, "Bougainvillea": 3}
+    },
+    {
+      "note": "North spawn bank west lip (south of the grove clumps; middle x -8..8 kept clear for the giant row)",
+      "rect": [-30, -30, -14, -22],
+      "species": {"PhuongVi": 3, "GoldenShower": 2, "Frangipani": 2, "DenseBush": 5, "Bougainvillea": 2}
+    },
+    {
+      "note": "Former sports-hub clearing fill (planted now; was trunk-free for spawns — RouteClearance sweep must stay green): 5 m clear of the road, clear of the lagoon water/curbs and the west conifer row",
+      "rect": [-110, -61, -50, -38],
+      "species": {"PhuongVi": 10, "GoldenShower": 8, "Frangipani": 8, "DenseBush": 20, "Bougainvillea": 10}
+    },
+    {
+      "note": "North region west shore (lake water auto-culls; shore cells get canopy neighbors)",
+      "rect": [-68, -36, -44, -22],
+      "species": {"PhuongVi": 5, "GoldenShower": 4, "Frangipani": 3, "DenseBush": 8, "Bougainvillea": 4}
+    },
+    {
+      "note": "North region east strip (closes the gap between the east flank fill and the villa screen)",
+      "rect": [44, -36, 52, -22],
+      "species": {"PhuongVi": 3, "GoldenShower": 2, "Frangipani": 2, "DenseBush": 5, "Bougainvillea": 2}
+    }
+  ],
+  "obstacles": {
+    "points": [
+      {"at": [-35.0, -16.0, 1.2], "note": "Scene lantern"},
+      {"at": [35.0, -16.0, 1.2], "note": "Scene lantern"},
+      {"at": [-35.0, 2.2, 1.2], "note": "Scene lantern"},
+      {"at": [35.0, 2.2, 1.2], "note": "Scene lantern"},
+      {"at": [-35.0, 16.0, 1.2], "note": "Scene lantern"},
+      {"at": [35.0, 16.0, 1.2], "note": "Scene lantern"},
+      {"at": [5.0, 42.8, 1.2], "note": "Scene lantern"},
+      {"at": [-7.5, 48.5, 3.0], "note": "DandelionWest"},
+      {"at": [2.2, 48.5, 3.0], "note": "DandelionEast"},
+      {"at": [-22.0, 26.0, 1.5], "note": "MossyStone1"},
+      {"at": [35.5, -2.2, 1.5], "note": "MossyStone2"},
+      {"at": [-35.5, -2.2, 1.5], "note": "MossyStone3"},
+      {"at": [-62.0, 14.0, 3.5], "note": "Observation tower 1"},
+      {"at": [72.0, 25.0, 3.5], "note": "Observation tower 2"},
+      {"at": [90.0, 25.2, 3.5], "note": "Playground 2"},
+      {"at": [-82.0, -4.0, 1.2], "note": "Japanese garden stone lantern"},
+      {"at": [-62.0, -4.0, 1.2], "note": "Japanese garden stone lantern"},
+      {"at": [-78.0, 5.0, 1.2], "note": "Japanese garden stone lantern"},
+      {"at": [-66.0, 5.0, 1.2], "note": "Japanese garden stone lantern"},
+      {"at": [-76.0, -9.0, 1.2], "note": "Japanese garden stone lantern"},
+      {"at": [-68.0, -9.0, 1.2], "note": "Japanese garden stone lantern"},
+      {"at": [-72.0, -18.0, 5.0], "note": "Pagoda shrine"},
+      {"at": [51.6, 0.8, 2.5], "note": "East route clearance: keep canopies off east route #0 (sweep hit 2026-10-09 after the trail-lamp obstacles were removed)"}
+    ],
+    "zone_points": [{"zone": "gazebos", "radius": 3.0}],
+    "lots": [{"key": "lamps", "radius": 1.2}, {"key": "villas", "radius": 2.8}]
+  },
+  "species": [
+    {
+      "name": "RoyalPalm",
+      "scene_path": "res://assets/models/vegetation/royal_palm_tree.glb",
+      "clear_r": 1.6,
+      "positions": [
+        {
+          "note": "South Riverfront Promenade (along Saigon River Z = 31.8)",
+          "points": [
+            [-53.0, 0.08, 43.8],
+            [-46.0, 0.08, 43.8],
+            [-39.0, 0.08, 43.8],
+            [-32.0, 0.08, 43.8],
+            [-25.0, 0.08, 43.8],
+            [-18.0, 0.08, 43.8],
+            [18.0, 0.08, 43.8],
+            [25.0, 0.08, 43.8],
+            [32.0, 0.08, 43.8],
+            [39.0, 0.08, 43.8],
+            [46.0, 0.08, 43.8],
+            [53.0, 0.08, 43.8]
+          ]
+        },
+        {
+          "note": "Marina Shore Promenade",
+          "points": [
+            [68.0, 0.08, 29.5],
+            [74.0, 0.08, 29.5],
+            [82.0, 0.08, 29.5],
+            [90.0, 0.08, 29.5],
+            [96.0, 0.08, 29.5],
+            [106.0, 0.08, 29.5],
+            [114.0, 0.08, 29.5]
+          ]
+        },
+        {"note": "Marina Promenade Gateway", "points": [[-12.5, 0.08, 44.5], [6.5, 0.08, 44.5]]},
+        {
+          "note": "North Lake Promenade",
+          "points": [
+            [-5.5, 0.08, -36.0],
+            [5.5, 0.08, -36.0],
+            [-5.5, 0.08, -53.5],
+            [5.5, 0.08, -53.5],
+            [32.0, 0.08, -50.0],
+            [40.0, 0.08, -50.0]
+          ]
+        },
+        {
+          "note": "West & East Outer Perimeter",
+          "points": [
+            [-37.5, 0.08, -12.0],
+            [-38.5, 0.08, 0.0],
+            [-37.5, 0.08, 12.0],
+            [30.0, 0.08, -18.0],
+            [38.5, 0.08, 0.0],
+            [37.5, 0.08, 12.0]
+          ]
+        }
+      ],
+      "scale_min": 0.95,
+      "scale_max": 1.1
+    },
+    {
+      "name": "BangDaiLoan",
+      "note": "Signature modern landscape tree of Vinhomes & Landmark 81: tiered pagoda whorls",
+      "scene_path": "res://assets/models/vegetation/tree_bang_dai_loan.glb",
+      "clear_r": 2.0,
+      "positions": [
+        {
+          "note": "West Promenade outer edge",
+          "points": [[-37.0, 0.08, -6.0], [-37.5, 0.08, 6.0], [-42.0, 0.08, -12.0], [-42.0, 0.08, 14.0]]
+        },
+        {
+          "note": "West Parkland grove",
+          "points": [
+            [-40.0, 0.06, -3.0],
+            [-42.0, 0.06, 5.0],
+            [-39.0, 0.06, 15.0],
+            [-45.0, 0.06, -8.0],
+            [-44.0, 0.06, -18.0]
+          ]
+        },
+        {
+          "note": "North Lake South Shoreline grove (dry lawn south of the lagoon's south curb)",
+          "points": [[-18.0, 0.06, -33.5], [-10.0, 0.06, -33.5], [10.0, 0.06, -33.5], [18.0, 0.06, -33.5]]
+        },
+        {
+          "note": "Canal West Bank Promenade",
+          "points": [
+            [36.0, 0.06, -26.0],
+            [38.0, 0.06, -16.0],
+            [35.0, 0.06, -18.0],
+            [40.0, 0.06, 4.0],
+            [43.0, 0.06, 14.0],
+            [47.0, 0.06, 23.0]
+          ]
+        },
+        {
+          "note": "Canal East Bank Avenue (villa side)",
+          "points": [
+            [58.0, 0.06, -26.0],
+            [58.0, 0.06, -16.0],
+            [59.0, 0.06, -6.0],
+            [60.0, 0.06, 4.0],
+            [63.0, 0.06, 14.0],
+            [67.0, 0.06, 23.0]
+          ]
+        }
+      ],
+      "east_lots": "city_street_trees",
+      "scale_min": 0.95,
+      "scale_max": 1.18
+    },
+    {
+      "name": "PhuongVi",
+      "note": "Royal Poinciana / Flamboyant - broad umbrella canopy drenched in fiery red blossoms",
+      "scene_path": "res://assets/models/vegetation/tree_phuong_vi.glb",
+      "clear_r": 2.2,
+      "positions": [
+        {
+          "note": "Northwest Lake bluff corners",
+          "points": [[-28.0, 0.06, -43.0], [-20.0, 0.06, -52.0]]
+        },
+        {
+          "note": "Northeast Lake bluff corners",
+          "points": [[24.0, 0.06, -33.5], [20.0, 0.06, -52.0]]
+        },
+        {
+          "note": "West Parkland open glades",
+          "points": [[-46.0, 0.06, 12.0], [-45.0, 0.06, -2.0], [-45.0, 0.06, -14.0]]
+        },
+        {
+          "note": "Southern green buffer between lawn and river",
+          "points": [
+            [-28.0, 0.08, 25.0],
+            [-14.0, 0.08, 25.0],
+            [14.0, 0.08, 25.0],
+            [28.0, 0.08, 25.0],
+            [-32.0, 0.08, 22.0],
+            [32.0, 0.08, 22.0]
+          ]
+        },
+        {"note": "Southwest Riverfront transition", "points": [[-35.0, 0.08, 26.0]]},
+        {
+          "note": "West riverfront lawn row (extends the southern buffer to the promenade's west end; clear of the deck, lamps, tower and walkways)",
+          "points": [[-60.0, 0.08, 29.0], [-66.0, 0.08, 29.0], [-72.0, 0.08, 30.0], [-78.0, 0.08, 30.0], [-84.0, 0.08, 29.0], [-90.0, 0.08, 29.0]]
+        }
+      ],
+      "zone_scatter_count": 24,
+      "scale_min": 0.92,
+      "scale_max": 1.12
+    },
+    {
+      "name": "DauRai",
+      "note": "Towering Saigon Dipterocarp street tree (16m tall) - majestic forest backdrop",
+      "scene_path": "res://assets/models/vegetation/tree_dau_rai.glb",
+      "clear_r": 2.2,
+      "positions": [
+        {
+          "note": "Far West perimeter (tall forest skyline)",
+          "points": [
+            [-47.0, 0.06, 16.0],
+            [-48.0, 0.06, 7.0],
+            [-48.0, 0.06, -2.0],
+            [-47.0, 0.06, -11.0],
+            [-46.0, 0.06, -21.0],
+            [-42.0, 0.06, -27.0]
+          ]
+        },
+        {
+          "note": "North outer horizon",
+          "points": [[-26.0, 0.06, -51.5], [26.0, 0.06, -51.5], [-36.0, 0.06, -51.5], [36.0, 0.06, -51.5]]
+        },
+        {
+          "note": "North spawn bank middle giants (spawn below the canopy: trunks take cells, 9-12 m crowns close overhead and clear the sweep capsule)",
+          "points": [[-28.0, 0.06, -35.0], [-20.0, 0.06, -35.0], [-12.0, 0.06, -35.0], [-4.0, 0.06, -35.0], [4.0, 0.06, -35.0], [12.0, 0.06, -35.0], [20.0, 0.06, -35.0], [28.0, 0.06, -35.0], [-8.0, 0.06, -26.0], [0.0, 0.06, -26.0], [8.0, 0.06, -26.0], [-28.0, 0.06, -26.0], [-20.0, 0.06, -26.0], [20.0, 0.06, -26.0], [28.0, 0.06, -26.0]]
+        },
+        {
+          "note": "Spawn screens: tall crowns over the north bank (lane kept open), east avenue gap, west corridor fringes and south reclaim (high canopy clears the sweep capsule)",
+          "points": [[-36.0, 0.06, -37.0], [36.0, 0.06, -37.0], [58.0, 0.06, -30.0], [58.0, 0.06, 8.0], [-67.0, 0.06, -14.0], [-67.0, 0.06, 0.0], [-67.0, 0.06, 14.0], [-30.0, 0.08, 40.0], [30.0, 0.08, 40.0]]
+        }
+      ],
+      "zone_scatter_count": 30,
+      "scale_min": 0.9,
+      "scale_max": 1.15
+    },
+    {
+      "name": "GoldenShower",
+      "note": "Golden Shower Tree / Mu\u1ed3ng Ho\u00e0ng Y\u1ebfn - cascading pendulous golden blossom racemes",
+      "scene_path": "res://assets/models/vegetation/tree_golden_shower.glb",
+      "clear_r": 1.8,
+      "positions": [
+        {          "note": "North Lake water's edge", "points": [[-12.0, 0.06, -53.5], [12.0, 0.06, -53.5]]},
+        {
+          "note": "West Parkland walking trails",
+          "points": [[-41.0, 0.06, -9.0], [-43.0, 0.06, 9.0], [-46.0, 0.06, 3.0]]
+        },
+        {"note": "East Lawn perimeter garden", "points": [[42.0, 0.06, -6.0], [37.0, 0.06, 11.0]]},
+        {
+          "note": "Canal border accents (flanking outer promenades)",
+          "points": [
+            [39.0, 0.06, -22.0],
+            [41.0, 0.06, -16.0],
+            [35.0, 0.06, -18.0],
+            [40.0, 0.06, 4.0],
+            [43.0, 0.06, 14.0],
+            [47.0, 0.06, 23.0]
+          ]
+        },
+        {
+          "note": "North spawn screen: weeping curtain on the viewer (lawn) side of the bank",
+          "points": [[-28.0, 0.06, -20.0], [-24.0, 0.06, -20.0], [-20.0, 0.06, -20.0], [-16.0, 0.06, -20.0], [-12.0, 0.06, -20.0], [12.0, 0.06, -20.0], [16.0, 0.06, -20.0], [20.0, 0.06, -20.0], [24.0, 0.06, -20.0], [28.0, 0.06, -20.0]]
+        },
+        {
+          "note": "East spawn screen: double weeping rows in the avenue gap (east of the corridor clearing)",
+          "points": [[55.0, 0.06, -32.0], [55.0, 0.06, -28.0], [55.0, 0.06, -24.0], [55.0, 0.06, -20.0], [55.0, 0.06, -4.0], [55.0, 0.06, 0.0], [55.0, 0.06, 4.0], [55.0, 0.06, 8.0], [61.0, 0.06, -30.0], [61.0, 0.06, -22.0], [61.0, 0.06, -14.0], [61.0, 0.06, -6.0], [61.0, 0.06, 2.0], [61.0, 0.06, 10.0]]
+        },
+        {
+          "note": "West spawn screen: weeping curtain on the viewer (lawn) fringe of the corridor",
+          "points": [[-41.0, 0.06, -14.0], [-41.0, 0.06, -10.0], [-41.0, 0.06, -6.0], [-41.0, 0.06, -2.0], [-41.0, 0.06, 2.0], [-41.0, 0.06, 6.0], [-41.0, 0.06, 10.0], [-41.0, 0.06, 14.0]]
+        },
+        {
+          "note": "South spawn screen: weeping row between the camera side and the reclaim cells (lanes kept open)",
+          "points": [[-36.0, 0.08, 34.0], [-32.0, 0.08, 34.0], [-28.0, 0.08, 34.0], [-24.0, 0.08, 34.0], [-20.0, 0.08, 34.0], [-16.0, 0.08, 34.0], [-12.0, 0.08, 34.0], [12.0, 0.08, 34.0], [16.0, 0.08, 34.0], [32.0, 0.08, 34.0], [36.0, 0.08, 34.0]]
+        }
+      ],
+      "scale_min": 0.92,
+      "scale_max": 1.12
+    },
+    {
+      "name": "TravelersPalm",
+      "note": "Traveler's Palm / Chu\u1ed1i R\u1ebb Qu\u1ea1t - iconic tropical fan palms outside villas & plaza",
+      "scene_path": "res://assets/models/vegetation/tree_travelers_palm.glb",
+      "clear_r": 1.6,
+      "positions": [
+        {
+          "note": "Villa Avenue Street Trees",
+          "points": [
+            [64.0, 0.06, -38.0],
+            [76.0, 0.06, -38.0],
+            [88.0, 0.06, -38.0],
+            [100.0, 0.06, -38.0],
+            [112.0, 0.06, -38.0],
+            [64.0, 0.06, -14.0],
+            [76.0, 0.06, -14.0],
+            [88.0, 0.06, -14.0],
+            [100.0, 0.06, -14.0],
+            [112.0, 0.06, -14.0],
+            [64.0, 0.06, 10.0],
+            [76.0, 0.06, 10.0],
+            [88.0, 0.06, 10.0],
+            [100.0, 0.06, 10.0],
+            [112.0, 0.06, 10.0]
+          ]
+        },
+        {
+          "note": "Marina Promenade Fan Deck Entrance",
+          "points": [[-10.0, 0.08, 44.8], [4.0, 0.08, 44.8]]
+        },
+        {
+          "note": "Riverfront Promenade Accents",
+          "points": [[-22.0, 0.08, 43.8], [15.0, 0.08, 43.8]]
+        }
+      ],
+      "scale_min": 0.9,
+      "scale_max": 1.15
+    },
+    {
+      "name": "Frangipani",
+      "note": "Frangipani / Hoa S\u1ee9 - sculptural branches with white & gold blossoms",
+      "scene_path": "res://assets/models/vegetation/frangipani_tree.glb",
+      "clear_r": 1.6,
+      "positions": [
+        {
+          "note": "4 Outer White Carpet Corner Pockets",
+          "points": [[-36.5, 0.05, -31.5], [26.0, 0.05, -30.0], [-36.5, 0.05, 43.5], [36.5, 0.05, 43.5]]
+        },
+        {
+          "note": "Promenade & Marina entrance",
+          "points": [[-7.5, 0.08, 44], [2.5, 0.08, 42.5], [-16.0, 0.08, 40.5], [10.0, 0.08, 40.5]]
+        },
+        {
+          "note": "Lagoon south-shore pair",
+          "points": [[-6.5, 0.08, -35.0], [6.5, 0.08, -35.0]]
+        }
+      ],
+      "zone_scatter_count": 12,
+      "east_lots": "villa_garden_frangipani",
+      "scale_min": 0.92,
+      "scale_max": 1.12
+    },
+    {
+      "name": "Bougainvillea",
+      "note": "Bougainvillea / B\u1ee5i Hoa Gi\u1ea5y - hot fuchsia / magenta blooming flower mounds",
+      "scene_path": "res://assets/models/vegetation/bougainvillea_bush.glb",
+      "clear_r": 1.0,
+      "cast_shadow": false,
+      "positions": [
+        {
+          "note": "Marina Deck side gardens",
+          "points": [[-13.0, 0.08, 41.5], [-14.0, 0.08, 44.8], [11.0, 0.08, 44.8], [7.0, 0.08, 41.5]]
+        },
+        {
+          "note": "Lake revetment wall borders (dry lawn south of lake curb)",
+          "points": [[-22.0, 0.06, -36.5], [-12.0, 0.06, -36.5], [12.0, 0.06, -36.5], [22.0, 0.06, -36.5]]
+        },
+        {
+          "note": "Canal border vibrant flower mounds",
+          "points": [
+            [34.5, 0.06, -21.0],
+            [34.5, 0.06, -11.0],
+            [36.5, 0.06, -3.0],
+            [38.5, 0.06, 9.0],
+            [42.5, 0.06, 18.0],
+            [46.0, 0.06, 24.0],
+            [56.5, 0.06, -21.0],
+            [57.5, 0.06, -8.0],
+            [57.5, 0.06, -1.0],
+            [59.5, 0.06, 9.0],
+            [62.5, 0.06, 18.0],
+            [64.0, 0.06, 24.0]
+          ]
+        },
+        {
+          "note": "Outer lawn east/west floral markers",
+          "points": [[-36.5, 0.06, 2.5], [36.5, 0.06, 4.0]]
+        },
+        {
+          "note": "West riverfront lawn mounds (in front of the new riverfront row; clear of the deck and lamps)",
+          "points": [[-63.0, 0.08, 32.0], [-75.0, 0.08, 32.0], [-87.0, 0.08, 32.0]]
+        }
+      ],
+      "east_lots": "villa_garden_bougainvillea",
+      "scale_min": 0.85,
+      "scale_max": 1.2
+    },
+    {
+      "name": "DenseBush",
+      "note": "Dense Tropical Bush - natural lush understory filling ground under trees",
+      "scene_path": "res://assets/models/vegetation/bush_foliage_dense.glb",
+      "clear_r": 1.0,
+      "cast_shadow": false,
+      "positions": [
+        {
+          "note": "West woodland natural understory",
+          "points": [
+            [-40.0, 0.06, 8.5],
+            [-40.0, 0.06, 10.0],
+            [-45.0, 0.06, 8.0],
+            [-41.0, 0.06, -6.0],
+            [-40.0, 0.06, -15.0],
+            [-49.0, 0.06, -17.0]
+          ]
+        },
+        {
+          "note": "South riverfront buffer understory",
+          "points": [
+            [-44.0, 0.06, 24.0],
+            [-38.0, 0.06, 24.0],
+            [-24.0, 0.06, 24.0],
+            [24.0, 0.06, 24.0],
+            [36.0, 0.06, 24.0],
+            [41.0, 0.06, 24.0]
+          ]
+        },
+        {
+          "note": "Lake shoreline edge (south lawn)",
+          "points": [[-14.0, 0.06, -35.0], [14.0, 0.06, -35.0]]
+        },
+        {
+          "note": "Canal border understory",
+          "points": [[37.0, 0.06, -18.0], [38.0, 0.06, 3.5], [63.0, 0.06, -21.0], [62.0, 0.06, 3.0]]
+        },
+        {
+          "note": "West riverfront lawn dots (between the new riverfront row and the woods; clear of the tower and walkways)",
+          "points": [[-63.0, 0.08, 25.5], [-69.0, 0.08, 25.5], [-75.0, 0.08, 26.0], [-81.0, 0.08, 25.5], [-87.0, 0.08, 26.0]]
+        },
+        {
+          "note": "Spawn screens: ground mass between the curtains (lane, corridors and view-lanes kept open; registry spaces the rest)",
+          "points": [[58.0, 0.06, -26.0], [58.0, 0.06, -10.0], [58.0, 0.06, 2.0], [-34.0, 0.08, 36.0], [-22.0, 0.08, 36.0], [-14.0, 0.08, 36.0], [14.0, 0.08, 36.0], [34.0, 0.08, 36.0]]
+        }
+      ],
+      "zone_scatter_count": 36,
+      "scale_min": 0.85,
+      "scale_max": 1.25
+    },
+    {
+      "name": "Bamboo",
+      "note": "Bamboo grove accents for the west woods (merged 3-mesh model).",
+      "scene_path": "res://assets/models/vegetation/bamboo_cluster.glb",
+      "clear_r": 1.4,
+      "cast_shadow": false,
+      "positions": [
+        {
+          "note": "Spawn screens: dense thickets inside the north bank (lane kept open), east gap, west fringe and south reclaim",
+          "points": [[57.0, 0.06, -18.0], [57.0, 0.06, -2.0], [57.0, 0.06, 6.0], [-24.0, 0.08, 37.0], [14.0, 0.08, 37.0], [24.0, 0.08, 37.0]]
+        }
+      ],
+      "zone_scatter_count": 30,
+      "scale_min": 1.2,
+      "scale_max": 1.6
+    },
+    {
+      "name": "MaiOrnamental",
+      "note": "Ornamental Mai trees framing the Japanese garden (dwarf scale).",
+      "scene_path": "res://assets/models/vegetation/tree_mai_vang.glb",
+      "clear_r": 1.5,
+      "cast_shadow": false,
+      "positions": [
+        {
+          "note": "",
+          "points": [
+            [-86.0, 0.06, 4.0],
+            [-58.0, 0.06, 4.0],
+            [-86.0, 0.06, -10.0],
+            [-58.0, 0.06, -10.0],
+            [-76.0, 0.06, 6.0],
+            [-68.0, 0.06, 6.0],
+            [-76.0, 0.06, -12.0],
+            [-68.0, 0.06, -12.0]
+          ]
+        }
+      ],
+      "scale_min": 0.28,
+      "scale_max": 0.32
+    },
+    {
+      "name": "SprucePine",
+      "note": "Storybook Mountain Spruce & Pine (conifer blanket on the west ridge and pagoda hill; the northwest peak is now a tower pad)",
+      "scene_path": "res://assets/models/vegetation/tree_spruce.glb",
+      "clear_r": 2.0,
+      "positions": [
+        {
+          "note": "West Conifer Ridge (west of Pagoda knoll, Z in [-26, -12])",
+          "points": [
+            [-100.0, 0.06, -18.0],
+            [-96.0, 0.06, -16.0],
+            [-104.0, 0.06, -22.0],
+            [-98.0, 0.06, -24.0],
+            [-102.0, 0.06, -12.0],
+            [-94.0, 0.06, -22.0],
+            [-110.0, 0.06, -18.0]
+          ]
+        },
+        {
+          "note": "Pagoda Hill flanking conifers",
+          "points": [
+            [-66.0, 0.06, -14.0],
+            [-78.0, 0.06, -14.0],
+            [-66.0, 0.06, -22.0],
+            [-78.0, 0.06, -22.0],
+            [-72.0, 0.06, -10.0]
+          ]
+        },
+        {
+          "note": "Far Northwest Corner Bluff",
+          "points": [[-108.0, 0.06, -24.0], [-110.0, 0.06, -14.0], [-102.0, 0.06, -8.0]]
+        },
+        {
+          "note": "Old north-trail west bed (trail removed; conifer row on the bed, clear of the road and the trunk-free clearing)",
+          "points": [[-116.0, 0.06, -44.0], [-116.0, 0.06, -48.5], [-116.0, 0.06, -53.0], [-116.0, 0.06, -57.5], [-116.0, 0.06, -62.0]]
+        }
+      ],
+      "zone_scatter_count": 32,
+      "scale_min": 0.85,
+      "scale_max": 1.3
+    }
+  ]
+}

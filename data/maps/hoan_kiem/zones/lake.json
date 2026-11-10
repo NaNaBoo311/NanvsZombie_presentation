@@ -1,0 +1,8 @@
+{
+  "note": "Hoan Kiem Lake, long north-south like the real one (about 700 x 250 m there). The water is the smooth union (blend metres) of the ellipse lobes [cx, cz, rx, rz], minus the turtle island (arena.json) and the islets (islets.json); tools/asset_generator/generators/maps/hoan_kiem/lake_shape.mjs and HoanKiemZones.gd evaluate the same field. The surface sits at water_y below the ground at y 0, so the banks read as stone walls; the embankment and the promenade follow the outline outward.",
+  "lobes": [[3, -86, 36, 42], [0, -18, 42, 60], [-5, 44, 31, 34]],
+  "blend": 12.0,
+  "embankment_w": 0.8,
+  "promenade_w": 5.0,
+  "water_y": -0.3
+}

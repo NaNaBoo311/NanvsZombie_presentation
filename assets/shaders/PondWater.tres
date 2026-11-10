@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/PondWater.gdshader" id="1_pond"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_pond")
+shader_parameter/deep_color = Color(0.2, 0.5, 0.76, 1)
+shader_parameter/shallow_color = Color(0.38, 0.72, 0.88, 1)
+shader_parameter/ring_color = Color(0.88, 0.96, 0.97, 1)
+shader_parameter/day_blend = 0.0
+shader_parameter/sky_tint = Color(0.55, 0.72, 0.88, 1)
+shader_parameter/reflect_boost = 0.25
+shader_parameter/wave_strength = 0.6
+shader_parameter/ripple_speed = 0.35
+shader_parameter/roughness_near = 0.06
+shader_parameter/roughness_far = 0.22
+shader_parameter/fountain_count = 0
+shader_parameter/ring_opacity = 0.6

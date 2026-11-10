@@ -1,0 +1,59 @@
+{
+  "id": "lantern_physalis",
+  "name": "Lantern Physalis",
+  "subtitle": "Glowing Lantern Lobber",
+  "category": "plant",
+  "model": "plants/lantern_physalis.glb",
+  "scene": "res://src/entities/plants/lantern_physalis/LanternPhysalis.tscn",
+  "projectile": "lantern_berry",
+  "cost": 150,
+  "traits": [
+    "Lobbed projectile",
+    "Splash damage",
+    "Long range"
+  ],
+  "mechanism": "Lobber (KapokCatapult targeting: farthest enemy in its cone). Each lantern_berry lands with splash_radius damage (data/projectiles/lantern_berry.json), so the Basket Crabs a dying Basket Boat Zombie spills (25 HP) fall to one berry.",
+  "numbers": {
+    "max_health": 120,
+    "damage": 25,
+    "shoot_interval": 3.0,
+    "vision_range": 18.0,
+    "vision_half_angle_deg": 25.0,
+    "turn_speed_deg": 180.0,
+    "fire_align_deg": 8.0,
+    "attack_apex_sec": 0.5,
+    "attack_duration_sec": 1.0
+  },
+  "abilities": [
+    {
+      "name": "Lantern Lob",
+      "trigger": "Enemy in the 18 m cone",
+      "effect": "Lobs a lantern_berry: 25 damage to every enemy within 1.8 m of where it lands.",
+      "clip": "attack"
+    }
+  ],
+  "clips": [
+    "idle",
+    "attack",
+    "die"
+  ],
+  "clipAnnotations": {
+    "idle": "The lantern sways on its stalk.",
+    "attack": "Lantern swings back, whips forward (berry leaves at 0.5 s).",
+    "die": "Squash and shrink into the lawn."
+  },
+  "seed": {"cooldown": 15, 
+    "unlock": {"jade": 120},
+    "order": 17,
+    "group": "shooter",
+    "icon": "🏮",
+    "preview_scale": 0.7,
+    "ghost_scale": 1.7,
+    "default_loadout": false
+  },
+  "range_indicator": {
+    "shape": "cone",
+    "radius": "vision_range",
+    "half_angle_deg": "vision_half_angle_deg"
+  }
+}

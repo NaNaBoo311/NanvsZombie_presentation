@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://rice_gem_pvz_3d_001"]
+
+[ext_resource type="Script" path="res://src/entities/plants/sacred_rice/RiceGem.gd" id="1_gem"]
+[ext_resource type="PackedScene" path="res://assets/models/projectiles/rice_gem.glb" id="2_mesh"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gem"]
+radius = 0.45
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gem_ring"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.88, 0.35, 0)
+
+[sub_resource type="TorusMesh" id="TorusMesh_gem_ring"]
+material = SubResource("StandardMaterial3D_gem_ring")
+inner_radius = 0.28
+outer_radius = 0.35
+rings = 16
+ring_segments = 5
+
+[node name="RiceGem" type="Area3D"]
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("1_gem")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_gem")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="RiceGemModel" parent="Visuals" instance=ExtResource("2_mesh")]
+
+[node name="GlowLight" type="OmniLight3D" parent="."]
+visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+light_color = Color(1, 0.85, 0.35, 1)
+light_energy = 1.2
+omni_range = 2.5
+
+[node name="LandingRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.32, 0)
+visible = false
+mesh = SubResource("TorusMesh_gem_ring")

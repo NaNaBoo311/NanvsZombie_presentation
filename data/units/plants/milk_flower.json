@@ -1,0 +1,55 @@
+{
+  "id": "milk_flower",
+  "name": "Milk Flower",
+  "subtitle": "Hanoi Autumn Scent",
+  "category": "plant",
+  "model": "plants/milk_flower.glb",
+  "scene": "res://src/entities/plants/milk_flower/MilkFlower.tscn",
+  "cost": 125,
+  "traits": [
+    "Aura",
+    "Slows enemies",
+    "Cancels speed buffs"
+  ],
+  "mechanism": "Aura (AuraPlant). Every pulse_interval s, every grounded enemy within aura_radius is slowed to slow_mult for slow_duration s (HungryGhost.apply_slow, which multiplies with speed buffs, so an Aerobics Auntie's x1.3 becomes x0.65) and takes damage.",
+  "numbers": {
+    "max_health": 120,
+    "pulse_interval": 1.0,
+    "aura_radius": 4.5,
+    "slow_mult": 0.5,
+    "slow_duration": 1.2,
+    "damage": 4,
+    "attack_duration_sec": 0.6
+  },
+  "abilities": [
+    {
+      "name": "Heavy Scent",
+      "trigger": "Every 1 s while enemies are near",
+      "effect": "Enemies within 4.5 m walk at x0.5 for 1.2 s and take 4 damage.",
+      "clip": "attack"
+    }
+  ],
+  "clips": [
+    "idle",
+    "attack",
+    "die"
+  ],
+  "clipAnnotations": {
+    "idle": "Gentle sway; flower clusters breathe.",
+    "attack": "Tree inhales, clusters swell to puff out the scent.",
+    "die": "Squash and shrink into the lawn."
+  },
+  "seed": {"cooldown": 15, 
+    "unlock": {"jade": 60},
+    "order": 13,
+    "group": "support",
+    "icon": "🌼",
+    "preview_scale": 0.6,
+    "ghost_scale": 1.5,
+    "default_loadout": false
+  },
+  "range_indicator": {
+    "shape": "rings",
+    "outer": "aura_radius"
+  }
+}

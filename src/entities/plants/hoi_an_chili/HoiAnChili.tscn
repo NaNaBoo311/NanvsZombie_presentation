@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/entities/plants/hoi_an_chili/HoiAnChili.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/plants/hoi_an_chili.glb" id="2_mesh"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hoi_an_chili"]
+height = 1.6
+radius = 0.64
+
+[node name="HoiAnChili" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CylinderShape3D_hoi_an_chili")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="HoiAnChiliModel" parent="Visuals" instance=ExtResource("2_mesh")]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0)
+
+[node name="ShootPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92, 0.54)
+
+[node name="LaneRay" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92, 0.54)
+target_position = Vector3(0, 0, 25)
+collision_mask = 8

@@ -1,0 +1,7 @@
+{
+  "id": "floodwater_zombie",
+  "name": "Floodwater Zombie",
+  "category": "enemy",
+  "model": "enemies/floodwater_zombie.glb",
+  "clips": ["walk", "attack", "splash_wave", "die"]
+}

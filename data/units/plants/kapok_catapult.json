@@ -1,0 +1,51 @@
+{
+  "id": "kapok_catapult",
+  "name": "Kapok Catapult",
+  "subtitle": "Cotton Lobber",
+  "category": "plant",
+  "model": "plants/kapok_catapult_v2.glb",
+  "scene": "res://src/entities/plants/kapok_catapult/KapokCatapult.tscn",
+  "projectile": "kapok_cotton",
+  "cost": 125,
+  "traits": ["Lobbed projectile", "High damage"],
+  "mechanism": "Lobs heavy cotton bolls over obstacles to hit the farthest target in its lane.",
+  "numbers": {
+    "max_health": 150,
+    "damage": 40,
+    "shoot_interval": 2.9,
+    "vision_range": 16.0,
+    "vision_half_angle_deg": 22.5,
+    "turn_speed_deg": 180.0,
+    "fire_align_deg": 8.0,
+    "attack_apex_sec": 0.55,
+    "attack_duration_sec": 1.0
+  },
+  "abilities": [
+    {
+      "name": "Cotton Toss",
+      "trigger": "Enemy in lane",
+      "effect": "Lobs a kapok_cotton projectile (40 damage) over obstacles.",
+      "clip": "attack"
+    }
+  ],
+  "clips": ["idle", "attack", "die"],
+  "clipAnnotations": {
+    "idle": "Gentle organic breathing sway.",
+    "attack": "Catapult cranks back gathering spring tension, snaps forward to launch, and recoils.",
+    "die": "Squash and shrink into the lawn."
+  },
+  "seed": {"cooldown": 10, 
+    "unlock": {"after": "hcmc_02"},
+    "order": 4,
+    "group": "shooter",
+    "icon": "☁️",
+    "preview_scale": 0.7,
+    "ghost_scale": 1.4,
+    "default_loadout": true
+  },
+  "range_indicator": {
+    "shape": "cone",
+    "radius": "vision_range",
+    "half_angle_deg": "vision_half_angle_deg"
+  }
+}

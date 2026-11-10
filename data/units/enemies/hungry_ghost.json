@@ -1,0 +1,61 @@
+{
+  "abilities": [
+    {
+      "clip": "attack",
+      "effect": "12 damage per bite every 0.5 s, synced to the jaw snap of the eat loop.",
+      "name": "Chomp",
+      "trigger": "Plant inside 1.8 m narrow frontal cone (30°)"
+    },
+    {
+      "clip": "walk",
+      "effect": "Sidesteps toward noticed food using the same march locomotion.",
+      "name": "Seek",
+      "trigger": "Plant inside 2.8 m wide notice cone (65°)"
+    },
+    {
+      "clip": "attack",
+      "effect": "7 damage per hit every 1.0 s while holding outside the wall (reach 1.3 m).",
+      "name": "Siege",
+      "trigger": "Within 1.3 m of the pearl dais wall"
+    }
+  ],
+  "category": "enemy",
+  "clipAnnotations": {
+    "die": "One-shot death clip, then freed.",
+    "attack": "Chomp loop: 1 plant bite per 0.5 s, 1 house hit per 1.0 s.",
+    "walk": "March/seek locomotion toward the pearl or noticed food."
+  },
+  "clips": ["walk", "attack", "die"],
+  "id": "hungry_ghost",
+  "lore": "Starved wanderers drawn to the Pearl's light. They nibble the nearest plant first.",
+  "mechanism": "Basic enemy with two-stage appetite: NOTICE plants in a wide 65°/2.8 m cone, SEEK (sidestep toward) them, and EAT only what ends up in the narrow 30°/1.8 m frontal cone. Ignores plants otherwise and marches down its lane toward the Sacred Dragon Pearl, sieging the dais wall from outside (1.3 m reach clears the 1.06 m eat lunge).",
+  "model": "enemies/hungry_ghost_v2.glb",
+  "name": "Hungry Ghost",
+  "numbers": {
+    "bar_visible_time": 3,
+    "bite_damage": 12,
+    "bite_interval": 0.5,
+    "detect_half_angle_deg": 65,
+    "detect_range": 2.8,
+    "eat_anim_speed": 1,
+    "eat_half_angle_deg": 30,
+    "eat_range": 1.8,
+    "house_damage": 7,
+    "house_interval": 1,
+    "house_reach": 1.3,
+    "marker_radius": 1.1,
+    "max_health": 60,
+    "scan_interval": 0.15,
+    "speed": 0.6
+  },
+  "traits": [
+    "Marches on the pearl",
+    "Notices off-lane food",
+    "Melee chomper"
+  ],
+  "scene": "res://src/entities/enemies/hungry_ghost/HungryGhost.tscn",
+  "debug": {
+    "order": 1,
+    "preview_scale": 2.4
+  }
+}
