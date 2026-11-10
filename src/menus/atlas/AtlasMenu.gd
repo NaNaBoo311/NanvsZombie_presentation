@@ -102,6 +102,7 @@ var _edit_points: Array[Vector2] = []
 var _labels: Array[Label3D] = []
 var _landmarks: Array[MeshInstance3D] = [] # hidden on the province screen: they stand on the path
 var _lan_button: Button = null
+var _title_button: Button = null
 var _lan_panel: LanPanel = null
 var _shrine_button: Button = null
 var _shrine: SeedShrine = null
@@ -129,6 +130,7 @@ func _ready() -> void:
 	EventBus.flow_transition_started.connect(_on_flow_transition)
 	_setup_chrome()
 	_setup_lan()
+	_setup_title_return()
 	_setup_shrine()
 	_setup_touch()
 	_warm_board_shaders()
@@ -445,9 +447,9 @@ func _setup_lan() -> void:
 	_lan_button = Button.new()
 	_lan_button.name = "LanButton"
 	_lan_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_lan_button.offset_left = -214.0
+	_lan_button.offset_left = -270.0
 	_lan_button.offset_top = 18.0
-	_lan_button.offset_right = -24.0
+	_lan_button.offset_right = -80.0
 	_lan_button.offset_bottom = 58.0
 	UiPalette.lacquer_button(_lan_button, false, false, 16)
 	_lan_button.pressed.connect(func() -> void: _lan_panel.open())
@@ -462,6 +464,56 @@ func _setup_lan() -> void:
 	Net.guest_joined.connect(_update_lan_button)
 	Net.guest_left.connect(_update_lan_button)
 	_update_lan_button()
+
+
+## The presentation's way out: an icon-only home button at the top right, beside
+## the atlas's own Back. The game at large has no title to return to, so this is
+## a presentation-build affordance and never replaces the province Back action.
+func _setup_title_return() -> void:
+	_title_button = Button.new()
+	_title_button.name = "TitleButton"
+	_title_button.tooltip_text = tr("Back to title")
+	_title_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	_title_button.offset_left = -68.0
+	_title_button.offset_top = 18.0
+	_title_button.offset_right = -24.0
+	_title_button.offset_bottom = 58.0
+	UiPalette.lacquer_button(_title_button, false, false, 16)
+	_title_button.pressed.connect(_on_title_return)
+	$UI.add_child(_title_button)
+	SafeArea.apply(_title_button)
+
+	var glyph := Control.new()
+	glyph.name = "Glyph"
+	glyph.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	glyph.draw.connect(_paint_home_glyph.bind(glyph))
+	_title_button.add_child(glyph)
+
+
+func _on_title_return() -> void:
+	Audio.play(Audio.UI_CLICK)
+	GameFlow.open_title()
+
+
+## A house drawn into the button's own canvas: no font glyph, no texture, one draw.
+func _paint_home_glyph(node: Control) -> void:
+	var c := node.size * 0.5
+	var s := minf(node.size.x, node.size.y) * 0.21
+	var painter := HudPainter.new()
+	painter.begin(1.0)
+	var roof := PackedVector2Array([
+		c + Vector2(-s * 1.15, -s * 0.05),
+		c + Vector2(0.0, -s * 1.1),
+		c + Vector2(s * 1.15, -s * 0.05),
+	])
+	painter.fill(roof, UiPalette.HUD_INK)
+	painter.fill(HudPainter.chamfered(Rect2(c + Vector2(-s * 0.82, -s * 0.1),
+		Vector2(s * 1.64, s * 1.18)), s * 0.2), UiPalette.HUD_INK)
+	painter.fill(HudPainter.chamfered(Rect2(c + Vector2(-s * 0.24, s * 0.3),
+		Vector2(s * 0.48, s * 0.78)), s * 0.1), UiPalette.HUD_LACQUER_BOT)
+	RenderingServer.canvas_item_add_triangle_array(node.get_canvas_item(),
+		painter.indices, painter.points, painter.colors)
 
 
 ## Seed Shrine (Leyline Jade shop), under the LAN button. The label carries the wallet.

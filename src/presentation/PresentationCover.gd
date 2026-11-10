@@ -5,15 +5,14 @@ extends Control
 # title stage. It replaces only the UI layer: the eclipse, leyline, island chain,
 # Pearl, plants and spirits all come from the inherited TitleMenu scene.
 #
-# Composition follows slide 1 of the presentation deck: university lockup top left,
-# the two-line wordmark, course line, subtitle and pitch, then the team credits and
-# the actions the player can take. The left scrim keeps the copy readable while the
-# island and battle stay visible under the fading right edge. Shapes are plain
-# StyleBoxFlat/CanvasItem draws and the only texture is the 54 px university mark,
-# so the cover adds no per-frame script cost once its intro fade ends.
+# Composition follows the title slide: university lockup top left, the two-line
+# wordmark, course line, subtitle, and the actions the presenter can take. The
+# team stays behind the Account button, and the lecturer and date sit in a
+# compact footer, so the cover holds one clear invitation: start the presentation.
+# Shapes are plain StyleBoxFlat/CanvasItem draws and the only texture is the 54 px
+# university mark, so the cover adds no per-frame script cost once its intro ends.
 
 signal play_pressed
-signal settings_pressed
 signal quit_pressed
 
 const NOTO_REGULAR_PATH := "res://assets/fonts/NotoSans-Regular.ttf"
@@ -30,6 +29,7 @@ static var _noto_bold: Font = null
 var title_block: Control
 var _play: Button
 var _canvas: HudCanvas
+var _accounts: PresentationAccounts
 var _fade_groups: Array[Control] = []
 
 
@@ -42,11 +42,11 @@ func _ready() -> void:
 	_build_lockup()
 	_build_title()
 	_build_actions()
-	_build_credits()
+	_build_footer()
 
 
 ## Draws the 3D stage back, then the cover copy in: university, wordmark, actions,
-## credits. Each band has its own delay, so the eye lands on the wordmark first.
+## footer. Each band has its own delay, so the eye lands on the wordmark first.
 func play_intro() -> void:
 	for group in _fade_groups:
 		group.modulate.a = 0.0
@@ -135,7 +135,7 @@ func _build_lockup() -> void:
 	var lockup := Control.new()
 	lockup.name = "Lockup"
 	lockup.position = Vector2(MARGIN, TOP_MARGIN)
-	lockup.size = Vector2(470.0, 62.0)
+	lockup.size = Vector2(500.0, 68.0)
 	lockup.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(lockup)
 	_fade_groups.append(lockup)
@@ -143,7 +143,7 @@ func _build_lockup() -> void:
 	var logo := Panel.new()
 	logo.name = "Logo"
 	logo.position = Vector2.ZERO
-	logo.size = Vector2(54.0, 54.0)
+	logo.size = Vector2(60.0, 60.0)
 	logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	logo.add_theme_stylebox_override("panel",
 		UiPalette.box(UiPalette.PAPER_WARM, UiPalette.PAPER_EDGE, 3, 1, 4))
@@ -162,18 +162,18 @@ func _build_lockup() -> void:
 	mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	logo.add_child(mark)
 
-	var eyebrow := _label(PresentationDeck.UNIVERSITY_EYEBROW, UiPalette.hud_font(), 11,
-		UiPalette.HUD_GOLD, Vector2(66.0, -1.0), 2.4)
+	var eyebrow := _label(PresentationDeck.UNIVERSITY_EYEBROW, UiPalette.hud_font(), 12,
+		UiPalette.HUD_GOLD, Vector2(74.0, -1.0), 2.4)
 	eyebrow.name = "Eyebrow"
 	lockup.add_child(eyebrow)
 
-	var name_label := _label(PresentationDeck.UNIVERSITY, UiPalette.hud_font(), 20,
-		UiPalette.HUD_INK, Vector2(66.0, 14.0))
+	var name_label := _label(PresentationDeck.UNIVERSITY, UiPalette.hud_font(), 22,
+		UiPalette.HUD_INK, Vector2(74.0, 15.0))
 	name_label.name = "University"
 	lockup.add_child(name_label)
 
-	var faculty := _label(PresentationDeck.FACULTY, UiPalette.hud_font(), 12,
-		UiPalette.HUD_INK_SOFT, Vector2(66.0, 42.0))
+	var faculty := _label(PresentationDeck.FACULTY, UiPalette.hud_font(), 13,
+		UiPalette.HUD_INK_SOFT, Vector2(74.0, 46.0))
 	faculty.name = "Faculty"
 	lockup.add_child(faculty)
 
@@ -183,92 +183,87 @@ func _build_lockup() -> void:
 func _build_title() -> void:
 	title_block = Control.new()
 	title_block.name = "TitleBlock"
-	title_block.anchor_top = 0.225
-	title_block.anchor_bottom = 0.225
+	title_block.anchor_top = 0.165
+	title_block.anchor_bottom = 0.165
 	title_block.offset_left = MARGIN
-	title_block.offset_right = MARGIN + 600.0
+	title_block.offset_right = MARGIN + 650.0
 	title_block.offset_top = 0.0
-	title_block.offset_bottom = 280.0
+	title_block.offset_bottom = 300.0
 	title_block.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(title_block)
 	_fade_groups.append(title_block)
 
-	var course := _label(PresentationDeck.COURSE, UiPalette.hud_font(), 13,
+	var course := _label(PresentationDeck.COURSE, UiPalette.hud_font(), 15,
 		UiPalette.HUD_GOLD, Vector2.ZERO, 1.6)
 	course.name = "Course"
 	title_block.add_child(course)
 
-	var first := _label(PresentationDeck.TITLE_FIRST, UiPalette.hud_font(), 82,
-		UiPalette.HUD_INK, Vector2(-3.0, 14.0))
+	var first := _label(PresentationDeck.TITLE_FIRST, UiPalette.hud_font(), 92,
+		UiPalette.HUD_INK, Vector2(-4.0, 18.0))
 	first.name = "TitleFirst"
 	title_block.add_child(first)
 
-	var second := _label(PresentationDeck.TITLE_SECOND, UiPalette.hud_font(), 82,
-		UiPalette.HUD_ACCENT, Vector2(-3.0, 90.0))
+	var second := _label(PresentationDeck.TITLE_SECOND, UiPalette.hud_font(), 92,
+		UiPalette.HUD_ACCENT, Vector2(-4.0, 112.0))
 	second.name = "TitleSecond"
 	var gold := ShaderMaterial.new()
 	gold.shader = load(GOLD_SHADER_PATH)
 	gold.set_shader_parameter("light", UiPalette.HUD_FLASH)
 	gold.set_shader_parameter("deep", UiPalette.HUD_GOLD)
 	gold.set_shader_parameter("top_y", 10.0)
-	gold.set_shader_parameter("foot_y", 70.0)
+	gold.set_shader_parameter("foot_y", 78.0)
 	second.material = gold
 	title_block.add_child(second)
 
 	var rule := Panel.new()
 	rule.name = "Rule"
-	rule.position = Vector2(2.0, 204.0)
-	rule.size = Vector2(282.0, 2.0)
+	rule.position = Vector2(2.0, 236.0)
+	rule.size = Vector2(320.0, 2.0)
 	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rule.add_theme_stylebox_override("panel",
 		UiPalette.box(Color(UiPalette.HUD_GOLD, 0.55), Color(UiPalette.HUD_GOLD, 0.55), 0, 0, 0))
 	title_block.add_child(rule)
 
-	var subtitle := _label(PresentationDeck.SUBTITLE, UiPalette.hud_font(), 22,
-		UiPalette.HUD_INK, Vector2(0.0, 214.0))
+	var subtitle := _label(PresentationDeck.SUBTITLE, UiPalette.hud_font(), 30,
+		UiPalette.HUD_INK, Vector2(0.0, 246.0))
 	subtitle.name = "Subtitle"
 	title_block.add_child(subtitle)
-
-	var tagline := _label(PresentationDeck.TAGLINE, UiPalette.hud_font(), 14,
-		UiPalette.HUD_INK_SOFT, Vector2(0.0, 248.0))
-	tagline.name = "Tagline"
-	title_block.add_child(tagline)
 
 
 func _build_actions() -> void:
 	var actions := Control.new()
 	actions.name = "Actions"
-	actions.anchor_top = 0.615
-	actions.anchor_bottom = 0.615
+	actions.anchor_top = 0.74
+	actions.anchor_bottom = 0.74
 	actions.offset_left = MARGIN
-	actions.offset_right = MARGIN + 420.0
+	actions.offset_right = MARGIN + 430.0
 	actions.offset_top = 0.0
-	actions.offset_bottom = 96.0
+	actions.offset_bottom = 104.0
 	actions.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(actions)
 	_fade_groups.append(actions)
 
 	_play = HudMenuButton.new()
 	_play.name = "PlayButton"
-	_play.text = tr("Play the game")
+	_play.text = tr("Start")
 	_play.primary = true
 	_play.position = Vector2.ZERO
-	_play.size = Vector2(252.0, 52.0)
-	_play.custom_minimum_size = Vector2(252.0, 52.0)
+	_play.size = Vector2(220.0, 56.0)
+	_play.custom_minimum_size = Vector2(220.0, 56.0)
 	_play.pressed.connect(func() -> void: play_pressed.emit())
 	actions.add_child(_play)
 
 	var links := HBoxContainer.new()
 	links.name = "Links"
-	links.position = Vector2(2.0, 64.0)
-	links.size = Vector2(360.0, 30.0)
-	links.add_theme_constant_override("separation", 22)
+	links.position = Vector2(2.0, 70.0)
+	links.size = Vector2(420.0, 38.0)
+	links.add_theme_constant_override("separation", 24)
 	actions.add_child(links)
 
-	var settings := _quiet_button("Settings")
-	settings.name = "SettingsButton"
-	settings.pressed.connect(func() -> void: settings_pressed.emit())
-	links.add_child(settings)
+	var account := _quiet_button("Account")
+	account.name = "AccountButton"
+	account.pressed.connect(_on_accounts)
+	links.add_child(account)
 
 	if not GameManager.is_touch_ui():
 		var quit := _quiet_button("Quit")
@@ -276,71 +271,60 @@ func _build_actions() -> void:
 		quit.pressed.connect(func() -> void: quit_pressed.emit())
 		links.add_child(quit)
 
+	SafeArea.apply(actions)
 
-func _build_credits() -> void:
-	var credits := Control.new()
-	credits.name = "Credits"
-	credits.anchor_top = 1.0
-	credits.anchor_bottom = 1.0
-	credits.offset_left = MARGIN
-	credits.offset_right = MARGIN + 690.0
-	credits.offset_top = -150.0
-	credits.offset_bottom = -52.0
-	credits.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(credits)
-	_fade_groups.append(credits)
+
+func _build_footer() -> void:
+	var footer := Control.new()
+	footer.name = "Footer"
+	footer.anchor_top = 1.0
+	footer.anchor_bottom = 1.0
+	footer.offset_left = MARGIN
+	footer.offset_right = MARGIN + 760.0
+	footer.offset_top = -86.0
+	footer.offset_bottom = -38.0
+	footer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(footer)
+	_fade_groups.append(footer)
 
 	var rule := Panel.new()
 	rule.name = "Rule"
 	rule.position = Vector2.ZERO
-	rule.size = Vector2(160.0, 1.0)
+	rule.size = Vector2(190.0, 1.0)
 	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rule.add_theme_stylebox_override("panel",
-		UiPalette.box(Color(UiPalette.HUD_GOLD, 0.28), Color(UiPalette.HUD_GOLD, 0.28), 0, 0, 0))
-	credits.add_child(rule)
+		UiPalette.box(Color(UiPalette.HUD_GOLD, 0.30), Color(UiPalette.HUD_GOLD, 0.30), 0, 0, 0))
+	footer.add_child(rule)
 
-	var header := _label(PresentationDeck.CREDITS_LABEL, UiPalette.hud_font(), 10,
-		UiPalette.HUD_GOLD, Vector2(0.0, 14.0), 2.2)
-	header.name = "Header"
-	credits.add_child(header)
+	var label := _label("LECTURER", UiPalette.hud_font(), 11,
+		UiPalette.HUD_GOLD, Vector2(0.0, 15.0), 2.2)
+	label.name = "LecturerLabel"
+	footer.add_child(label)
 
-	var presenters := VBoxContainer.new()
-	presenters.name = "Presenters"
-	presenters.position = Vector2(0.0, 30.0)
-	presenters.custom_minimum_size = Vector2(360.0, 64.0)
-	presenters.add_theme_constant_override("separation", 2)
-	credits.add_child(presenters)
-	for presenter: Dictionary in PresentationDeck.PRESENTERS:
-		presenters.add_child(_presenter_row(str(presenter["name"]), str(presenter["id"])))
+	var name_label := _label(PresentationDeck.LECTURER, _noto(false), 19,
+		UiPalette.HUD_INK, Vector2(88.0, 8.0))
+	name_label.name = "Lecturer"
+	footer.add_child(name_label)
 
-	var lecturer_header := _label(PresentationDeck.LECTURER_LABEL, UiPalette.hud_font(), 10,
-		UiPalette.HUD_GOLD, Vector2(390.0, 14.0), 2.2)
-	lecturer_header.name = "LecturerHeader"
-	credits.add_child(lecturer_header)
+	var dot := _label("·", UiPalette.hud_font(), 18,
+		UiPalette.HUD_GOLD, Vector2(318.0, 8.0))
+	dot.name = "Dot"
+	footer.add_child(dot)
 
-	var lecturer := _label(PresentationDeck.LECTURER, _noto(false), 15,
-		UiPalette.HUD_INK, Vector2(390.0, 30.0))
-	lecturer.name = "Lecturer"
-	credits.add_child(lecturer)
-
-	var date := _label(PresentationDeck.DATE, _noto(false), 13,
-		UiPalette.HUD_INK_SOFT, Vector2(390.0, 55.0))
+	var date := _label(PresentationDeck.DATE, _noto(false), 17,
+		UiPalette.HUD_INK_SOFT, Vector2(344.0, 11.0))
 	date.name = "Date"
-	credits.add_child(date)
+	footer.add_child(date)
 
-	SafeArea.apply(credits)
+	SafeArea.apply(footer)
 
 
-func _presenter_row(presenter_name: String, student_id: String) -> HBoxContainer:
-	var row := HBoxContainer.new()
-	row.custom_minimum_size = Vector2(360.0, 20.0)
-	var name_label := _label(presenter_name, _noto(false), 15, UiPalette.HUD_INK, Vector2.ZERO)
-	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(name_label)
-	var id_label := _label(student_id, _noto(true), 13, UiPalette.HUD_GOLD, Vector2.ZERO)
-	id_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	row.add_child(id_label)
-	return row
+func _on_accounts() -> void:
+	if _accounts == null:
+		_accounts = PresentationAccounts.new()
+		_accounts.name = "AccountsPanel"
+		add_child(_accounts)
+	_accounts.open()
 
 
 func _quiet_button(text: String) -> Button:
@@ -349,7 +333,7 @@ func _quiet_button(text: String) -> Button:
 	button.flat = true
 	button.focus_mode = Control.FOCUS_ALL
 	button.add_theme_font_override("font", UiPalette.hud_font())
-	button.add_theme_font_size_override("font_size", 15)
+	button.add_theme_font_size_override("font_size", 19)
 	for state in ["font_color", "font_hover_color", "font_focus_color", "font_hover_pressed_color"]:
 		button.add_theme_color_override(state, UiPalette.HUD_INK_SOFT)
 	button.add_theme_color_override("font_pressed_color", UiPalette.HUD_ACCENT)
@@ -359,7 +343,7 @@ func _quiet_button(text: String) -> Button:
 		UiPalette.box(Color(UiPalette.HUD_ACCENT, 0.0), Color(UiPalette.HUD_ACCENT, 0.0), 0, 0, 6))
 	button.add_theme_stylebox_override("focus",
 		UiPalette.box(Color(UiPalette.HUD_ACCENT, 0.0), Color(UiPalette.HUD_ACCENT, 0.60), 4, 1, 6))
-	button.custom_minimum_size = Vector2(0.0, 30.0)
+	button.custom_minimum_size = Vector2(0.0, 36.0)
 	return button
 
 

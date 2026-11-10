@@ -2,8 +2,12 @@ extends Node
 
 # GameFlow — the only owner of scene changes. Boot (src/core/Boot.tscn, the main
 # scene) calls boot(): a battle test/capture flag goes straight into the battle
-# shell as before; atlas tests and captures open the atlas; everything else opens
-# the title screen (open_title), whose New Game / Continue hands over to the atlas.
+# shell as before; atlas tests and captures open the atlas; presentation test
+# flags boot into their screen; everything else opens the title screen
+# (open_title), whose Start action opens the contents page
+# (open_contents), whose live section opens the concept screen (open_concept).
+# The atlas is reachable from the section's final action; its home button returns
+# to the title.
 # Play on a level card
 # (EventBus.level_play_requested) fades out while the battle shell and the
 # level's map finish their threaded load, prepares the level on GameManager and
@@ -20,9 +24,13 @@ extends Node
 # and returns to the atlas when the host leaves the battle or the link drops.
 # Game progress stays host-only: the guest never runs play_level's unlock check.
 # --flow-test runs src/core/FlowTest.gd after boot; --title-test runs
-# src/menus/title/TitleTest.gd and is the only test flag that opens the title.
+# src/menus/title/TitleTest.gd, --contents-test runs
+# src/presentation/ContentsTest.gd and --concept-test runs
+# src/presentation/ConceptTest.gd.
 
 const TITLE_SCENE := "res://src/presentation/PresentationTitle.tscn"
+const CONTENTS_SCENE := "res://src/presentation/PresentationContents.tscn"
+const CONCEPT_SCENE := "res://src/presentation/ConceptVision.tscn"
 const ATLAS_SCENE := "res://src/menus/atlas/AtlasMenu.tscn"
 const BATTLE_SCENE := "res://src/battle/DioramaWorld.tscn"
 # Test flags that run their own scripted flow in the battle shell, so the round
@@ -85,6 +93,14 @@ func boot() -> void:
 			break
 	if atlas_only:
 		open_atlas()
+	elif "--contents-test" in args or "--contents-shot" in args:
+		open_contents()
+		if "--contents-test" in args:
+			load("res://src/presentation/ContentsTest.gd").new().run()
+	elif "--concept-test" in args or "--concept-shot" in args:
+		open_concept()
+		if "--concept-test" in args:
+			load("res://src/presentation/ConceptTest.gd").new().run()
 	else:
 		open_title()
 	if "--flow-test" in args:
@@ -95,9 +111,34 @@ func boot() -> void:
 		load("res://src/menus/title/TitleTest.gd").new().run()
 
 
-## The front door. It owns no level state: New Game / Continue hand over to the
-## atlas, and the fade covers the load exactly like every other transition.
+## The front door: the presentation cover. It owns no level state; every menu
+## hand-off goes through _open_menu so the fade covers the load the same way.
 func open_title() -> void:
+	_open_menu(TITLE_SCENE)
+
+
+## The contents page. Section 01 is live; the rest are listed but disabled.
+func open_contents() -> void:
+	_open_menu(CONTENTS_SCENE)
+
+
+## Section 01 — Concept & Vision.
+func open_concept() -> void:
+	_open_menu(CONCEPT_SCENE)
+
+
+## Opens a section by its row in PresentationDeck.SECTIONS. A row without a scene
+## is not live and does nothing, which is the same rule the contents page draws.
+func open_section(index: int) -> void:
+	if index < 0 or index >= PresentationDeck.SECTIONS.size():
+		return
+	var path := str(PresentationDeck.SECTIONS[index]["scene"])
+	if path.is_empty():
+		return
+	_open_menu(path)
+
+
+func _open_menu(path: String) -> void:
 	if busy:
 		return
 	busy = true
@@ -107,8 +148,8 @@ func open_title() -> void:
 	if Net.is_host() and GameManager.level_active:
 		Net.end_session()
 	GameManager.clear_level()
-	get_tree().change_scene_to_file(TITLE_SCENE)
-	await _scene_ready(TITLE_SCENE)
+	get_tree().change_scene_to_file(path)
+	await _scene_ready(path)
 	await _fade_to(0.0, FADE_IN)
 	busy = false
 

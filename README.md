@@ -13,12 +13,15 @@ under `src/presentation/`. The playable game is never modified from here.
 DISPLAY=:0 godot --path .
 ```
 
-The presentation opens on the cover. **Play the game** enters the normal atlas.
+The presentation opens on the cover. **Start** opens the contents page, where
+section 01 is live; its final **Enter the game** action opens the normal atlas.
 
 ## Scope
 
-The talk covers four sections: Concept & Vision, Core Gameplay, World & Narrative,
-and Art, Audio & UI. Presentation material for later sections is out of scope.
+The contents page lists six sections in slide order: Concept & Vision, Core
+Gameplay, World & Narrative, Art, Audio & UI, Systems & Balance, and Technology
+& Production. Only section 01 has content so far; the other rows are disabled
+until their screens exist.
 
 ## Commands
 

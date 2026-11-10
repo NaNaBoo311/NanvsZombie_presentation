@@ -10,6 +10,20 @@ const CUT := 8.0
 var primary := false
 
 
+## Primary is also a text colour (seal ink on the gold fill), so changing it after
+## _ready must refresh the overrides.
+func set_primary(on: bool) -> void:
+	primary = on
+	_apply_ink()
+
+
+func _apply_ink() -> void:
+	var ink := UiPalette.HUD_SEAL_INK if primary else UiPalette.HUD_INK
+	for state in ["font_color", "font_hover_color", "font_focus_color", "font_hover_pressed_color"]:
+		add_theme_color_override(state, ink)
+	add_theme_color_override("font_pressed_color", UiPalette.HUD_SEAL_INK)
+
+
 func _init() -> void:
 	super()
 	focus_mode = Control.FOCUS_ALL
@@ -21,10 +35,7 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	var ink := UiPalette.HUD_SEAL_INK if primary else UiPalette.HUD_INK
-	for state in ["font_color", "font_hover_color", "font_focus_color", "font_hover_pressed_color"]:
-		add_theme_color_override(state, ink)
-	add_theme_color_override("font_pressed_color", UiPalette.HUD_SEAL_INK)
+	_apply_ink()
 	HudCanvas.register(self, 90)
 
 

@@ -1,16 +1,16 @@
 extends RefCounted
 
-# --title-test: boots the presentation cover (the only test flag that does not skip
-# it), checks the cover copy, credits and actions, opens and closes Settings, then
-# presses Play and waits for the atlas with the fade clear.
+# --title-test: boots the presentation cover (the only test flag that does not
+# skip it) and walks the talk's front door: the cover copy and the Account
+# dialog, Start into the contents page, section 01 into Concept & Vision, Back
+# to contents (the page reopens), the section's Enter the game hand-off to the
+# playable atlas, and the atlas's icon-only return to the cover.
 #
-# The cover sits on the game's all-3D title stage: a home island on the leyline and
-# a chain of islands built from the world data. This test asserts the island, its
-# vignette and the effects (leyline, spirits, seed shots) exist, that the chain has
-# a lantern for every world in LevelDB, and guards the stage's budget rules (no
-# SubViewport, one shadow light, no spot or omni lights) before exercising the cover.
-# Prints "[TitleTest] PASS" or each failure, then quits 0 / 1. Loaded only by
-# GameFlow.boot() under the flag.
+# It also guards the inherited 3D stage: the home island, its vignette and the
+# effects exist, the chain has a lantern for every world in LevelDB, and the
+# stage keeps its budget (no SubViewport, one shadow light, no spot or omni
+# lights). Prints "[TitleTest] PASS" or each failure, then quits 0 / 1. Loaded
+# only by GameFlow.boot() under the flag.
 
 const TIMEOUT_FRAMES := 900
 
@@ -36,29 +36,69 @@ func run() -> void:
 	if cover == null:
 		return _finish()
 
-	var settings_button := cover.get_node_or_null("Actions/Links/SettingsButton") as Button
-	if settings_button == null:
-		_failures.append("Settings button is missing")
-	else:
-		settings_button.pressed.emit()
-		await _tree.process_frame
-		var settings := title.get_node_or_null("UI/SettingsPanel") as Control
-		if settings == null or not settings.visible:
-			_failures.append("Settings did not open the panel")
-		else:
-			settings.close()
-			await _tree.process_frame
-			if settings.visible:
-				_failures.append("Settings panel did not close")
-
 	if not GameManager.is_touch_ui() \
 			and cover.get_node_or_null("Actions/Links/QuitButton") == null:
 		_failures.append("desktop Quit button is missing")
 
 	var play := cover.get_node_or_null("Actions/PlayButton") as Button
-	if play != null:
-		play.pressed.emit()
-		await _wait_scene(GameFlow.ATLAS_SCENE)
+	if play == null:
+		return _finish()
+	play.pressed.emit()
+	var contents := await _wait_scene(GameFlow.CONTENTS_SCENE)
+	if contents == null:
+		return _finish()
+	_check_contents(contents)
+
+	var section := contents.get_node_or_null("Main/Sections/Section01") as Button
+	if section == null:
+		_finish()
+		return
+	section.pressed.emit()
+	var concept := await _wait_scene(GameFlow.CONCEPT_SCENE)
+	if concept == null:
+		return _finish()
+	var screen := concept.get_node_or_null("UI/ConceptScreen") as ConceptScreen
+	if screen == null:
+		_failures.append("Concept & Vision did not build its screen")
+		return _finish()
+	var back := screen.get_node_or_null("Bottom/ContentsButton") as Button
+	if back == null:
+		_failures.append("concept screen has no Back to contents")
+		return _finish()
+	back.pressed.emit()
+	contents = await _wait_scene(GameFlow.CONTENTS_SCENE)
+	if contents == null:
+		return _finish()
+	section = contents.get_node_or_null("Main/Sections/Section01") as Button
+	if section == null:
+		_failures.append("contents page cannot reopen section 01")
+		return _finish()
+	section.pressed.emit()
+	concept = await _wait_scene(GameFlow.CONCEPT_SCENE)
+	if concept == null:
+		return _finish()
+	screen = concept.get_node_or_null("UI/ConceptScreen") as ConceptScreen
+	if screen == null:
+		_failures.append("reopened section has no screen")
+		return _finish()
+
+	# The contents page no longer carries the playable build; section 01's final
+	# action is the only hand-off to the atlas.
+	screen.show_exhibit(4)
+	await _tree.process_frame
+	var next := screen.get_node_or_null("Bottom/NextButton") as Button
+	if next == null or next.text != tr("Enter the game"):
+		_failures.append("section 01 does not offer Enter the game")
+		return _finish()
+	next.pressed.emit()
+	var atlas := await _wait_scene(GameFlow.ATLAS_SCENE)
+	if atlas == null:
+		return _finish()
+	_check_atlas_return(atlas)
+	var home := atlas.get_node_or_null("UI/TitleButton") as Button
+	if home != null:
+		home.pressed.emit()
+		await _wait_scene(GameFlow.TITLE_SCENE)
 	_finish()
 
 
@@ -71,32 +111,54 @@ func _check_cover(title: Node) -> void:
 		_failures.append("university mark is missing")
 	for path in ["Lockup/Eyebrow", "Lockup/University", "Lockup/Faculty",
 			"TitleBlock/Course", "TitleBlock/TitleFirst", "TitleBlock/TitleSecond",
-			"TitleBlock/Subtitle", "TitleBlock/Tagline",
-			"Credits/Header", "Credits/Lecturer", "Credits/Date"]:
+			"TitleBlock/Subtitle", "Actions/PlayButton",
+			"Actions/Links/AccountButton", "Footer/Lecturer", "Footer/Date"]:
 		if cover.get_node_or_null(path) == null:
 			_failures.append("cover is missing %s" % path)
+	if cover.get_node_or_null("Credits") != null:
+		_failures.append("cover still carries the old presented-by credits block")
+	for path in ["TitleBlock/Tagline", "TitleBlock/Pitch", "Actions/Links/SettingsButton"]:
+		if cover.get_node_or_null(path) != null:
+			_failures.append("cover still carries %s" % path)
 	var first := cover.get_node_or_null("TitleBlock/TitleFirst") as Label
 	if first != null and first.text != tr(PresentationDeck.TITLE_FIRST):
 		_failures.append("first title line says \"%s\"" % first.text)
 	var second := cover.get_node_or_null("TitleBlock/TitleSecond") as Label
 	if second != null and second.text != tr(PresentationDeck.TITLE_SECOND):
 		_failures.append("second title line says \"%s\"" % second.text)
-	var tagline := cover.get_node_or_null("TitleBlock/Tagline") as Label
-	if tagline != null and tagline.text != tr(PresentationDeck.TAGLINE):
-		_failures.append("tagline says \"%s\"" % tagline.text)
-	var lecturer := cover.get_node_or_null("Credits/Lecturer") as Label
+	var lecturer := cover.get_node_or_null("Footer/Lecturer") as Label
 	if lecturer != null and lecturer.text != tr(PresentationDeck.LECTURER):
 		_failures.append("lecturer says \"%s\"" % lecturer.text)
+	var date := cover.get_node_or_null("Footer/Date") as Label
+	if date != null and date.text != tr(PresentationDeck.DATE):
+		_failures.append("date says \"%s\"" % date.text)
+	var play := cover.get_node_or_null("Actions/PlayButton") as Button
+	if play == null:
+		_failures.append("cover has no primary action")
+	elif play.text != tr("Start"):
+		_failures.append("cover primary action says \"%s\"" % play.text)
+	_check_accounts(cover)
 
-	var presenters := cover.get_node_or_null("Credits/Presenters") as VBoxContainer
-	if presenters == null:
-		_failures.append("presenter credits are missing")
-	elif presenters.get_child_count() != PresentationDeck.PRESENTERS.size():
-		_failures.append("presenter credits list %d of %d names" % [
-			presenters.get_child_count(), PresentationDeck.PRESENTERS.size()])
+
+func _check_accounts(cover: Control) -> void:
+	var account := cover.get_node_or_null("Actions/Links/AccountButton") as Button
+	if account == null:
+		_failures.append("Account button is missing")
+		return
+	account.pressed.emit()
+	var panel := cover.get_node_or_null("AccountsPanel")
+	if panel == null or not (panel as Control).visible:
+		_failures.append("Account did not open the presenter dialog")
+		return
+	var rows := panel.get_node_or_null("Sheet/Body/Presenters") as VBoxContainer
+	if rows == null:
+		_failures.append("presenter dialog has no presenter list")
+	elif rows.get_child_count() != PresentationDeck.PRESENTERS.size():
+		_failures.append("presenter dialog lists %d of %d names" % [
+			rows.get_child_count(), PresentationDeck.PRESENTERS.size()])
 	else:
-		for i in presenters.get_child_count():
-			var row := presenters.get_child(i) as HBoxContainer
+		for i in rows.get_child_count():
+			var row := rows.get_child(i) as HBoxContainer
 			var spec: Dictionary = PresentationDeck.PRESENTERS[i]
 			if row == null or row.get_child_count() != 2:
 				_failures.append("presenter row %d is malformed" % (i + 1))
@@ -107,12 +169,58 @@ func _check_cover(title: Node) -> void:
 				_failures.append("presenter %d has the wrong name" % (i + 1))
 			if id_label == null or id_label.text != str(spec["id"]):
 				_failures.append("presenter %d has the wrong student id" % (i + 1))
+	panel.call("close")
 
-	var play := cover.get_node_or_null("Actions/PlayButton") as Button
-	if play == null:
-		_failures.append("Play button is missing")
-	elif play.text != tr("Play the game"):
-		_failures.append("Play button says \"%s\"" % play.text)
+
+func _check_contents(contents: Node) -> void:
+	var title := contents.get_node_or_null("Main/Title") as Label
+	if title == null or title.text != tr(PresentationDeck.CONTENTS_TITLE):
+		_failures.append("contents page has no title")
+	if contents.get_node_or_null("Main/Hint") != null:
+		_failures.append("contents page still carries the hint")
+	if contents.get_node_or_null("Header/AccountButton") != null:
+		_failures.append("contents page still carries the Account button")
+	if contents.get_node_or_null("Header/Kicker") != null:
+		_failures.append("contents page still carries the kicker")
+	if contents.get_node_or_null("Footer") != null:
+		_failures.append("contents page still carries its footer")
+	var sections := contents.get_node_or_null("Main/Sections")
+	if sections == null:
+		_failures.append("contents page has no section list")
+		return
+	if sections.get_child_count() != PresentationDeck.SECTIONS.size():
+		_failures.append("contents lists %d of %d sections" % [
+			sections.get_child_count(), PresentationDeck.SECTIONS.size()])
+	for i in PresentationDeck.SECTIONS.size():
+		var spec: Dictionary = PresentationDeck.SECTIONS[i]
+		var row := sections.get_node_or_null("Section%s" % str(spec["number"])) as Button
+		if row == null:
+			_failures.append("contents is missing section %s" % spec["number"])
+			continue
+		var live := i == 0
+		if row.disabled == live:
+			_failures.append("section %s is %s" % [spec["number"],
+				"disabled" if live else "live"])
+		var row_title := row.get_node_or_null("Title") as Label
+		if row_title == null or row_title.text != tr(str(spec["title"])):
+			_failures.append("section %s has the wrong title" % spec["number"])
+		if row.get_node_or_null("Blurb") != null:
+			_failures.append("section %s still carries a description" % spec["number"])
+		if row.get_node_or_null("State") != null:
+			_failures.append("section %s still carries a state label" % spec["number"])
+
+
+func _check_atlas_return(atlas: Node) -> void:
+	var home := atlas.get_node_or_null("UI/TitleButton") as Button
+	if home == null:
+		_failures.append("atlas has no return-to-title button")
+		return
+	if not home.text.is_empty():
+		_failures.append("atlas return-to-title button is not icon-only")
+	if home.get_node_or_null("Glyph") == null:
+		_failures.append("atlas return-to-title button has no icon")
+	if home.tooltip_text != tr("Back to title"):
+		_failures.append("atlas return-to-title button has the wrong tooltip")
 
 
 func _check_stage(title: Node) -> void:

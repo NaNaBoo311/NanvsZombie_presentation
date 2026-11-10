@@ -145,6 +145,14 @@ and nothing errors: the railing drawn with cos/sin angles follows one half while
 covers the other. `ry = -π/2` puts it on +z. Check a `computeBoundingBox()` before pushing it
 (see `tools/asset_generator/generators/maps/landmark_81/marina_club.mjs`).
 
+### bake-skips-hidden
+`site:` any `TitleBake.bake()` caller (`src/menus/title/TitleMenu.gd`, `src/presentation/ConceptCarousel.gd`)
+
+`bake()` concatenates only surfaces whose nodes are visible in the tree. A group root set
+`visible = false` before the bake produces an empty `Baked` mesh with no error and no warning:
+the world is simply missing, and camera, scale and material all look innocent. Keep the group
+visible while baking, then hide the finished root.
+
 ### multimesh-aabb-draw-calls
 `site:` any `MultiMeshInstance3D` batch (`src/environment/ForestMultiMesh.gd`, `PropMultiMesh.gd`)
 

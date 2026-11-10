@@ -11,6 +11,25 @@ two can be grepped as one unit: `grep -rn "CONTRACT(add-plant)" src/`.
 
 ---
 
+## add-presentation-section
+
+**Touches 3 places.** A talk section is a row in `PresentationDeck.SECTIONS`; the contents
+page and `GameFlow.open_section()` both read that row, so neither needs per-section code.
+
+| # | File | Anchor | Do | If skipped |
+|:--|:--|:--|:--|:--|
+| 1 | `src/presentation/PresentationDeck.gd` | `SECTIONS` | add `{number, title, scene}` in slide order; leave `scene` empty until the section exists — an empty path is the page's disabled state | no row on the contents page; ⚠ a filled `scene` with no scene file is a dead action |
+| 2 | `src/presentation/<Name>.gd` + `.tscn` | new | build the section screen; end with `GameFlow.open_contents()` (or the playable build) and expose its own capture flag if useful. The root may be a `Control` or a `Node3D` | the contents row opens nothing |
+| 3 | `project.godot` | `locale/translations_pot_files` | add the section script and scene | ⚠ `tr()` strings silently fall back to the English source: translations never load |
+
+A test for a new section belongs beside it as `src/presentation/<Name>Test.gd` and is started
+from `GameFlow.boot()` under its own flag; it is not a registration point.
+
+**Verify:** `-- --contents-test` passes with the new row live and the rest unchanged →
+`-- --title-test` still walks cover → contents → section 01 → atlas → cover.
+
+---
+
 ## add-plant
 
 **Touches 3 places.** Every plant list in the game (seed bank, TAB picker, placement, costs,

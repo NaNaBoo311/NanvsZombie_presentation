@@ -10,7 +10,12 @@ is the imported game runtime and changes only when the presentation needs it.
 | Task | Open first |
 | :--- | :--- |
 | Presentation cover | `src/presentation/PresentationTitle.gd` |
-| Cover copy, credits, section data | `src/presentation/PresentationDeck.gd` |
+| Contents page, section rows | `src/presentation/PresentationContents.gd` |
+| Section 01 — Concept & Vision | `src/presentation/ConceptVision.gd` |
+| Section screen, exhibits | `src/presentation/ConceptScreen.gd` |
+| World carousel, posed shards | `src/presentation/ConceptCarousel.gd` |
+| Presenter dialog | `src/presentation/PresentationAccounts.gd` |
+| All talk copy, credits, section data | `src/presentation/PresentationDeck.gd` |
 | Cover layout and interaction | `src/presentation/PresentationCover.gd` |
 | 3D title stage | `src/menus/title/TitleMenu.gd` |
 | Scene changes, atlas hand-off | `src/core/GameFlow.gd` |
@@ -26,6 +31,9 @@ DISPLAY=:0 $GODOT --path .                              # run the presentation
 DISPLAY=:0 $GODOT --headless --editor --quit --path .   # reimport after asset changes
 DISPLAY=:0 $GODOT --path . -- --title-test              # cover and 3D stage
 DISPLAY=:0 $GODOT --path . -- --title-shot              # cover capture and budget line
+DISPLAY=:0 $GODOT --path . -- --contents-test           # contents rows and hand-offs
+DISPLAY=:0 $GODOT --path . -- --concept-test            # section 01 exhibits
+DISPLAY=:0 $GODOT --path . -- --concept-shot            # section capture; add --concept-exhibit N
 DISPLAY=:0 $GODOT --path . -- --flow-test               # flow regression
 ```
 

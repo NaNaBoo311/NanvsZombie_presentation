@@ -18,7 +18,6 @@ func _build_ui() -> void:
 	_ui.add_child(_cover)
 	_title_block = _cover.title_block
 	_cover.play_pressed.connect(_on_primary)
-	_cover.settings_pressed.connect(_on_settings)
 	_cover.quit_pressed.connect(_on_quit)
 	if not GameManager.is_touch_ui():
 		_cover.focus_play()
@@ -27,3 +26,9 @@ func _build_ui() -> void:
 func _fade_in_ui() -> void:
 	if _cover != null:
 		_cover.play_intro()
+
+
+## The cover's one action opens the contents page. The playable build lives one
+## step further in, on the contents page, so the cover never skips the talk.
+func _on_primary() -> void:
+	GameFlow.open_contents()
