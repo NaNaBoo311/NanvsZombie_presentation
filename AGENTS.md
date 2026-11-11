@@ -14,6 +14,12 @@ is the imported game runtime and changes only when the presentation needs it.
 | Section 01 — Concept & Vision | `src/presentation/ConceptVision.gd` |
 | Section screen, exhibits | `src/presentation/ConceptScreen.gd` |
 | World atlas stage, province focus | `src/presentation/ConceptAtlas.gd` |
+| Section 02 — Core Gameplay (atlas) | `src/presentation/CoreGameplayAtlas.gd` |
+| Section 02 screen, loop scales | `src/presentation/CoreGameplayScreen.gd` |
+| Section 02 field, sandbox stage | `src/presentation/CoreGameplayField.gd` |
+| Role cards reveal | `src/presentation/RoleCards.gd` |
+| Placement guide, facing compass | `src/presentation/PlacementGuide.gd` |
+| Enemy states chain, demo summon | `src/presentation/EnemyStatesBeat.gd` |
 | Presenter dialog | `src/presentation/PresentationAccounts.gd` |
 | All talk copy, credits, section data | `src/presentation/PresentationDeck.gd` |
 | Cover layout and interaction | `src/presentation/PresentationCover.gd` |
@@ -34,6 +40,8 @@ DISPLAY=:0 $GODOT --path . -- --title-shot              # cover capture and budg
 DISPLAY=:0 $GODOT --path . -- --contents-test           # contents rows and hand-offs
 DISPLAY=:0 $GODOT --path . -- --concept-test            # section 01 exhibits
 DISPLAY=:0 $GODOT --path . -- --concept-shot            # section capture; add --concept-exhibit N
+DISPLAY=:0 $GODOT --path . -- --core-test               # section 02 four-beat regression
+DISPLAY=:0 $GODOT --path . -- --core-shot               # section 02 capture; add --core-beat atlas|roles|placement|enemies
 DISPLAY=:0 $GODOT --path . -- --flow-test               # flow regression
 ```
 

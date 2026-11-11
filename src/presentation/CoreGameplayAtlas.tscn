@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://src/menus/atlas/AtlasMenu.tscn" id="1_stage"]
+[ext_resource type="Script" path="res://src/presentation/CoreGameplayAtlas.gd" id="2_core"]
+
+[node name="CoreGameplayAtlas" instance=ExtResource("1_stage")]
+script = ExtResource("2_core")

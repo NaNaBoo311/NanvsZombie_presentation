@@ -44,7 +44,7 @@ const SECTIONS := [
 	{
 		"number": "02",
 		"title": "Core Gameplay",
-		"scene": "",
+		"scene": "res://src/presentation/CoreGameplayAtlas.tscn",
 	},
 	{
 		"number": "03",
@@ -129,3 +129,58 @@ const PILLARS := [
 	{"number": "02", "title": "COZY TOY\nDIORAMA", "line": "A warm toy diorama, not a war."},
 	{"number": "03", "title": "RUNS\nANYWHERE", "line": "60 FPS on integrated GPUs and phones."},
 ]
+
+# --------------------------------------------------------------- section 02 ---
+
+const CORE_KICKER := "SECTION 02 · CORE GAMEPLAY"
+const CORE_TITLE := "One loop, three scales."
+const CORE_BODY := "The Warden has no body on the field. You read the island, choose a seed, and plant."
+
+## The loop at each scale: one row of state chips per time horizon.
+const CORE_SCALES := [
+	{"label": "SECONDS", "steps": ["CHOOSE", "PLACE", "DEFEND", "GATHER"]},
+	{"label": "MINUTES", "steps": ["PREPARE", "WAVES", "RESULT"]},
+	{"label": "HOURS", "steps": ["ATLAS", "BATTLE", "UNLOCK"]},
+]
+const CORE_TENSION := "Grow, or hold? Gems buy more economy, or the defence that survives the next wave."
+const CORE_ATLAS_HINT := "Click Saigon to open its board."
+const CORE_ATLAS_FIELD_HINT := "Click Night 1 to enter the field."
+const CORE_FIELD_ENTER := "Enter the field"
+
+const CORE_ROLES_TITLE := "Every plant shares one body."
+const CORE_ROLES_BODY := "The role decides what it does with it."
+## `id` is the unit id: the card reads its name, subtitle and model from BalanceDB.
+const CORE_ROLES := [
+	{"id": "sacred_rice", "role": "PRODUCER", "line": "Grows Rice Gems. Never attacks."},
+	{"id": "lotus_shooter", "role": "ATTACKER", "line": "Fires down the cone it faces."},
+	{"id": "armored_coconut", "role": "DEFENDER", "line": "A high-HP wall on one tile."},
+]
+const CORE_ROLES_CONTINUE := "Show me"
+
+const CORE_PLACEMENT_TITLE := "Five checks, one tile."
+const CORE_CHECKS := [
+	"Inside the lawn",
+	"Clear of the Pearl's dais",
+	"Tile is free",
+	"Can pay the cost",
+	"Seed has recharged",
+]
+const CORE_FACING_HINT := "R / Shift+R · 45°"
+const CORE_PLACEMENT_CONTINUE := "Now the spirits"
+
+const CORE_ENEMY_TITLE := "Every spirit walks the same road."
+const CORE_STATES := ["SPAWN", "ROUTE", "MARCH", "SEEK", "EAT"]
+const CORE_SIEGE := "SIEGE"
+## Keyed by HungryGhost.ai_state(); the panel shows the line for the live state.
+const CORE_STATE_LINES := {
+	"spawn": "The mound cracks. The spirit is untouchable until it rises.",
+	"route": "It follows the baked nav path around water to the lawn's edge.",
+	"march": "No food in sight. It walks straight for the Pearl.",
+	"seek": "A plant entered its notice cone. It sidesteps without breaking stride.",
+	"eat": "Inside 1.8 m and 30°, it stops and bites: 12 damage every 0.5 s.",
+	"siege": "At the dais wall it holds and hits the Pearl: 7 damage per second.",
+	"dead": "Any active state dies at zero health.",
+}
+const CORE_SUMMON := "Summon a ghost"
+const CORE_SUMMON_AGAIN := "Summon again"
+const CORE_BACK := "Back to contents"

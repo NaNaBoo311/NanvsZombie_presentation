@@ -83,7 +83,7 @@ func run() -> void:
 		return _finish()
 
 	# The contents page no longer carries the playable build; section 01's final
-	# action is the only hand-off to the atlas.
+	# action is the only hand-off to section 02.
 	screen.show_exhibit(3)
 	await _tree.process_frame
 	var enter := screen.get_node_or_null("Bottom/EnterGameButton") as Button
@@ -91,14 +91,15 @@ func run() -> void:
 		_failures.append("section 01 does not offer Continue")
 		return _finish()
 	enter.pressed.emit()
-	var atlas := await _wait_scene(GameFlow.ATLAS_SCENE)
+	var atlas := await _wait_scene(GameFlow.CORE_ATLAS_SCENE)
 	if atlas == null:
 		return _finish()
-	_check_atlas_return(atlas)
-	var home := atlas.get_node_or_null("UI/TitleButton") as Button
-	if home != null:
-		home.pressed.emit()
-		await _wait_scene(GameFlow.TITLE_SCENE)
+	if atlas.get_node_or_null("UI/CoreGameplayScreen") == null:
+		_failures.append("section 01 does not hand off to section 02")
+	var section_back := atlas.get_node_or_null("UI/CoreGameplayScreen/Header/BackButton") as Button
+	if section_back != null:
+		section_back.pressed.emit()
+		await _wait_scene(GameFlow.CONTENTS_SCENE)
 	_finish()
 
 
@@ -197,7 +198,7 @@ func _check_contents(contents: Node) -> void:
 		if row == null:
 			_failures.append("contents is missing section %s" % spec["number"])
 			continue
-		var live := i == 0
+		var live := not str(spec.get("scene", "")).is_empty()
 		if row.disabled == live:
 			_failures.append("section %s is %s" % [spec["number"],
 				"disabled" if live else "live"])
@@ -208,19 +209,6 @@ func _check_contents(contents: Node) -> void:
 			_failures.append("section %s still carries a description" % spec["number"])
 		if row.get_node_or_null("State") != null:
 			_failures.append("section %s still carries a state label" % spec["number"])
-
-
-func _check_atlas_return(atlas: Node) -> void:
-	var home := atlas.get_node_or_null("UI/TitleButton") as Button
-	if home == null:
-		_failures.append("atlas has no return-to-title button")
-		return
-	if not home.text.is_empty():
-		_failures.append("atlas return-to-title button is not icon-only")
-	if home.get_node_or_null("Glyph") == null:
-		_failures.append("atlas return-to-title button has no icon")
-	if home.tooltip_text != tr("Back to title"):
-		_failures.append("atlas return-to-title button has the wrong tooltip")
 
 
 func _check_stage(title: Node) -> void:

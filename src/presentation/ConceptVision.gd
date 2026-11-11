@@ -9,8 +9,8 @@ extends "res://src/menus/title/TitleMenu.gd"
 # atlas. Both stays are one tween, so the screen is idle once it settles.
 #
 # The screen owns the copy and the four exhibits; this script owns the stage:
-# the camera poses, the atlas, and the hand-offs to the contents page and the
-# playable atlas. GameFlow.CONCEPT_SCENE points here.
+# the camera poses, the atlas, and the hand-offs to the contents page and
+# Section 02's atlas stage. GameFlow.CONCEPT_SCENE points here.
 
 const WORLD_EYE := Vector3(0.0, 30.0, 29.0)
 const WORLD_TARGET := Vector3(-4.0, -2.0, -3.0)
@@ -84,7 +84,7 @@ func _on_world_selected(index: int) -> void:
 
 
 func _on_enter_game() -> void:
-	GameFlow.open_atlas()
+	GameFlow.open_section(1)
 
 
 func _on_contents() -> void:

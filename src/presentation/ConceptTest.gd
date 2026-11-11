@@ -65,15 +65,17 @@ func run() -> void:
 	if enter.text != tr("Continue"):
 		_failures.append("last exhibit's action says \"%s\"" % enter.text)
 	enter.pressed.emit()
-	var atlas := await _wait_scene(GameFlow.ATLAS_SCENE)
+	var atlas := await _wait_scene(GameFlow.CORE_ATLAS_SCENE)
 	if atlas == null:
 		return _finish()
-	var home := atlas.get_node_or_null("UI/TitleButton") as Button
-	if home == null:
-		_failures.append("atlas has no return-to-title button")
+	if atlas.get_node_or_null("UI/CoreGameplayScreen") == null:
+		_failures.append("section 02 atlas has no presentation screen")
+	var section_back := atlas.get_node_or_null("UI/CoreGameplayScreen/Header/BackButton") as Button
+	if section_back == null:
+		_failures.append("section 02 atlas has no back button")
 	else:
-		home.pressed.emit()
-		await _wait_scene(GameFlow.TITLE_SCENE)
+		section_back.pressed.emit()
+		await _wait_scene(GameFlow.CONTENTS_SCENE)
 	_finish()
 
 

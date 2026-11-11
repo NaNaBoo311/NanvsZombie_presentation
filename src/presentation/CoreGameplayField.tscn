@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://src/battle/DioramaWorld.tscn" id="1_shell"]
+[ext_resource type="Script" path="res://src/presentation/CoreGameplayField.gd" id="2_core"]
+
+[node name="CoreGameplayField" instance=ExtResource("1_shell")]
+script = ExtResource("2_core")

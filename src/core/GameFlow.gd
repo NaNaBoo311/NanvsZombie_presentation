@@ -31,6 +31,8 @@ extends Node
 const TITLE_SCENE := "res://src/presentation/PresentationTitle.tscn"
 const CONTENTS_SCENE := "res://src/presentation/PresentationContents.tscn"
 const CONCEPT_SCENE := "res://src/presentation/ConceptVision.tscn"
+const CORE_ATLAS_SCENE := "res://src/presentation/CoreGameplayAtlas.tscn"
+const CORE_FIELD_SCENE := "res://src/presentation/CoreGameplayField.tscn"
 const ATLAS_SCENE := "res://src/menus/atlas/AtlasMenu.tscn"
 const BATTLE_SCENE := "res://src/battle/DioramaWorld.tscn"
 # Test flags that run their own scripted flow in the battle shell, so the round
@@ -101,6 +103,17 @@ func boot() -> void:
 		open_concept()
 		if "--concept-test" in args:
 			load("res://src/presentation/ConceptTest.gd").new().run()
+	elif "--core-test" in args or "--core-shot" in args:
+		var shot_beat := "atlas"
+		var bi := args.find("--core-beat")
+		if bi >= 0 and bi + 1 < args.size():
+			shot_beat = args[bi + 1]
+		if "--core-shot" in args and shot_beat != "atlas":
+			open_core_field()
+		else:
+			open_core_gameplay()
+		if "--core-test" in args:
+			load("res://src/presentation/CoreGameplayTest.gd").new().run()
 	else:
 		open_title()
 	if "--flow-test" in args:
@@ -125,6 +138,18 @@ func open_contents() -> void:
 ## Section 01 — Concept & Vision.
 func open_concept() -> void:
 	_open_menu(CONCEPT_SCENE)
+
+
+## Section 02 — Core Gameplay, on the atlas stage (deck row 02).
+func open_core_gameplay() -> void:
+	open_section(1)
+
+
+## Section 02's field: the HCMC sandbox the atlas hands over to. The field
+## prepares the level itself before the shell's _ready(), so clearing the last
+## level here is exactly what we want.
+func open_core_field() -> void:
+	_open_menu(CORE_FIELD_SCENE)
 
 
 ## Opens a section by its row in PresentationDeck.SECTIONS. A row without a scene

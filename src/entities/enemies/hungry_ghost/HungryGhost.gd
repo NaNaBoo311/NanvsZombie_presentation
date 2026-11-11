@@ -240,6 +240,24 @@ func is_on_route() -> bool:
 	return not _route.is_empty()
 
 
+## Read-only view of the implicit state machine, for presentation overlays and
+## tests. The order is the order _physics_process checks: a route ignores the
+## plant scan, a noticed plant is eaten when bitable and sought when not, and the
+## siege is the arrival branch. Never called per frame by the game itself.
+func ai_state() -> String:
+	if _dead:
+		return "dead"
+	if is_rising:
+		return "spawn"
+	if not _route.is_empty():
+		return "route"
+	if is_instance_valid(_target_plant):
+		return "eat" if _is_bitable(_target_plant) else "seek"
+	if _arrived:
+		return "siege"
+	return "march"
+
+
 ## Kinematic step along the route. The ghost's own speed scales the route's
 ## multiplier, so each enemy type keeps its own pace over the same path; the walk
 ## clip plays at the same rate, so the feet keep up. No move_and_slide: nothing on

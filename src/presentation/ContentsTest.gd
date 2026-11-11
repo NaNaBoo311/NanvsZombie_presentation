@@ -1,7 +1,8 @@
 extends RefCounted
 
 # --contents-test: boots the contents page directly and checks the talk's map:
-# six numbered section rows in slide order, only 01 live, the disabled rows
+# six numbered section rows in slide order, live rows derived from their deck
+# scene path, the disabled rows
 # dimmed and unfocusable, no Account/hint/footer, Back to the cover, Start
 # reopening the page, and section 01 opening Concept & Vision.
 #
@@ -85,7 +86,7 @@ func _check_page(contents: Node) -> void:
 		if row == null:
 			_failures.append("contents is missing section %s" % spec["number"])
 			continue
-		var live := i == 0
+		var live := not str(spec.get("scene", "")).is_empty()
 		if row.disabled == live:
 			_failures.append("section %s is %s" % [spec["number"],
 				"disabled" if live else "live"])

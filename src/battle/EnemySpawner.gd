@@ -184,6 +184,24 @@ func request_spawn(enemy_id: String, pos: Vector3 = Vector3(1.0e9, 0.0, 0.0)) ->
 	_enqueue(enemy_id, at, Vector3(at.x, _surface_y, at.z), {}, _clock)
 
 
+## Single spawn from a named nav region, with the same A* approach route a wave
+## group gets. request_spawn() takes a fixed point and never routes; request_wave()
+## refuses while peaceful. This is the presentation's summon (and a route test).
+## Returns false when the enemy is unknown or the region does not exist.
+func request_demo_spawn(enemy_id: String, region: String) -> bool:
+	if _enemy_by_id(enemy_id).is_empty():
+		push_warning("[EnemySpawner] Unknown enemy id: %s" % enemy_id)
+		return false
+	if _queue.size() >= MAX_QUEUE:
+		push_warning("[EnemySpawner] Queue full, dropping %s" % enemy_id)
+		return false
+	if _nav == null or _nav.is_empty() or not _nav.has_region(region):
+		push_warning("[EnemySpawner] Unknown nav region: %s" % region)
+		return false
+	_queue_spawn(enemy_id, {"zone": region}, 0, 0.0)
+	return true
+
+
 ## Expand WAVE_DEFS[idx] into the queue and announce it.
 func request_wave(idx: int) -> void:
 	if GameManager and GameManager.peaceful:

@@ -26,7 +26,7 @@ A test for a new section belongs beside it as `src/presentation/<Name>Test.gd` a
 from `GameFlow.boot()` under its own flag; it is not a registration point.
 
 **Verify:** `-- --contents-test` passes with the new row live and the rest unchanged →
-`-- --title-test` still walks cover → contents → section 01 → atlas → cover.
+`-- --title-test` still walks cover → contents → section 01 → section 02 → contents.
 
 ---
 
