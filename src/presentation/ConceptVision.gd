@@ -12,8 +12,8 @@ extends "res://src/menus/title/TitleMenu.gd"
 # the camera poses, the atlas, and the hand-offs to the contents page and the
 # playable atlas. GameFlow.CONCEPT_SCENE points here.
 
-const WORLD_EYE := Vector3(0.0, 23.0, 24.0)
-const WORLD_TARGET := Vector3(-4.0, -2.0, 0.0)
+const WORLD_EYE := Vector3(0.0, 30.0, 29.0)
+const WORLD_TARGET := Vector3(-4.0, -2.0, -3.0)
 const WORLD_ECLIPSE := Vector2(0.72, 0.78)
 const STAGE_SEC := 0.8
 

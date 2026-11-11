@@ -135,6 +135,10 @@ func _check_world(concept: Node, screen: ConceptScreen) -> void:
 		_failures.append("the atlas does not open on the first world")
 	if atlas.focus_id != atlas.province_index(0):
 		_failures.append("the atlas does not focus the first world's province")
+	var beam := atlas.get_node_or_null("Pivot/FocusBeam") as Node3D
+	if beam == null or not beam.visible:
+		_failures.append("the atlas does not mark the picked province")
+	var first_beam: Vector3 = beam.position if beam != null else Vector3.ZERO
 	var tabs := screen.get_node_or_null("Main/World/Copy/WorldTabs")
 	if tabs == null:
 		_failures.append("the world exhibit has no world tabs")
@@ -151,6 +155,8 @@ func _check_world(concept: Node, screen: ConceptScreen) -> void:
 		_failures.append("picking a world does not switch the atlas")
 	if atlas.focus_id != atlas.province_index(2):
 		_failures.append("the atlas does not highlight the picked world")
+	if beam != null and beam.position.is_equal_approx(first_beam):
+		_failures.append("the focus beam stays on the first province")
 	var place := screen.get_node_or_null("Main/World/Copy") as VBoxContainer
 	if place != null:
 		var found := _find_text(place, PresentationDeck.WORLDS[2]["place"])

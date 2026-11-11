@@ -92,7 +92,6 @@ const CIRCLE_STATS := [
 
 const WORLDS_TITLE := "Vietnam in miniature."
 const WORLDS_BODY := "Real Vietnamese places rebuilt as floating dioramas — landmarks, plants and spirits."
-const WORLDS_PROMISE := "PC and phones, no account, LAN co-op."
 ## `id` is also the atlas province id: the World exhibit focuses that province.
 const WORLDS := [
 	{
@@ -109,9 +108,9 @@ const WORLDS := [
 	},
 	{
 		"id": "da_nang",
-		"name": "HOI AN",
-		"place": "Hoi An · Town of a Thousand Lanterns",
-		"hook": "The old town remembers its lantern festival; the Mother Lantern Shrine keeps the river lit.",
+		"name": "DA NANG",
+		"place": "Da Nang · Town of a Thousand Lanterns",
+		"hook": "The lantern town remembers its festival; the Mother Lantern Shrine keeps the river lit.",
 	},
 ]
 
@@ -121,8 +120,6 @@ const REFERENCES := [
 	{"game": "Plants vs. Zombies", "year": "2009", "take": "Plant towers, sun economy, loadout.", "avoid": "Fixed lanes and its presentation."},
 	{"game": "Plants vs. Zombies 2", "year": "2013", "take": "Themed worlds, plants and bosses.", "avoid": "Time travel and paid plants."},
 	{"game": "Kingdom Rush", "year": "2011", "take": "Visible routes and gradual waves.", "avoid": "Fixed tower slots."},
-	{"game": "Bloons TD 6", "year": "2018", "take": "Co-op and distinct targeting.", "avoid": "Monetisation, long upgrades."},
-	{"game": "Dungeon Defenders", "year": "2010", "take": "3D camera and core co-op.", "avoid": "Hero combat, action-RPG loot."},
 ]
 
 const PILLARS_TITLE := "Design Pillars"

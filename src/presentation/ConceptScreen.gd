@@ -244,7 +244,7 @@ func _new_panel(name: String) -> Control:
 
 
 func _left_column(panel: Control, title: String,
-		body: String) -> VBoxContainer:
+		body: String, extra: Array[Control] = []) -> VBoxContainer:
 	var left := VBoxContainer.new()
 	left.name = "Copy"
 	left.anchor_right = 0.35
@@ -269,6 +269,9 @@ func _left_column(panel: Control, title: String,
 	copy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	copy.custom_minimum_size = Vector2(0.0, 108.0)
 	left.add_child(copy)
+
+	for child in extra:
+		left.add_child(child)
 
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -311,19 +314,15 @@ func _paint_frame(p: HudPainter, size: Vector2) -> void:
 
 func _build_pitch_panel() -> Control:
 	var panel := _new_panel("Pitch")
-	var left := _left_column(panel, PresentationDeck.CONCEPT_TITLE,
-		PresentationDeck.CONCEPT_PITCH)
 
 	var rule := _rule()
 	rule.color = Color(UiPalette.HUD_GOLD, 0.32)
-	left.add_child(rule)
 
 	var glance := GridContainer.new()
 	glance.name = "Glance"
 	glance.columns = 2
 	glance.add_theme_constant_override("h_separation", 28)
 	glance.add_theme_constant_override("v_separation", 16)
-	left.add_child(glance)
 	for spec: Dictionary in PresentationDeck.CONCEPT_GLANCE:
 		var column := VBoxContainer.new()
 		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -336,6 +335,9 @@ func _build_pitch_panel() -> Control:
 		value.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		column.add_child(value)
 		glance.add_child(column)
+
+	_left_column(panel, PresentationDeck.CONCEPT_TITLE,
+		PresentationDeck.CONCEPT_PITCH, [rule, glance])
 	return panel
 
 
@@ -374,11 +376,6 @@ func _build_world_panel() -> Control:
 	_world_hook.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_world_hook.custom_minimum_size = Vector2(0.0, 72.0)
 	left.add_child(_world_hook)
-
-	var promise := _label(PresentationDeck.WORLDS_PROMISE, UiPalette.hud_font(), 12,
-		UiPalette.HUD_INK_SOFT, Vector2.ZERO)
-	promise.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	left.add_child(promise)
 
 	_select_world(0, false)
 	return panel
@@ -421,9 +418,10 @@ func _build_reference_panel() -> Control:
 		var cell := Control.new()
 		cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		cell.size_flags_stretch_ratio = float(spec[1]) * 10.0
-		cell.custom_minimum_size = Vector2(0.0, 20.0)
-		var label := _label(str(spec[0]), UiPalette.hud_font(), 9, UiPalette.HUD_GOLD, Vector2.ZERO, 1.8)
+		cell.custom_minimum_size = Vector2(0.0, 28.0)
+		var label := _label(str(spec[0]), UiPalette.hud_font(), 13, UiPalette.HUD_GOLD, Vector2.ZERO, 2.2)
 		label.position = Vector2.ZERO
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		cell.add_child(label)
 		head.add_child(cell)
 	ledger.add_child(head)
@@ -431,27 +429,27 @@ func _build_reference_panel() -> Control:
 
 	for spec: Dictionary in PresentationDeck.REFERENCES:
 		var row := HBoxContainer.new()
-		row.custom_minimum_size = Vector2(0.0, 68.0)
+		row.custom_minimum_size = Vector2(0.0, 96.0)
 		row.add_theme_constant_override("separation", 12)
 
 		var game := VBoxContainer.new()
 		game.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		game.size_flags_stretch_ratio = 3.4
-		var name_label := _label(str(spec["game"]), UiPalette.hud_font(), 15,
+		var name_label := _label(str(spec["game"]), UiPalette.hud_font(), 19,
 			UiPalette.HUD_INK, Vector2.ZERO)
 		name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		game.add_child(name_label)
-		var year := _label(str(spec["year"]), _noto(), 12, UiPalette.HUD_GOLD, Vector2.ZERO)
+		var year := _label(str(spec["year"]), _noto(), 14, UiPalette.HUD_GOLD, Vector2.ZERO)
 		game.add_child(year)
 		row.add_child(game)
 
-		var take := _label(str(spec["take"]), _noto(), 13, UiPalette.HUD_INK, Vector2.ZERO)
+		var take := _label(str(spec["take"]), _noto(), 16, UiPalette.HUD_INK, Vector2.ZERO)
 		take.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		take.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		take.size_flags_stretch_ratio = 3.6
 		row.add_child(take)
 
-		var avoid := _label(str(spec["avoid"]), _noto(), 13, UiPalette.HUD_INK_SOFT, Vector2.ZERO)
+		var avoid := _label(str(spec["avoid"]), _noto(), 16, UiPalette.HUD_INK_SOFT, Vector2.ZERO)
 		avoid.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		avoid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		avoid.size_flags_stretch_ratio = 3.0
