@@ -3,7 +3,7 @@ extends RefCounted
 # --title-test: boots the presentation cover (the only test flag that does not
 # skip it) and walks the talk's front door: the cover copy and the Account
 # dialog, Start into the contents page, section 01 into Concept & Vision, the
-# header Back arrow (the page reopens), the section's Enter the game hand-off to the
+# header Back arrow (the page reopens), the section's Continue hand-off to the
 # playable atlas, and the atlas's icon-only return to the cover.
 #
 # It also guards the inherited 3D stage: the home island, its vignette and the
@@ -87,8 +87,8 @@ func run() -> void:
 	screen.show_exhibit(3)
 	await _tree.process_frame
 	var enter := screen.get_node_or_null("Bottom/EnterGameButton") as Button
-	if enter == null or not enter.visible or enter.text != tr("Enter the game"):
-		_failures.append("section 01 does not offer Enter the game")
+	if enter == null or not enter.visible or enter.text != tr("Continue"):
+		_failures.append("section 01 does not offer Continue")
 		return _finish()
 	enter.pressed.emit()
 	var atlas := await _wait_scene(GameFlow.ATLAS_SCENE)

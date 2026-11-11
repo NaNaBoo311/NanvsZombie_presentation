@@ -2,7 +2,7 @@ extends RefCounted
 
 # --concept-test: boots section 01 and checks the four exhibits: the pitch and its
 # at-a-glance grid, the world atlas and its camera stay, the reference ledger, the
-# pillars and the final Enter the game hand-off. The header Back arrow reopens the
+# pillars and the final Continue hand-off. The header Back arrow reopens the
 # contents page, section 01 returns to a fresh concept screen, and the atlas's home
 # button returns to the cover.
 #
@@ -61,8 +61,8 @@ func run() -> void:
 		_failures.append("concept screen has no final action")
 		return _finish()
 	if not enter.visible:
-		_failures.append("Enter the game is not visible on the last exhibit")
-	if enter.text != tr("Enter the game"):
+		_failures.append("Continue is not visible on the last exhibit")
+	if enter.text != tr("Continue"):
 		_failures.append("last exhibit's action says \"%s\"" % enter.text)
 	enter.pressed.emit()
 	var atlas := await _wait_scene(GameFlow.ATLAS_SCENE)
@@ -87,7 +87,7 @@ func _check_chrome(screen: ConceptScreen) -> void:
 			_failures.append("concept screen still carries %s" % path)
 	var enter := screen.get_node_or_null("Bottom/EnterGameButton") as Button
 	if enter != null and enter.visible:
-		_failures.append("Enter the game is visible before the last exhibit")
+		_failures.append("Continue is visible before the last exhibit")
 	for label in screen.find_children("*", "Label", true, false):
 		if (label as Label).text.begins_with("EXHIBIT "):
 			_failures.append("concept screen still shows an exhibit kicker: %s" % label.text)
@@ -191,8 +191,8 @@ func _check_pillars(screen: ConceptScreen) -> void:
 	if cards == null or cards.get_child_count() != PresentationDeck.PILLARS.size():
 		_failures.append("the pillar exhibit does not build every pillar")
 	var enter := screen.get_node_or_null("Bottom/EnterGameButton") as Button
-	if enter == null or not enter.visible or enter.text != tr("Enter the game"):
-		_failures.append("the last exhibit does not offer Enter the game")
+	if enter == null or not enter.visible or enter.text != tr("Continue"):
+		_failures.append("the last exhibit does not offer Continue")
 
 
 ## Walks a subtree for a Label whose text equals `text`; returns it or null.

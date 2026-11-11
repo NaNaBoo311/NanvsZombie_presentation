@@ -14,7 +14,7 @@ DISPLAY=:0 godot --path .
 ```
 
 The presentation opens on the cover. **Start** opens the contents page, where
-section 01 is live; its final **Enter the game** action opens the normal atlas.
+section 01 is live; its final **Continue** action opens the normal atlas.
 
 ## Scope
 

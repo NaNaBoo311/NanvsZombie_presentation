@@ -4,9 +4,9 @@ extends "res://src/menus/title/TitleMenu.gd"
 # Section 01 — Concept & Vision, staged over the game's title diorama. It inherits
 # the whole title stage (eclipse, leyline, island chain, Pearl, effects and the
 # camera settle) and replaces only the UI with ConceptScreen. The world atlas is a
-# separate display stage far from the title diorama; when the world exhibit is live
-# the camera travels there, and returns to the title pose for every other exhibit.
-# Both stays are one tween, so the screen is idle once it settles.
+# separate display stage far from the title diorama; the pitch stays on the title
+# pose, and every exhibit after it — world, references, pillars — lives on the
+# atlas. Both stays are one tween, so the screen is idle once it settles.
 #
 # The screen owns the copy and the four exhibits; this script owns the stage:
 # the camera poses, the atlas, and the hand-offs to the contents page and the

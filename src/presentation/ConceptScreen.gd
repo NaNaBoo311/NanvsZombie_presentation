@@ -212,7 +212,7 @@ func _build_bottom() -> void:
 
 	_enter_game = HudMenuButton.new()
 	_enter_game.name = "EnterGameButton"
-	_enter_game.text = tr("Enter the game")
+	_enter_game.text = tr("Continue")
 	_enter_game.primary = true
 	_enter_game.visible = false
 	_enter_game.set_anchors_preset(Control.PRESET_TOP_RIGHT)
@@ -244,7 +244,8 @@ func _new_panel(name: String) -> Control:
 
 
 func _left_column(panel: Control, title: String,
-		body: String, extra: Array[Control] = []) -> VBoxContainer:
+		body: String, extra: Array[Control] = [],
+		copy_min_height: float = 108.0) -> VBoxContainer:
 	var left := VBoxContainer.new()
 	left.name = "Copy"
 	left.anchor_right = 0.35
@@ -267,7 +268,7 @@ func _left_column(panel: Control, title: String,
 
 	var copy := _label(body, UiPalette.hud_font(), 17, UiPalette.HUD_INK_SOFT, Vector2.ZERO)
 	copy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	copy.custom_minimum_size = Vector2(0.0, 108.0)
+	copy.custom_minimum_size = Vector2(0.0, copy_min_height)
 	left.add_child(copy)
 
 	for child in extra:
@@ -343,18 +344,10 @@ func _build_pitch_panel() -> Control:
 
 func _build_world_panel() -> Control:
 	var panel := _new_panel("World")
-	var left := _left_column(panel, PresentationDeck.WORLDS_TITLE,
-		PresentationDeck.WORLDS_BODY)
-
-	var caption := _label("VIETNAM ATLAS · PICK A WORLD", UiPalette.hud_font(), 10,
-		UiPalette.HUD_GOLD, Vector2.ZERO, 1.8)
-	caption.name = "AtlasCaption"
-	left.add_child(caption)
 
 	var tabs := HBoxContainer.new()
 	tabs.name = "WorldTabs"
 	tabs.add_theme_constant_override("separation", 6)
-	left.add_child(tabs)
 	for i in PresentationDeck.WORLDS.size():
 		var spec: Dictionary = PresentationDeck.WORLDS[i]
 		var tab := Button.new()
@@ -370,12 +363,14 @@ func _build_world_panel() -> Control:
 
 	_world_place = _label("", _noto(), 16, UiPalette.HUD_GOLD, Vector2.ZERO)
 	_world_place.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	left.add_child(_world_place)
 
 	_world_hook = _label("", _noto(), 15, UiPalette.HUD_INK, Vector2.ZERO)
 	_world_hook.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_world_hook.custom_minimum_size = Vector2(0.0, 72.0)
-	left.add_child(_world_hook)
+
+	# The picker reads as the next line of the copy, not a separate caption row.
+	_left_column(panel, PresentationDeck.WORLDS_TITLE, PresentationDeck.WORLDS_BODY,
+		[tabs, _world_place, _world_hook], 0.0)
 
 	_select_world(0, false)
 	return panel
@@ -383,12 +378,8 @@ func _build_world_panel() -> Control:
 
 func _build_reference_panel() -> Control:
 	var panel := _new_panel("References")
-	var left := _left_column(panel, PresentationDeck.REFERENCES_TITLE,
+	_left_column(panel, PresentationDeck.REFERENCES_TITLE,
 		PresentationDeck.REFERENCES_BODY)
-	var note := _label("One comparison ledger.\nA TAKE and an AVOID per title.", _noto(), 13,
-		UiPalette.HUD_INK_SOFT, Vector2.ZERO)
-	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	left.add_child(note)
 
 	var visual := panel.get_node("Visual") as Control
 	var backdrop := Panel.new()
@@ -533,8 +524,9 @@ func _show_exhibit(index: int, animate: bool = true) -> void:
 			UiPalette.HUD_SEAL_INK if i == index else UiPalette.HUD_INK)
 	_enter_game.visible = index == _panels.size() - 1
 	HudCanvas.dirty()
-	# The world exhibit is the one that sends the camera to the atlas stage.
-	stage_focus_requested.emit(index == 1)
+	# The atlas is the stage for every exhibit past the pitch: the world picks a
+	# province, references and pillars keep the same board behind their panels.
+	stage_focus_requested.emit(index >= 1)
 	if animate:
 		var tween := create_tween()
 		_panels[index].modulate.a = 0.0
