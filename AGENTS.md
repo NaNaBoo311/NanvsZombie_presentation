@@ -13,7 +13,7 @@ is the imported game runtime and changes only when the presentation needs it.
 | Contents page, section rows | `src/presentation/PresentationContents.gd` |
 | Section 01 — Concept & Vision | `src/presentation/ConceptVision.gd` |
 | Section screen, exhibits | `src/presentation/ConceptScreen.gd` |
-| World carousel, posed shards | `src/presentation/ConceptCarousel.gd` |
+| World atlas stage, province focus | `src/presentation/ConceptAtlas.gd` |
 | Presenter dialog | `src/presentation/PresentationAccounts.gd` |
 | All talk copy, credits, section data | `src/presentation/PresentationDeck.gd` |
 | Cover layout and interaction | `src/presentation/PresentationCover.gd` |

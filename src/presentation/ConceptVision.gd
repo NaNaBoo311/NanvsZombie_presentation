@@ -3,32 +3,32 @@ extends "res://src/menus/title/TitleMenu.gd"
 
 # Section 01 — Concept & Vision, staged over the game's title diorama. It inherits
 # the whole title stage (eclipse, leyline, island chain, Pearl, effects and the
-# camera settle) and replaces only the UI with ConceptScreen. The world carousel
-# is a separate display stage far from the title diorama; when the world exhibit
-# is live the camera travels there, and returns to the title pose for every other
-# exhibit. Both stays are one tween, so the screen is idle once it settles.
+# camera settle) and replaces only the UI with ConceptScreen. The world atlas is a
+# separate display stage far from the title diorama; when the world exhibit is live
+# the camera travels there, and returns to the title pose for every other exhibit.
+# Both stays are one tween, so the screen is idle once it settles.
 #
 # The screen owns the copy and the four exhibits; this script owns the stage:
-# the camera poses, the carousel, and the hand-offs to the contents page and the
+# the camera poses, the atlas, and the hand-offs to the contents page and the
 # playable atlas. GameFlow.CONCEPT_SCENE points here.
 
-const CARRY_EYE := Vector3(0.0, 20.0, 58.0)
-const CARRY_TARGET := Vector3(-8.0, 7.0, 0.0)
-const CARRY_ECLIPSE := Vector2(0.62, 0.66)
-const CARRY_SEC := 0.8
+const WORLD_EYE := Vector3(0.0, 23.0, 24.0)
+const WORLD_TARGET := Vector3(-4.0, -2.0, 0.0)
+const WORLD_ECLIPSE := Vector2(0.72, 0.78)
+const STAGE_SEC := 0.8
 
 var _screen: ConceptScreen
-var _carousel: ConceptCarousel
+var _atlas: ConceptAtlas
 var _camera_tween: Tween
-var _carousel_active := false
+var _atlas_active := false
 var _home_transform := Transform3D.IDENTITY
 
 
 func _ready() -> void:
 	super()
-	_carousel = ConceptCarousel.new()
-	_carousel.name = "WorldCarousel"
-	add_child(_carousel)
+	_atlas = ConceptAtlas.new()
+	_atlas.name = "WorldAtlas"
+	add_child(_atlas)
 	var args := OS.get_cmdline_user_args()
 	if "--concept-shot" in args:
 		_capture_concept_shot(args)
@@ -49,7 +49,7 @@ func _fade_in_ui() -> void:
 		_screen.play_intro()
 
 
-## Keep the title's settle, but remember where it lands: the carousel goes back
+## Keep the title's settle, but remember where it lands: the atlas stage goes back
 ## to exactly this pose. The base class only tweens the position, so the basis is
 ## already final from _apply_viewport_fov().
 func _play_intro() -> void:
@@ -61,26 +61,26 @@ func _play_intro() -> void:
 		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 
-## The title's aspect handling, except while the carousel is on screen: there the
-## camera belongs to the display stage and holds the shard's width instead.
+## The title's aspect handling, except while the atlas is on screen: there the
+## camera belongs to the display stage and holds the map's width instead.
 func _apply_viewport_fov() -> void:
-	if _carousel_active:
-		_apply_carousel_view()
+	if _atlas_active:
+		_apply_atlas_view()
 		return
 	super._apply_viewport_fov()
 	_home_transform = Transform3D(_camera.global_basis, CAMERA_POS)
 
 
 func _on_stage_focus(active: bool) -> void:
-	if active == _carousel_active:
+	if active == _atlas_active:
 		return
-	_carousel_active = active
-	_move_camera(_carousel_transform() if active else _home_transform, CARRY_SEC)
+	_atlas_active = active
+	_move_camera(_atlas_transform() if active else _home_transform, STAGE_SEC)
 
 
 func _on_world_selected(index: int) -> void:
-	if _carousel != null:
-		_carousel.set_world(index)
+	if _atlas != null:
+		_atlas.set_world(index)
 
 
 func _on_enter_game() -> void:
@@ -103,13 +103,13 @@ func _move_camera(target: Transform3D, seconds: float) -> void:
 	_camera_tween.finished.connect(_apply_viewport_fov, CONNECT_ONE_SHOT)
 
 
-func _carousel_transform() -> Transform3D:
-	var eye := ConceptCarousel.ORIGIN + CARRY_EYE
-	var target := ConceptCarousel.ORIGIN + CARRY_TARGET
+func _atlas_transform() -> Transform3D:
+	var eye := ConceptAtlas.ORIGIN + WORLD_EYE
+	var target := ConceptAtlas.ORIGIN + WORLD_TARGET
 	return Transform3D(Basis.looking_at(target - eye, Vector3.UP), eye)
 
 
-func _apply_carousel_view() -> void:
+func _apply_atlas_view() -> void:
 	var size := get_viewport().get_visible_rect().size
 	if size.x <= 0.0 or size.y <= 0.0:
 		return
@@ -117,7 +117,7 @@ func _apply_carousel_view() -> void:
 	var half := deg_to_rad(CAMERA_FOV * 0.5)
 	var hold_width := aspect <= TARGET_ASPECT
 	_camera.fov = rad_to_deg(2.0 * atan(tan(half) * TARGET_ASPECT / aspect)) if hold_width else CAMERA_FOV
-	_camera.global_transform = _carousel_transform()
+	_camera.global_transform = _atlas_transform()
 	_camera.v_offset = 0.0
 	var tan_v := tan(deg_to_rad(_camera.fov * 0.5))
 	var b := _camera.global_basis
@@ -127,7 +127,7 @@ func _apply_carousel_view() -> void:
 	_sky.set_shader_parameter("tan_v", tan_v)
 	_sky.set_shader_parameter("tan_h", tan_v * aspect)
 	var side_scale := 1.0 if hold_width else TARGET_ASPECT / aspect
-	_sky.set_shader_parameter("eclipse_xy", Vector2(CARRY_ECLIPSE.x * side_scale, CARRY_ECLIPSE.y))
+	_sky.set_shader_parameter("eclipse_xy", Vector2(WORLD_ECLIPSE.x * side_scale, WORLD_ECLIPSE.y))
 
 
 ## Dev capture only: `--concept-shot [--concept-exhibit n]` saves the screen and
@@ -137,13 +137,13 @@ func _capture_concept_shot(args: PackedStringArray) -> void:
 	var exhibit := args.find("--concept-exhibit")
 	if exhibit >= 0 and exhibit + 1 < args.size():
 		_screen.show_exhibit(int(args[exhibit + 1]))
-		await get_tree().create_timer(CARRY_SEC + 0.5).timeout
+		await get_tree().create_timer(STAGE_SEC + 0.5).timeout
 	else:
 		await get_tree().create_timer(maxf(INTRO_SEC, 1.2)).timeout
 	var world := args.find("--concept-world")
 	if world >= 0 and world + 1 < args.size():
 		_screen.call("_select_world", int(args[world + 1]))
-		await get_tree().create_timer(CARRY_SEC + 0.4).timeout
+		await get_tree().create_timer(STAGE_SEC + 0.4).timeout
 	var img := get_viewport().get_texture().get_image()
 	if img == null:
 		push_error("[ConceptVision] Concept capture came back empty.")

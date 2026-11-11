@@ -1,10 +1,10 @@
 extends RefCounted
 
 # --concept-test: boots section 01 and checks the four exhibits: the pitch and its
-# at-a-glance ribbon, the 3D world carousel and its camera stay, the reference
-# ledger, the pillars and the final Enter the game hand-off. The header Back arrow
-# reopens the contents page, section 01 returns to a fresh concept screen, and the
-# atlas's home button returns to the cover.
+# at-a-glance grid, the world atlas and its camera stay, the reference ledger, the
+# pillars and the final Enter the game hand-off. The header Back arrow reopens the
+# contents page, section 01 returns to a fresh concept screen, and the atlas's home
+# button returns to the cover.
 #
 # Prints "[ConceptTest] PASS" or each failure, then quits 0 / 1. Loaded only by
 # GameFlow.boot() under the flag.
@@ -109,9 +109,9 @@ func _check_pitch(screen: ConceptScreen) -> void:
 	if panel == null or not panel.visible:
 		_failures.append("the pitch exhibit is not open first")
 		return
-	var glance := panel.get_node_or_null("Visual/Glance")
+	var glance := panel.get_node_or_null("Copy/Glance")
 	if glance == null or glance.get_child_count() != PresentationDeck.CONCEPT_GLANCE.size():
-		_failures.append("the pitch ribbon does not list every glance item")
+		_failures.append("the pitch glance grid does not list every item")
 
 
 func _check_world(concept: Node, screen: ConceptScreen) -> void:
@@ -122,17 +122,19 @@ func _check_world(concept: Node, screen: ConceptScreen) -> void:
 		_failures.append("concept scene has no camera")
 	else:
 		if camera.global_position.x < 200.0:
-			_failures.append("camera did not travel to the world carousel")
-	var carousel := concept.get_node_or_null("WorldCarousel") as ConceptCarousel
-	if carousel == null:
-		_failures.append("the world carousel is missing")
+			_failures.append("camera did not travel to the world atlas")
+	var atlas := concept.get_node_or_null("WorldAtlas") as ConceptAtlas
+	if atlas == null:
+		_failures.append("the world atlas is missing")
 		return
-	if carousel.worlds.size() != PresentationDeck.WORLDS.size():
-		_failures.append("the carousel builds %d of %d worlds" % [
-			carousel.worlds.size(), PresentationDeck.WORLDS.size()])
-	if carousel.current != 0:
-		_failures.append("the carousel does not open on the first world")
-	_check_visible_world(carousel, 0)
+	if atlas.get_node_or_null("Pivot/Atlas") == null:
+		_failures.append("the atlas model is missing")
+	if atlas.province_index(0) < 0:
+		_failures.append("the first world has no atlas province")
+	if atlas.current != 0:
+		_failures.append("the atlas does not open on the first world")
+	if atlas.focus_id != atlas.province_index(0):
+		_failures.append("the atlas does not focus the first world's province")
 	var tabs := screen.get_node_or_null("Main/World/Copy/WorldTabs")
 	if tabs == null:
 		_failures.append("the world exhibit has no world tabs")
@@ -145,9 +147,10 @@ func _check_world(concept: Node, screen: ConceptScreen) -> void:
 		return
 	third.pressed.emit()
 	await _tree.create_timer(0.9).timeout
-	if carousel.current != 2:
-		_failures.append("picking a world does not switch the carousel")
-	_check_visible_world(carousel, 2)
+	if atlas.current != 2:
+		_failures.append("picking a world does not switch the atlas")
+	if atlas.focus_id != atlas.province_index(2):
+		_failures.append("the atlas does not highlight the picked world")
 	var place := screen.get_node_or_null("Main/World/Copy") as VBoxContainer
 	if place != null:
 		var found := _find_text(place, PresentationDeck.WORLDS[2]["place"])
@@ -157,20 +160,6 @@ func _check_world(concept: Node, screen: ConceptScreen) -> void:
 	await _tree.create_timer(1.2).timeout
 	if camera != null and camera.global_position.x > 100.0:
 		_failures.append("camera did not return to the title stage")
-
-
-func _check_visible_world(carousel: ConceptCarousel, index: int) -> void:
-	var visible := 0
-	for i in carousel.worlds.size():
-		if carousel.worlds[i].visible:
-			visible += 1
-			if i != index:
-				_failures.append("carousel shows world %d instead of %d" % [i, index])
-	if visible != 1:
-		_failures.append("carousel shows %d worlds at once" % visible)
-	var baked := carousel.worlds[index].get_node_or_null("Baked") as MeshInstance3D
-	if baked == null or baked.mesh == null:
-		_failures.append("carousel world %d was not baked to one mesh" % (index + 1))
 
 
 func _check_references(screen: ConceptScreen) -> void:
@@ -192,7 +181,7 @@ func _check_pillars(screen: ConceptScreen) -> void:
 	if panel == null or not panel.visible:
 		_failures.append("the pillar exhibit did not open")
 		return
-	var cards := panel.get_node_or_null("Visual/Pillars")
+	var cards := panel.get_node_or_null("Visual/PillarStack/Pillars")
 	if cards == null or cards.get_child_count() != PresentationDeck.PILLARS.size():
 		_failures.append("the pillar exhibit does not build every pillar")
 	var enter := screen.get_node_or_null("Bottom/EnterGameButton") as Button

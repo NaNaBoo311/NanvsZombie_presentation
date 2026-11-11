@@ -71,10 +71,10 @@ const SECTIONS := [
 # --------------------------------------------------------------- section 01 ---
 
 const CONCEPT_KICKER := "SECTION 01 · CONCEPT & VISION"
-const CONCEPT_TITLE := "A miniature Vietnam."
+const CONCEPT_TITLE := "The eclipse comes."
 const CONCEPT_PITCH := "Leyline Warden is a 3D tower defence set in a miniature Vietnam. Every thousand years, a solar eclipse frees hungry spirits from rivers and old streets. They march on the Dragon Pearl. You are the Warden; sacred flora is your only army."
 
-## The at-a-glance ribbon under the pitch: label above, value below.
+## The at-a-glance grid under the pitch copy: label above, value below.
 const CONCEPT_GLANCE := [
 	{"label": "GENRE", "value": "3D tower defence"},
 	{"label": "PLATFORMS", "value": "PC · Android · iOS"},
@@ -93,50 +93,25 @@ const CIRCLE_STATS := [
 const WORLDS_TITLE := "Vietnam in miniature."
 const WORLDS_BODY := "Real Vietnamese places rebuilt as floating dioramas — landmarks, plants and spirits."
 const WORLDS_PROMISE := "PC and phones, no account, LAN co-op."
-## `model` is the title-screen shard; `landmark` and its local pad position come from
-## the generator's published anchors. `unit` is a posed vignette character.
+## `id` is also the atlas province id: the World exhibit focuses that province.
 const WORLDS := [
 	{
 		"id": "hcmc",
 		"name": "SAIGON",
 		"place": "Landmark 81 · City of the Dragon Vein",
 		"hook": "Landmark 81 rises over the Dragon Vein; the city's spirits ride its evening traffic.",
-		"model": "res://assets/models/maps/title/title_island_saigon.glb",
-		"landmark": "res://assets/models/maps/landmark_81/landmark_81_tower.glb",
-		"landmark_pos": Vector3(8.0, 0.0, -9.0),
-		"unit": "res://assets/models/plants/lotus_shooter.glb",
-		"unit_pos": Vector3(-6.0, 0.0, 6.0),
-		"unit_yaw": 1.0,
-		"unit_clip": "attack",
-		"yaw": -0.28,
 	},
 	{
 		"id": "ha_noi",
 		"name": "HANOI",
 		"place": "Hoan Kiem · Lake of the Returned Sword",
 		"hook": "Turtle Tower holds the lake where the returned sword rests; Ngọc Sơn's bridge crosses to the islet.",
-		"model": "res://assets/models/maps/title/title_island_hanoi.glb",
-		"landmark": "res://assets/models/maps/hoan_kiem/ngoc_son_temple.glb",
-		"landmark_pos": Vector3(-11.0, 0.0, -9.5),
-		"unit": "res://assets/models/plants/sacred_rice.glb",
-		"unit_pos": Vector3(7.0, 0.0, 10.0),
-		"unit_yaw": -1.1,
-		"unit_clip": "idle",
-		"yaw": 0.3,
 	},
 	{
 		"id": "da_nang",
 		"name": "HOI AN",
 		"place": "Hoi An · Town of a Thousand Lanterns",
 		"hook": "The old town remembers its lantern festival; the Mother Lantern Shrine keeps the river lit.",
-		"model": "res://assets/models/maps/title/title_island_hoi_an.glb",
-		"landmark": "res://assets/models/maps/hoi_an/mother_lantern_shrine.glb",
-		"landmark_pos": Vector3(0.0, 0.0, -1.0),
-		"unit": "res://assets/models/enemies/tailor_zombie.glb",
-		"unit_pos": Vector3(-8.0, 0.0, 5.0),
-		"unit_yaw": 0.7,
-		"unit_clip": "walk",
-		"yaw": 0.0,
 	},
 ]
 

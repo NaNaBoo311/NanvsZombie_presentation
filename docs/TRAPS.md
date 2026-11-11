@@ -146,7 +146,7 @@ covers the other. `ry = -π/2` puts it on +z. Check a `computeBoundingBox()` bef
 (see `tools/asset_generator/generators/maps/landmark_81/marina_club.mjs`).
 
 ### bake-skips-hidden
-`site:` any `TitleBake.bake()` caller (`src/menus/title/TitleMenu.gd`, `src/presentation/ConceptCarousel.gd`)
+`site:` any `TitleBake.bake()` caller (`src/menus/title/TitleMenu.gd`)
 
 `bake()` concatenates only surfaces whose nodes are visible in the tree. A group root set
 `visible = false` before the bake produces an empty `Baked` mesh with no error and no warning:

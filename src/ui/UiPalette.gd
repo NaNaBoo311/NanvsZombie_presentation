@@ -113,6 +113,12 @@ static func lacquer_box(fill: Color, edge: Color, cut: int = 7, border: int = 2,
 	return sb
 
 
+## A bordered board on a stage: one fill and one edge weight, so the reference
+## ledger and the pillar cards read as the same material.
+static func board_box(margin: int = 0) -> StyleBoxFlat:
+	return lacquer_box(Color(HUD_LACQUER_TOP, 0.92), Color(HUD_GOLD, 0.40), 8, 1, margin)
+
+
 ## The dialog sheet: lacquer, gold edge, soft shadow.
 static func lacquer_panel(margin: int = 26) -> StyleBoxFlat:
 	return lacquer_box(HUD_LACQUER_TOP, HUD_GOLD, 12, 3, margin, HUD_SHADOW, 12)

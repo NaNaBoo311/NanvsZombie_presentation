@@ -2,14 +2,14 @@ class_name ConceptScreen
 extends Control
 
 # Section 01 — Concept & Vision. Four exhibits in one UI layer over the inherited
-# title stage: the pitch, the 3D world carousel, the reference ledger and the
-# design pillars. The screen owns only the copy and the exhibits; ConceptVision
-# owns the camera and the carousel. The 360° facing demo belongs to Section 02,
-# so its copy and ConceptFacingDemo stay in the repo for that screen.
+# title stage: the pitch, the world atlas, the reference ledger and the design
+# pillars. The screen owns only the copy and the exhibits; ConceptVision owns the
+# camera and the atlas. The 360° facing demo belongs to Section 02, so its copy
+# and ConceptFacingDemo stay in the repo for that screen.
 #
 # Every panel is built once and toggled visible, so switching exhibits costs no
 # allocation and no per-frame work. Shapes are painted through ConceptCanvas /
-# HudCanvas; the world carousel redraws only when it changes.
+# HudCanvas; the atlas updates only when the picked world changes.
 
 signal stage_focus_requested(active: bool)
 signal world_selected(index: int)
@@ -314,34 +314,24 @@ func _build_pitch_panel() -> Control:
 	var left := _left_column(panel, PresentationDeck.CONCEPT_TITLE,
 		PresentationDeck.CONCEPT_PITCH)
 
-	var visual := panel.get_node("Visual") as Control
-	var art := ConceptCanvas.new()
-	art.name = "Eclipse"
-	art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	art.paint = _paint_pitch
-	visual.add_child(art)
+	var rule := _rule()
+	rule.color = Color(UiPalette.HUD_GOLD, 0.32)
+	left.add_child(rule)
 
-	var glance := HBoxContainer.new()
+	var glance := GridContainer.new()
 	glance.name = "Glance"
-	glance.anchor_top = 0.70
-	glance.anchor_bottom = 1.0
-	glance.anchor_right = 1.0
-	glance.offset_left = 34.0
-	glance.offset_top = 20.0
-	glance.offset_right = -34.0
-	glance.offset_bottom = -24.0
-	glance.alignment = BoxContainer.ALIGNMENT_CENTER
-	glance.add_theme_constant_override("separation", 18)
-	visual.add_child(glance)
+	glance.columns = 2
+	glance.add_theme_constant_override("h_separation", 28)
+	glance.add_theme_constant_override("v_separation", 16)
+	left.add_child(glance)
 	for spec: Dictionary in PresentationDeck.CONCEPT_GLANCE:
 		var column := VBoxContainer.new()
 		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		column.alignment = BoxContainer.ALIGNMENT_CENTER
-		column.add_theme_constant_override("separation", 2)
-		var label := _label(str(spec["label"]), UiPalette.hud_font(), 9,
+		column.add_theme_constant_override("separation", 3)
+		var label := _label(str(spec["label"]), UiPalette.hud_font(), 11,
 			UiPalette.HUD_GOLD, Vector2.ZERO, 1.8)
 		column.add_child(label)
-		var value := _label(str(spec["value"]), UiPalette.hud_font(), 14,
+		var value := _label(str(spec["value"]), UiPalette.hud_font(), 16,
 			UiPalette.HUD_INK, Vector2.ZERO)
 		value.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		column.add_child(value)
@@ -349,27 +339,14 @@ func _build_pitch_panel() -> Control:
 	return panel
 
 
-## The live title stage is the keyart; this only lays the at-a-glance band across
-## its foot, so the numbers never fight the island's foliage.
-func _paint_pitch(p: HudPainter, size: Vector2) -> void:
-	var band := HudPainter.chamfered(Rect2(18.0, size.y * 0.70, size.x - 36.0,
-		size.y * 0.30), 10.0)
-	p.lacquer(band, Color(UiPalette.HUD_LACQUER_TOP, 0.92),
-		Color(UiPalette.HUD_LACQUER_BOT, 0.96), Color(UiPalette.HUD_GOLD, 0.42), 0.0)
-	p.line(PackedVector2Array([Vector2(36.0, size.y * 0.70),
-		Vector2(size.x - 36.0, size.y * 0.70)]), 1.0, Color(UiPalette.HUD_GOLD, 0.22))
-	p.line(PackedVector2Array([Vector2(size.x * 0.06, size.y * 0.62),
-		Vector2(size.x * 0.44, size.y * 0.62)]), 1.0, Color(UiPalette.HUD_GOLD, 0.30))
-
-
 func _build_world_panel() -> Control:
 	var panel := _new_panel("World")
 	var left := _left_column(panel, PresentationDeck.WORLDS_TITLE,
 		PresentationDeck.WORLDS_BODY)
 
-	var caption := _label("3D CAROUSEL · PICK A WORLD", UiPalette.hud_font(), 10,
+	var caption := _label("VIETNAM ATLAS · PICK A WORLD", UiPalette.hud_font(), 10,
 		UiPalette.HUD_GOLD, Vector2.ZERO, 1.8)
-	caption.name = "CarouselCaption"
+	caption.name = "AtlasCaption"
 	left.add_child(caption)
 
 	var tabs := HBoxContainer.new()
@@ -425,9 +402,7 @@ func _build_reference_panel() -> Control:
 	backdrop.offset_right = -8.0
 	backdrop.offset_bottom = -8.0
 	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	backdrop.add_theme_stylebox_override("panel",
-		UiPalette.lacquer_box(Color(UiPalette.HUD_LACQUER_TOP, 0.90),
-			Color(UiPalette.HUD_GOLD, 0.32), 8, 1, 0))
+	backdrop.add_theme_stylebox_override("panel", UiPalette.board_box())
 	visual.add_child(backdrop)
 
 	var ledger := VBoxContainer.new()
@@ -498,22 +473,30 @@ func _build_pillar_panel() -> Control:
 		PresentationDeck.PILLARS_BODY)
 
 	var visual := panel.get_node("Visual") as Control
+	var stack := VBoxContainer.new()
+	stack.name = "PillarStack"
+	stack.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	stack.offset_left = 10.0
+	stack.offset_top = 20.0
+	stack.offset_right = -10.0
+	stack.offset_bottom = -10.0
+	visual.add_child(stack)
+	var top := Control.new()
+	top.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	stack.add_child(top)
+
 	var cards := HBoxContainer.new()
 	cards.name = "Pillars"
-	cards.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	cards.offset_left = 10.0
-	cards.offset_top = 20.0
-	cards.offset_right = -10.0
-	cards.offset_bottom = -10.0
 	cards.add_theme_constant_override("separation", 14)
-	visual.add_child(cards)
+	stack.add_child(cards)
+	var bottom := Control.new()
+	bottom.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	stack.add_child(bottom)
 
 	for spec: Dictionary in PresentationDeck.PILLARS:
 		var card := PanelContainer.new()
 		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		card.add_theme_stylebox_override("panel",
-			UiPalette.lacquer_box(Color(UiPalette.HUD_LACQUER_TOP, 0.94),
-				Color(UiPalette.HUD_GOLD, 0.48), 8, 1, 18))
+		card.add_theme_stylebox_override("panel", UiPalette.board_box(18))
 		var box := VBoxContainer.new()
 		box.add_theme_constant_override("separation", 10)
 		card.add_child(box)
@@ -532,7 +515,6 @@ func _build_pillar_panel() -> Control:
 		box.add_child(title)
 		var line := _label(str(spec["line"]), _noto(), 14, UiPalette.HUD_INK_SOFT, Vector2.ZERO)
 		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		line.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		box.add_child(line)
 		cards.add_child(card)
 	return panel
@@ -553,7 +535,7 @@ func _show_exhibit(index: int, animate: bool = true) -> void:
 			UiPalette.HUD_SEAL_INK if i == index else UiPalette.HUD_INK)
 	_enter_game.visible = index == _panels.size() - 1
 	HudCanvas.dirty()
-	# The world exhibit is the one that sends the camera to the carousel stage.
+	# The world exhibit is the one that sends the camera to the atlas stage.
 	stage_focus_requested.emit(index == 1)
 	if animate:
 		var tween := create_tween()
