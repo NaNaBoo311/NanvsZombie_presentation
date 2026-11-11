@@ -112,9 +112,6 @@ func _check_pitch(screen: ConceptScreen) -> void:
 	var glance := panel.get_node_or_null("Visual/Glance")
 	if glance == null or glance.get_child_count() != PresentationDeck.CONCEPT_GLANCE.size():
 		_failures.append("the pitch ribbon does not list every glance item")
-	var quote := _find_text(panel, PresentationDeck.CONCEPT_QUOTE)
-	if quote == null:
-		_failures.append("the pitch quote is missing")
 
 
 func _check_world(concept: Node, screen: ConceptScreen) -> void:

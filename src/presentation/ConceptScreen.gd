@@ -314,11 +314,6 @@ func _build_pitch_panel() -> Control:
 	var left := _left_column(panel, PresentationDeck.CONCEPT_TITLE,
 		PresentationDeck.CONCEPT_PITCH)
 
-	var quote := _label(PresentationDeck.CONCEPT_QUOTE, _noto(), 22,
-		UiPalette.HUD_GOLD, Vector2.ZERO)
-	quote.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	left.add_child(quote)
-
 	var visual := panel.get_node("Visual") as Control
 	var art := ConceptCanvas.new()
 	art.name = "Eclipse"

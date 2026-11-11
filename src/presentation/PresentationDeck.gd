@@ -73,7 +73,6 @@ const SECTIONS := [
 const CONCEPT_KICKER := "SECTION 01 · CONCEPT & VISION"
 const CONCEPT_TITLE := "A miniature Vietnam."
 const CONCEPT_PITCH := "Leyline Warden is a 3D tower defence set in a miniature Vietnam. Every thousand years, a solar eclipse frees hungry spirits from rivers and old streets. They march on the Dragon Pearl. You are the Warden; sacred flora is your only army."
-const CONCEPT_QUOTE := "Defended plant by plant."
 
 ## The at-a-glance ribbon under the pitch: label above, value below.
 const CONCEPT_GLANCE := [
