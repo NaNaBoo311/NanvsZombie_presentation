@@ -7,19 +7,28 @@ extends Control
 # celestial diagram centered on the Dragon Pearl.
 #
 # The board sits in the center of the screen with a lacquer finish and gold rims.
+# It is collapsible: pressing [−] or 'C' hides the board so the full 3D atlas
+# is visible, with a floating pill to re-open it anytime.
 # When Saigon is clicked, the board switches to the province arc note.
 # The "Next" button on the bottom right hands off into the HCMC diorama field.
 
 signal continue_pressed
 signal contents_pressed
 
-const BOARD_WIDTH := 780.0
-const BOARD_HEIGHT := 630.0
+const BOARD_WIDTH := 800.0
+const BOARD_HEIGHT := 640.0
+
+var _dim: ColorRect
+var _plate: Panel
+var _collapse_button: Button
+var _pill_bar: HBoxContainer
+var _expand_button: Button
+var _pill_next: Button
+var _is_collapsed := false
 
 var _scales: VBoxContainer
 var _tension: Control
 var _province_card: Control
-var _hint: Label
 var _continue: Button
 var _fade_groups: Array[Control] = []
 var _orrery: OrreryDiagram = null
@@ -29,8 +38,8 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_build_scrim()
-	_build_header()
 	_build_column()
+	_build_pill_bar()
 
 
 func play_intro() -> void:
@@ -42,26 +51,48 @@ func play_intro() -> void:
 			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 
+func set_collapsed(collapsed: bool) -> void:
+	_is_collapsed = collapsed
+	_plate.visible = not collapsed
+	_dim.visible = not collapsed
+	_pill_bar.visible = collapsed
+
+
+func toggle_collapsed() -> void:
+	set_collapsed(not _is_collapsed)
+
+
 ## The atlas board is open: switch from the concentric orrery to the level arc note.
 func set_province_mode(open: bool) -> void:
 	_scales.visible = not open
 	_tension.visible = not open
 	if _province_card != null:
 		_province_card.visible = open
-	_hint.text = tr(PresentationDeck.CORE_ATLAS_FIELD_HINT if open
-		else "Click Saigon on the atlas to open its board  •  Or click Next to enter the field")
 	_continue.text = tr(PresentationDeck.CORE_FIELD_ENTER if open else "Next →")
+	if _pill_next != null:
+		_pill_next.text = tr(PresentationDeck.CORE_FIELD_ENTER if open else "Next →")
 
 
 func focus_primary() -> void:
-	if _continue != null:
+	if _continue != null and _continue.is_visible_in_tree():
 		_continue.grab_focus.call_deferred()
+	elif _expand_button != null and _expand_button.is_visible_in_tree():
+		_expand_button.grab_focus.call_deferred()
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not (event is InputEventKey) or not event.pressed or event.echo:
 		return
-	if (event as InputEventKey).keycode == KEY_ESCAPE:
+	var key := (event as InputEventKey).keycode
+	if key == KEY_C:
+		toggle_collapsed()
+		get_viewport().set_input_as_handled()
+		return
+	if key == KEY_ESCAPE:
+		if _is_collapsed:
+			set_collapsed(false)
+			get_viewport().set_input_as_handled()
+			return
 		contents_pressed.emit()
 		get_viewport().set_input_as_handled()
 
@@ -69,54 +100,79 @@ func _unhandled_key_input(event: InputEvent) -> void:
 # ------------------------------------------------------------------ layout ---
 
 func _build_scrim() -> void:
-	# Subtle fullscreen darkening so the centered orrery board stands out against the map
-	var dim := ColorRect.new()
-	dim.name = "Dim"
-	dim.color = Color(UiPalette.HUD_DIM, 0.40)
-	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(dim)
-	_fade_groups.append(dim)
+	# Fullscreen darkening
+	_dim = ColorRect.new()
+	_dim.name = "Dim"
+	_dim.color = Color(UiPalette.HUD_DIM, 0.40)
+	_dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_dim)
+	_fade_groups.append(_dim)
 
 	# Centered lacquer plate
-	var plate := Panel.new()
-	plate.name = "Plate"
-	plate.anchor_left = 0.5
-	plate.anchor_right = 0.5
-	plate.anchor_top = 0.5
-	plate.anchor_bottom = 0.5
-	plate.offset_left = -BOARD_WIDTH * 0.5
-	plate.offset_right = BOARD_WIDTH * 0.5
-	plate.offset_top = -BOARD_HEIGHT * 0.5
-	plate.offset_bottom = BOARD_HEIGHT * 0.5
-	plate.mouse_filter = Control.MOUSE_FILTER_STOP
-	plate.add_theme_stylebox_override("panel",
+	_plate = Panel.new()
+	_plate.name = "Plate"
+	_plate.anchor_left = 0.5
+	_plate.anchor_right = 0.5
+	_plate.anchor_top = 0.5
+	_plate.anchor_bottom = 0.5
+	_plate.offset_left = -BOARD_WIDTH * 0.5
+	_plate.offset_right = BOARD_WIDTH * 0.5
+	_plate.offset_top = -BOARD_HEIGHT * 0.5
+	_plate.offset_bottom = BOARD_HEIGHT * 0.5
+	_plate.mouse_filter = Control.MOUSE_FILTER_STOP
+	_plate.add_theme_stylebox_override("panel",
 		UiPalette.box(Color(UiPalette.HUD_LACQUER_TOP, 0.98),
 			Color(UiPalette.HUD_GOLD, 0.80), 18, 2, 0,
 			Color(UiPalette.HUD_SHADOW, 0.75), 24))
-	add_child(plate)
-	_fade_groups.append(plate)
+	add_child(_plate)
+	_fade_groups.append(_plate)
 
 
-func _build_header() -> void:
-	# Built inside the centered column for unified alignment
-	pass
+func _build_pill_bar() -> void:
+	# Floating pill that appears when the board is collapsed
+	_pill_bar = HBoxContainer.new()
+	_pill_bar.name = "PillBar"
+	_pill_bar.anchor_left = 0.5
+	_pill_bar.anchor_right = 0.5
+	_pill_bar.anchor_top = 0.0
+	_pill_bar.anchor_bottom = 0.0
+	_pill_bar.offset_left = -180.0
+	_pill_bar.offset_right = 180.0
+	_pill_bar.offset_top = 22.0
+	_pill_bar.offset_bottom = 68.0
+	_pill_bar.add_theme_constant_override("separation", 12)
+	_pill_bar.visible = false
+	add_child(_pill_bar)
+
+	_expand_button = Button.new()
+	_expand_button.name = "ExpandButton"
+	_expand_button.text = tr("✦ Show Loop Board")
+	_expand_button.custom_minimum_size = Vector2(190.0, 44.0)
+	_expand_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	UiPalette.lacquer_button(_expand_button, false, false, 16)
+	_expand_button.pressed.connect(func() -> void: set_collapsed(false))
+	_pill_bar.add_child(_expand_button)
+
+	_pill_next = Button.new()
+	_pill_next.name = "PillNextButton"
+	_pill_next.text = tr("Next →")
+	_pill_next.custom_minimum_size = Vector2(120.0, 44.0)
+	UiPalette.lacquer_button(_pill_next, true, false, 16)
+	_pill_next.pressed.connect(_on_continue)
+	_pill_bar.add_child(_pill_next)
 
 
 func _build_column() -> void:
-	var plate := get_node_or_null("Plate") as Control
-	if plate == null:
-		return
-
 	var column := Control.new()
 	column.name = "Column"
 	column.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	column.offset_left = 24.0
-	column.offset_top = 18.0
-	column.offset_right = -24.0
-	column.offset_bottom = -18.0
+	column.offset_left = 26.0
+	column.offset_top = 20.0
+	column.offset_right = -26.0
+	column.offset_bottom = -20.0
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	plate.add_child(column)
+	_plate.add_child(column)
 
 	var box := VBoxContainer.new()
 	box.name = "Copy"
@@ -133,23 +189,23 @@ func _build_column() -> void:
 	var back := Button.new()
 	back.name = "BackButton"
 	back.text = "←"
-	back.custom_minimum_size = Vector2(40.0, 40.0)
-	back.size = Vector2(40.0, 40.0)
-	UiPalette.lacquer_button(back, false, false, 16)
+	back.custom_minimum_size = Vector2(42.0, 42.0)
+	back.size = Vector2(42.0, 42.0)
+	UiPalette.lacquer_button(back, false, false, 18)
 	back.pressed.connect(func() -> void: contents_pressed.emit())
 	header_row.add_child(back)
 
 	var title_box := VBoxContainer.new()
 	title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title_box.add_theme_constant_override("separation", 1)
+	title_box.add_theme_constant_override("separation", 2)
 	header_row.add_child(title_box)
 
-	var kicker := _label(PresentationDeck.CORE_KICKER, UiPalette.hud_font(), 10,
+	var kicker := _label(PresentationDeck.CORE_KICKER, UiPalette.hud_font(), 12,
 		UiPalette.HUD_GOLD, Vector2.ZERO, 2.0)
 	kicker.name = "Kicker"
 	title_box.add_child(kicker)
 
-	var title := _label(PresentationDeck.CORE_TITLE, UiPalette.hud_font(), 26,
+	var title := _label(PresentationDeck.CORE_TITLE, UiPalette.hud_font(), 32,
 		UiPalette.HUD_INK, Vector2.ZERO)
 	title.name = "Title"
 	title_box.add_child(title)
@@ -160,7 +216,15 @@ func _build_column() -> void:
 	section_title.visible = false
 	header_row.add_child(section_title)
 
-	var body := _label(PresentationDeck.CORE_BODY, UiPalette.hud_font(), 13,
+	_collapse_button = Button.new()
+	_collapse_button.name = "CollapseButton"
+	_collapse_button.text = tr("Hide [−]")
+	_collapse_button.custom_minimum_size = Vector2(86.0, 38.0)
+	UiPalette.lacquer_button(_collapse_button, false, false, 14)
+	_collapse_button.pressed.connect(func() -> void: set_collapsed(true))
+	header_row.add_child(_collapse_button)
+
+	var body := _label(PresentationDeck.CORE_BODY, UiPalette.hud_font(), 16,
 		UiPalette.HUD_INK_SOFT, Vector2.ZERO)
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(body)
@@ -192,7 +256,7 @@ func _build_column() -> void:
 	dummy_hr.visible = false
 	_scales.add_child(dummy_hr)
 
-	# --- Principle: "Grow, or hold?" (No grow/hold descriptions, clean & bold) ---
+	# --- Principle: "Grow, or hold?" ---
 	_tension = _build_tension_bar()
 	_tension.name = "TensionCard"
 	box.add_child(_tension)
@@ -203,25 +267,17 @@ func _build_column() -> void:
 	_province_card.visible = false
 	box.add_child(_province_card)
 
-	# --- Footer Row (Hint on left, "Next" button on bottom right) ---
+	# --- Footer Row (Next button on bottom right) ---
 	var footer_row := HBoxContainer.new()
 	footer_row.name = "Footer"
-	footer_row.add_theme_constant_override("separation", 16)
+	footer_row.alignment = BoxContainer.ALIGNMENT_END
 	box.add_child(footer_row)
-
-	_hint = _label("Click Saigon on the atlas to open its board  •  Or click Next to enter the field",
-		UiPalette.hud_font(), 12, UiPalette.HUD_ACCENT, Vector2.ZERO)
-	_hint.name = "Hint"
-	_hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	footer_row.add_child(_hint)
 
 	_continue = Button.new()
 	_continue.name = "ContinueButton"
 	_continue.text = tr("Next →")
-	_continue.custom_minimum_size = Vector2(160.0, 42.0)
-	_continue.size = Vector2(160.0, 42.0)
+	_continue.custom_minimum_size = Vector2(170.0, 46.0)
+	_continue.size = Vector2(170.0, 46.0)
 	UiPalette.lacquer_button(_continue, true, false, 18)
 	_continue.pressed.connect(_on_continue)
 	footer_row.add_child(_continue)
@@ -233,26 +289,13 @@ func _build_tension_bar() -> Control:
 		UiPalette.box(Color(UiPalette.HUD_LACQUER_BOT, 0.95),
 			Color(UiPalette.HUD_GOLD, 0.55), 8, 1, 8))
 
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 16)
-	bar.add_child(row)
+	var center := CenterContainer.new()
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.add_child(center)
 
-	var title_col := VBoxContainer.new()
-	title_col.add_theme_constant_override("separation", 1)
-	row.add_child(title_col)
-
-	var kicker := _label("CENTRAL PRINCIPLE", UiPalette.hud_font(), 9, Color(UiPalette.HUD_GOLD, 0.8), Vector2.ZERO, 1.8)
-	title_col.add_child(kicker)
-
-	var title := _label("Grow, or hold?", UiPalette.hud_font(), 17, UiPalette.HUD_GOLD, Vector2.ZERO)
-	title_col.add_child(title)
-
-	var line := _label("Rice Gems buy more economy, or the defence that survives the next wave.",
-		UiPalette.hud_font(), 13, UiPalette.HUD_INK, Vector2.ZERO)
-	line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	line.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	row.add_child(line)
+	var title := _label("Grow, or hold?", UiPalette.hud_font(), 24, UiPalette.HUD_GOLD, Vector2.ZERO, 1.2)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	center.add_child(title)
 
 	return bar
 
@@ -267,10 +310,10 @@ func _build_province_card() -> Control:
 	vbox.add_theme_constant_override("separation", 6)
 	card.add_child(vbox)
 
-	var title := _label("SAIGON  ·  LEVEL ARC", UiPalette.hud_font(), 13, UiPalette.HUD_GOLD, Vector2.ZERO, 1.8)
+	var title := _label("SAIGON  ·  LEVEL ARC", UiPalette.hud_font(), 15, UiPalette.HUD_GOLD, Vector2.ZERO, 1.8)
 	vbox.add_child(title)
 
-	var desc := _label("The province board visualises the 'minutes' scale. Level nodes connect tactical battle wins to campaign progression. Night 1 is unlocked for this presentation.", UiPalette.hud_font(), 12, UiPalette.HUD_INK_SOFT, Vector2.ZERO)
+	var desc := _label("The province board visualises the 'minutes' scale. Level nodes connect tactical battle wins to campaign progression. Night 1 is unlocked for this presentation.", UiPalette.hud_font(), 14, UiPalette.HUD_INK_SOFT, Vector2.ZERO)
 	desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	vbox.add_child(desc)
 
@@ -312,11 +355,6 @@ class OrreryDiagram extends Control:
 	const R2_MINUTES := 115.0
 	const R3_HOURS := 160.0
 
-	var orbit_angle := 0.0:
-		set(v):
-			orbit_angle = v
-			queue_redraw()
-
 	# Inner Ring: Seconds Loop (4 tactical stations)
 	var _seconds_nodes: Array[Dictionary] = [
 		{"text": "1 · CHOOSE", "angle": -PI * 0.5},
@@ -343,10 +381,6 @@ class OrreryDiagram extends Control:
 		custom_minimum_size = Vector2(0.0, 350.0)
 		size_flags_vertical = Control.SIZE_EXPAND_FILL
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
-
-	func _ready() -> void:
-		var tween := create_tween().set_loops()
-		tween.tween_property(self, "orbit_angle", TAU, 5.0).from(0.0)
 
 	func _draw() -> void:
 		var c := size * 0.5
@@ -386,56 +420,36 @@ class OrreryDiagram extends Control:
 		draw_circle(c + Vector2(-2.5, -2.5), 3.0, Color.WHITE)
 		draw_arc(c, 10.0, 0.0, TAU, 24, Color(UiPalette.HUD_GOLD, 0.8), 1.0, true)
 
-		# 7. Draw Nodes on each ring
+		# 7. Draw Nodes on each ring with larger, crisp text
 		var font := UiPalette.hud_font()
 
 		# Hours nodes (Outer)
-		var h_orbit := fposmod(orbit_angle * 0.35, TAU)
-		_draw_node_set(c, R3_HOURS, _hours_nodes, h_orbit, font, UiPalette.P2_CYAN, 74.0)
+		_draw_node_set(c, R3_HOURS, _hours_nodes, font, UiPalette.P2_CYAN, 94.0)
 
 		# Minutes nodes (Middle)
-		var m_orbit := fposmod(orbit_angle * 0.65, TAU)
-		_draw_node_set(c, R2_MINUTES, _minutes_nodes, m_orbit, font, UiPalette.HUD_DAWN, 78.0)
+		_draw_node_set(c, R2_MINUTES, _minutes_nodes, font, UiPalette.HUD_DAWN, 98.0)
 
 		# Seconds nodes (Inner)
-		var s_orbit := fposmod(orbit_angle * 1.20, TAU)
-		_draw_node_set(c, R1_SECONDS, _seconds_nodes, s_orbit, font, UiPalette.HUD_ACCENT, 72.0)
+		_draw_node_set(c, R1_SECONDS, _seconds_nodes, font, UiPalette.HUD_ACCENT, 94.0)
 
-		# 8. Orbiting Comet Sparks (one per ring)
-		_draw_spark(c, R1_SECONDS, s_orbit, UiPalette.HUD_ACCENT)
-		_draw_spark(c, R2_MINUTES, m_orbit, UiPalette.HUD_DAWN)
-		_draw_spark(c, R3_HOURS, h_orbit, UiPalette.P2_CYAN)
-
-		# 9. Ring Identification Tags (Callouts on left & right)
+		# 8. Ring Identification Tags (Callouts on left & right with larger font)
 		_draw_ring_tags(font)
 
 	func _draw_node_set(c: Vector2, r: float, nodes: Array[Dictionary],
-			curr_orbit: float, font: Font, accent: Color, node_w: float) -> void:
+			font: Font, accent: Color, node_w: float) -> void:
 		for n in nodes:
 			var na: float = n["angle"]
 			var np := c + Vector2(cos(na), sin(na)) * r
-			var diff := absf(angle_difference(curr_orbit, fposmod(na, TAU)))
-			var active := diff < 0.38
-			var rect := Rect2(np - Vector2(node_w * 0.5, 11.0), Vector2(node_w, 22.0))
+			var rect := Rect2(np - Vector2(node_w * 0.5, 13.0), Vector2(node_w, 26.0))
 
-			var fill_col := Color(accent, 0.32) if active else Color(UiPalette.HUD_LACQUER_TOP, 0.95)
-			var border_col := accent if active else Color(accent, 0.55)
-			var text_col := Color.WHITE if active else UiPalette.HUD_INK
+			var fill_col := Color(UiPalette.HUD_LACQUER_TOP, 0.96)
+			var border_col := accent
+			var text_col := UiPalette.HUD_INK
 
-			draw_style_box(UiPalette.box(fill_col, border_col, 5, 2 if active else 1, 0), rect)
-			var text_size := font.get_string_size(n["text"], HORIZONTAL_ALIGNMENT_CENTER, -1, 10)
-			draw_string(font, rect.position + Vector2((rect.size.x - text_size.x) * 0.5, 15.0),
-				n["text"], HORIZONTAL_ALIGNMENT_CENTER, -1, 10, text_col)
-
-	func _draw_spark(c: Vector2, r: float, a: float, col: Color) -> void:
-		var p := c + Vector2(cos(a), sin(a)) * r
-		draw_circle(p, 5.0, Color(col, 0.45))
-		draw_circle(p, 3.0, col)
-		draw_circle(p, 1.5, Color.WHITE)
-		for t in 3:
-			var ta := a - float(t + 1) * 0.10
-			var tp := c + Vector2(cos(ta), sin(ta)) * r
-			draw_circle(tp, 2.2 - float(t) * 0.5, Color(col, 0.60 - float(t) * 0.16))
+			draw_style_box(UiPalette.box(fill_col, border_col, 6, 1, 0), rect)
+			var text_size := font.get_string_size(n["text"], HORIZONTAL_ALIGNMENT_CENTER, -1, 12)
+			draw_string(font, rect.position + Vector2((rect.size.x - text_size.x) * 0.5, 18.0),
+				n["text"], HORIZONTAL_ALIGNMENT_CENTER, -1, 12, text_col)
 
 	func _draw_arrow(c: Vector2, r: float, a: float, col: Color) -> void:
 		var p := c + Vector2(cos(a), sin(a)) * r
@@ -449,13 +463,13 @@ class OrreryDiagram extends Control:
 
 	func _draw_ring_tags(font: Font) -> void:
 		# Left tags: Seconds & Minutes
-		_draw_tag(Vector2(20.0, 30.0), "⏱ SECONDS", "Tactical loop · ~30s", UiPalette.HUD_ACCENT, font)
-		_draw_tag(Vector2(20.0, size.y - 48.0), "⏳ MINUTES", "Level arc · ~5m", UiPalette.HUD_DAWN, font)
+		_draw_tag(Vector2(20.0, 24.0), "⏱ SECONDS", "Tactical loop · ~30s", UiPalette.HUD_ACCENT, font)
+		_draw_tag(Vector2(20.0, size.y - 56.0), "⏳ MINUTES", "Level arc · ~5m", UiPalette.HUD_DAWN, font)
 
 		# Right tags: Hours & Multi-circle Orrery
-		_draw_tag(Vector2(size.x - 180.0, 30.0), "🗺️ HOURS", "Campaign arc · ~10h", UiPalette.P2_CYAN, font)
-		_draw_tag(Vector2(size.x - 180.0, size.y - 48.0), "✦ ORRERY", "Concentric Loops", UiPalette.HUD_GOLD, font)
+		_draw_tag(Vector2(size.x - 200.0, 24.0), "🗺️ HOURS", "Campaign arc · ~10h", UiPalette.P2_CYAN, font)
+		_draw_tag(Vector2(size.x - 200.0, size.y - 56.0), "✦ ORRERY", "Concentric Loops", UiPalette.HUD_GOLD, font)
 
 	func _draw_tag(pos: Vector2, title: String, sub: String, col: Color, font: Font) -> void:
-		draw_string(font, pos + Vector2(0.0, 14.0), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, col)
-		draw_string(font, pos + Vector2(0.0, 28.0), sub, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, UiPalette.HUD_INK_SOFT)
+		draw_string(font, pos + Vector2(0.0, 16.0), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, col)
+		draw_string(font, pos + Vector2(0.0, 34.0), sub, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, UiPalette.HUD_INK_SOFT)

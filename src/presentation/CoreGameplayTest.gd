@@ -7,9 +7,7 @@ extends RefCounted
 #   3. Province click switches the orrery for the field instruction.
 #   4. Next button transitions into the HCMC field.
 #   5. RoleCards open on entry and dismiss when Show me is pressed.
-#   6. SeedSelector opens next so presenter can pick loadout.
-#   7. PlacementGuide opens, evaluates the 5 checks and facing compass.
-#   8. Back to contents button finishes the section and restores starting_sun.
+#   6. Gameplay resumes with original NanVsZombie battle loop (prepare / setup / wave).
 #
 # GameFlow.boot() runs this under --core-test.
 
@@ -35,9 +33,7 @@ func run(tree: SceneTree) -> void:
 	if field == null:
 		return _finish()
 	await _check_roles(field)
-	await _check_seed_selector(field)
-	await _check_guide(field)
-	await _check_finish(field)
+	await _check_gameplay(field)
 	_finish()
 
 
@@ -84,9 +80,6 @@ func _check_province(atlas: Node) -> void:
 		_failures.append("Saigon's province board did not open")
 		return
 	var screen := atlas.get_node("UI/CoreGameplayScreen")
-	var hint := screen.find_child("Hint", true, false) as Label
-	if hint == null or not hint.visible:
-		_failures.append("province mode does not show the field instruction")
 	var scales := screen.find_child("Scales", true, false) as Control
 	if scales != null and scales.visible:
 		_failures.append("the loop legend is still up over the province board")
@@ -104,22 +97,11 @@ func _check_field(atlas: Node) -> Node:
 	var field := await _wait_scene(GameFlow.CORE_FIELD_SCENE)
 	if field == null:
 		return null
-	if GameManager.round_state != "sandbox":
-		_failures.append("field round state is \"%s\", not sandbox" % GameManager.round_state)
 	if GameManager.current_level_id != "hcmc_01":
 		_failures.append("field did not prepare hcmc_01")
-	if GameManager.current_sun != CoreGameplayField.DEMO_SUN:
-		_failures.append("field starts at %d gems, not %d" % [GameManager.current_sun, CoreGameplayField.DEMO_SUN])
 	var map := field.call("current_map") as MapDefinition
 	if map == null or map.map_id != "landmark_81":
 		_failures.append("field is not on landmark_81")
-	var loadout := GameManager.seed_loadout
-	for id in CoreGameplayField.LOADOUT:
-		if not loadout.has(id):
-			_failures.append("loadout is missing %s" % id)
-	if loadout.size() != CoreGameplayField.LOADOUT.size():
-		_failures.append("loadout has %d seeds, expected %d" % [
-			loadout.size(), CoreGameplayField.LOADOUT.size()])
 	return field
 
 
@@ -145,86 +127,13 @@ func _check_roles(field: Node) -> void:
 		_failures.append("role cards did not dismiss")
 
 
-func _check_seed_selector(field: Node) -> void:
-	var hud := field.get_node_or_null("HUDLayer/HUD")
-	var selector: SeedSelector = hud.get_node_or_null("SeedSelector") if hud != null else null
-	if selector == null:
-		_failures.append("field has no SeedSelector")
-		return
-	await _seconds(0.3)
-	if not selector.is_open:
-		_failures.append("SeedSelector did not open after role cards")
-	selector.close()
-	await _seconds(0.4)
-	if selector.is_open:
-		_failures.append("SeedSelector did not close")
-
-
-func _check_guide(field: Node) -> void:
-	var guide := field.get_node_or_null("PresentationLayer/PlacementGuide") as PlacementGuide
-	if guide == null:
-		_failures.append("field has no placement guide")
-		return
+func _check_gameplay(field: Node) -> void:
 	await _seconds(0.5)
-	if not guide.visible:
-		_failures.append("placement guide did not open")
-	var dots: Array = guide.get("_dots")
-	if dots.size() != PresentationDeck.CORE_CHECKS.size():
-		_failures.append("guide shows %d checks, expected %d" % [
-			dots.size(), PresentationDeck.CORE_CHECKS.size()])
-	if guide.find_child("Facing", true, false) == null:
-		_failures.append("guide has no facing dial")
-
-	var placement := field.get_node("PlacementManager") as PlacementManager
-	if placement == null:
-		_failures.append("field has no PlacementManager")
-		return
-	var heard := [false]
-	var handler := func(_t: String, _c: Vector2i, _r: int, _v: bool, _p: int) -> void:
-		heard[0] = true
-	EventBus.placement_preview_changed.connect(handler)
-	EventBus.plant_selected_for_placement.emit("lotus_shooter",
-		GameManager.local_player_id())
-	var cam := (field.get("camera_rig") as Node).get("camera") as Camera3D
-	var tile := Vector2i(2, -4)
-	if cam != null:
-		placement._update_raycast_hover(placement.p1,
-			cam.unproject_position(placement.position_for_tile(tile)))
-	EventBus.placement_preview_changed.disconnect(handler)
-	if not heard[0]:
-		_failures.append("a hovered tile never reached the guide")
-	var seed_label := guide.get("_seed") as Label
-	if seed_label == null or not seed_label.text.to_upper().contains("LOTUS"):
-		_failures.append("guide does not name the selected seed")
-	if guide.get("_coord") != tile:
-		_failures.append("the guide followed tile %s, not %s" % [
-			str(guide.get("_coord")), str(tile)])
-	var states: Array = guide.call("_states")
-	if states.size() != PresentationDeck.CORE_CHECKS.size():
-		_failures.append("guide did not evaluate five checks")
-	elif states.has(2):
-		_failures.append("an empty lawn tile failed a placement check %s at %s (gems %d)" % [
-			str(states), str(guide.get("_coord")), GameManager.current_sun])
-	EventBus.placement_cancelled.emit(GameManager.local_player_id())
-	await _seconds(0.1)
-
-
-func _check_finish(field: Node) -> void:
-	var guide := field.get_node_or_null("PresentationLayer/PlacementGuide") as PlacementGuide
-	if guide == null:
-		_failures.append("field has no placement guide")
-		return
-	var button := guide.find_child("ContinueButton", true, false) as Button
-	if button == null:
-		_failures.append("guide has no continue button")
-		return
-	button.pressed.emit()
-	var contents := await _wait_scene(GameFlow.CONTENTS_SCENE)
-	if contents == null:
-		_failures.append("did not return to contents scene")
-		return
-	if GameManager.starting_sun == CoreGameplayField.DEMO_SUN:
-		_failures.append("starting_sun was not restored")
+	if not GameManager.round_state in ["prepare", "setup", "wave"]:
+		_failures.append("gameplay did not resume in prepare/setup/wave (state is %s)" % GameManager.round_state)
+	var hud := field.get_node_or_null("HUDLayer/HUD")
+	if hud == null:
+		_failures.append("field has no HUD")
 
 
 # ------------------------------------------------------------------- bits ---
@@ -235,7 +144,7 @@ func _seconds(sec: float) -> void:
 
 func _finish() -> void:
 	if _failures.is_empty():
-		print("✓ CoreGameplayTest passed: section 02 atlas, cards, seed selector, guide and normal gameplay flow cleanly.")
+		print("✓ CoreGameplayTest passed: section 02 atlas, role cards, and normal gameplay flow cleanly.")
 		_tree.quit()
 	else:
 		push_error("[CoreGameplayTest] Failures (%d):\n  - %s" % [
